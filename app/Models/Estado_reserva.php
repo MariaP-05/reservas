@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class Estado_poliza extends Model
+class Estado_reserva extends Model
 {
     use SoftDeletes;
 
@@ -28,5 +28,5 @@ class Estado_poliza extends Model
      *
      * @var string
      */
-    protected $table = 'estado_polizas';
+    protected $table = 'estado_reservas';
 }

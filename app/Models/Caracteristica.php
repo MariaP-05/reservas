@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model; 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Seccion extends Model
+class Caracteristica extends Model
 {
     use SoftDeletes;
 
@@ -20,6 +20,6 @@ class Seccion extends Model
      */
     protected $fillable = ['denominacion' ];
 
-    protected $table = 'secciones';
+    protected $table = 'caracteristicas';
 
 }

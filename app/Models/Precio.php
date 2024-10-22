@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model; 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class Precio extends Model
 {
@@ -20,7 +21,36 @@ class Precio extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['codigo', 'color','valor'     ];
+    protected $fillable = [ 'id_cabania', 'fecha_desde', 'valor'  ];
 
     protected $table = 'precios';
+
+
+    public function Cabania()
+    {
+        return $this->belongsTo('App\Models\Cabania', 'id_cabania');
+    }
+
+
+    public function setFechaDesdeAttribute($value)
+    {
+        if(trim($value) !== '')
+        {
+            $p = new Carbon($value);
+            $p = $p->format('Y-m-d');
+        }
+        else
+        {
+            $p = null;
+        }
+        $this->attributes['fecha_desde']=$p;
+    }
+    public function getFechaDesdeAttribute($value)
+    {
+        $value = $value !== null ? new Carbon($value) : null;
+        $value = $value !== null ? $value->format('d-m-Y') : null;
+      
+        return $value;
+    }
+
 }

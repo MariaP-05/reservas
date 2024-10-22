@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class Poliza extends Model
+class Reserva extends Model
 {
     use SoftDeletes;
 
@@ -20,28 +20,18 @@ class Poliza extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [ 'id_compania', 'id_cliente', 'id_seccion' , 'numero_poliza',
-    'id_estado_polizas','vigencia_desde' , 'vigencia_hasta' , 'dominio', 
-      'vehiculo' , 'marca' , 'id_forma_pago'  , 'cantidad_cuotas',
-       'id_productor',  'cobertura'
+    protected $fillable = [ 'id_cabania', 'id_cliente', 'id_forma_pago', 'id_estado_reserva',
+    'fecha_desde' , 'fecha_hasta' , 'hora_ingreso', 
+      'hora_egreso' ,  'cantidad_personas',
+       'senia',  'descuento', 'oberservaciones'
     
     ];
-    protected $table = 'polizas';
+    protected $table = 'reservas';
 
-    
-    public function Seccion()
-    {
-        return $this->belongsTo('App\Models\Seccion', 'id_seccion');
-    }
 
     public function Forma_pago()
     {
         return $this->belongsTo('App\Models\Forma_pago', 'id_forma_pago');
-    }
-
-    public function Productor()
-    {
-        return $this->belongsTo('App\Models\Productor', 'id_productor');
     }
 
     public function Cliente()
@@ -49,17 +39,17 @@ class Poliza extends Model
         return $this->belongsTo('App\Models\Cliente', 'id_cliente');
     }
     
-    public function Compania()
+    public function Cabania()
     {
-        return $this->belongsTo('App\Models\Compania', 'id_compania');
+        return $this->belongsTo('App\Models\Cabania', 'id_cabania');
     }
 
-    public function Estado_poliza()
+    public function Estado_reserva()
     {
-        return $this->belongsTo('App\Models\Estado_poliza', 'id_estado_polizas');
+        return $this->belongsTo('App\Models\Estado_reserva', 'id_estado_reserva');
     }
 
-    public function setVigenciaDesdeAttribute($value)
+    public function setFechaDesdeAttribute($value)
     {
         if(trim($value) !== '')
         {
@@ -70,9 +60,9 @@ class Poliza extends Model
         {
             $p = null;
         }
-        $this->attributes['vigencia_desde']=$p;
+        $this->attributes['fecha_desde']=$p;
     }
-    public function getVigenciaDesdeAttribute($value)
+    public function getFechaDesdeAttribute($value)
     {
         $value = $value !== null ? new Carbon($value) : null;
         $value = $value !== null ? $value->format('d-m-Y') : null;
@@ -80,7 +70,7 @@ class Poliza extends Model
         return $value;
     }
 
-    public function setVigenciaHastaAttribute($value)
+    public function setFechaHastaAttribute($value)
     {
         if(trim($value) !== '')
         {
@@ -91,10 +81,10 @@ class Poliza extends Model
         {
             $p = null;
         }
-        $this->attributes['vigencia_hasta']=$p;
+        $this->attributes['fecha_hasta']=$p;
     }
 
-    public function getVigenciaHastaAttribute($value)
+    public function getFechaHastaAttribute($value)
     {
         $value = $value !== null ? new Carbon($value) : null;
         $value = $value !== null ? $value->format('d-m-Y') : null;
@@ -105,24 +95,18 @@ class Poliza extends Model
     
     public static function search(Request $request) 
     {
-        $query = Poliza::query(); 
+        $query = Reserva::query(); 
 
 
         if (isset($request->id_cliente)){
             $query= $query->where('id_cliente', '=' , $request->id_cliente); 
         }
 
-        if (isset($request->numero_poliza)){
-            $query= $query->where('numero_poliza', 'like' , '%'.$request->numero_poliza.'%'); 
-        }
 
-        if (isset($request->id_estado_polizas)){
-            $query= $query->where('id_estado_polizas', '=' , $request->id_estado_polizas); 
+        if (isset($request->id_estado_reserva)){
+            $query= $query->where('id_estado_reserva', '=' , $request->id_estado_reserva); 
         } 
 
-        if (isset($request->dominio)){
-            $query= $query->where('dominio', 'like' , '%'.$request->dominio.'%'); 
-        }
-        return  $query = $query->orderby('id', 'desc') ;
+        return $query;
     }
 }

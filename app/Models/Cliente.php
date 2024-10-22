@@ -20,18 +20,16 @@ class Cliente extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'denominacion',
-        'denominacion_amigable',
-        'observaciones',
-        'cuit',
-        'direccion',
+        'nombre',
+        'dni',
+        'fecha_nacimiento',
         'telefono',
         'celular',
-        'nombre_contacto',
         'mail',
-        'mail_2',
+        'direccion',
         'id_localidad',
-        'fecha_nacimiento'
+        'observaciones'
+        
     ];
     protected $table = 'clientes';
 
@@ -39,15 +37,10 @@ class Cliente extends Model
     {
         return $this->belongsTo('App\Models\Localidad', 'id_localidad');
     }
-    /*
-    public function TipoCliente()
+    
+    public function Reservas()
     {
-        return $this->belongsTo('App\Models\TipoCliente', 'id_tipo_cliente');
-    }
-*/
-    public function Polizas()
-    {
-        return $this->hasMany('App\Models\Poliza', 'id_cliente');
+        return $this->hasMany('App\Models\Reserva', 'id_cliente');
     }
 
     public function setFechaNacimientoAttribute($value)
