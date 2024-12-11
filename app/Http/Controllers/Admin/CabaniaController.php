@@ -2,39 +2,40 @@
 
 namespace App\Http\Controllers\Admin;
 
-
 use App\Http\Controllers\Controller;
-use App\Models\Productor;
+use App\Models\Cabania;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException; 
 
-class ProductorController extends Controller
+class CabaniaController extends Controller
 {
     public function index()
     {
-        $productores = Productor::all();
+        $cabanias = Cabania::all();
 
-        return view('admin.productores.index', compact('productores'));
+        return view('admin.cabanias.index', compact('cabanias'));
     }
 
     public function create()
     {
-        return view('admin.productores.edit');
+        return view('admin.cabanias.edit');
     }
 
     public function store(Request $request)
     {
-
+       
         try {
-            $productor = new Productor($request->all());
+            $cabania = new Cabania($request->all());
 
-            $productor->save();
+            $cabania->denominacion = ucwords (strtolower( $request->denominacion));
 
+            $cabania->save();
+ 
             session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.productores.index');
+            return redirect()->route('admin.cabanias.index');
         } catch (QueryException  $ex) {
             session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.productores.index');
+            return redirect()->route('admin.cabanias.index');
         }
     }
 
@@ -46,6 +47,7 @@ class ProductorController extends Controller
      */
     public function show($id)
     {
+       
     }
 
     /**
@@ -55,10 +57,10 @@ class ProductorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    { 
-        $productor = Productor::findOrFail($id);
+    {
+        $cabania = Cabania::findOrFail($id);
         
-        return view('admin.productores.edit', compact('productor' ));
+        return view('admin.cabanias.edit', compact('cabania' ));
     }
 
     /**
@@ -70,22 +72,21 @@ class ProductorController extends Controller
      */
     public function update(Request $request, $id)
     {
+       
         try {
             
-            $productor = Productor::findOrFail($id);
+                $cabania = Cabania::findOrFail($id);
             
-                $productor->nombre = $request->nombre;
-                $productor->codigo = $request->codigo;
-                $productor->matricula = $request->matricula;
+                $cabania->denominacion = ucwords (strtolower( $request->denominacion));
+                $cabania->capacidad = $request->capacidad;
                 
-                $productor->save();
-
+                $cabania->save();
                 session()->flash('alert-success', trans('message.successaction'));
-                return redirect()->route('admin.productores.index');
-        } catch (QueryException  $ex) {
+                return redirect()->route('admin.cabanias.index');
+                 } catch (QueryException  $ex) {
             
                  session()->flash('alert-danger', $ex->getMessage());
-                return redirect()->route('admin.productores.index');
+                return redirect()->route('admin.cabanias.index');
            
             }
     }
@@ -100,14 +101,13 @@ class ProductorController extends Controller
     {
         try {
            
-            Productor::destroy($id);
+            Cabania::destroy($id);
 
             session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.productores.index');
+            return redirect()->route('admin.cabanias.index');
         } catch (QueryException  $ex) {
             session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.productores.index');
+            return redirect()->route('admin.cabanias.index');
         }
     }
-
 }

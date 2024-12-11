@@ -9,9 +9,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
-use PDF;
-use File;
-use Response;
+
 
 class ClienteController extends Controller
 {
@@ -34,7 +32,14 @@ class ClienteController extends Controller
     {
 
         try {
+            
             $cliente = new Cliente($request->all());
+
+            $cliente->nombre = ucwords (strtolower( $request->nombre));
+            
+            $cliente->direccion =  (ucfirst($request->direccion));
+            
+            $cliente->mail = (strtolower ($request->mail));
 
             $cliente->save();
 
@@ -87,15 +92,15 @@ class ClienteController extends Controller
            
             $cliente = Cliente::findOrFail($id);
            
-            $cliente->denominacion = $request->denominacion;
-            $cliente->id_localidad = $request->id_localidad;
-            $cliente->mail = $request->mail;
-            $cliente->mail_2 = $request->mail_2;
-            $cliente->cuit = $request->cuit;
-            $cliente->direccion = $request->direccion;
-            $cliente->telefono = $request->telefono;
-            $cliente->celular = $request->celular;
+            $cliente->nombre = ucwords (strtolower( $request->nombre));
+            $cliente->dni = $request->dni;
             $cliente->fecha_nacimiento =$request->fecha_nacimiento;
+            $cliente->direccion =  (ucfirst($request->direccion));
+            $cliente->id_localidad = $request->id_localidad;
+            $cliente->telefono = $request->telefono;
+            $cliente->telefono_aux = $request->telefono_aux;
+            $cliente->mail = (strtolower ($request->mail));
+                 
            
            
             $cliente->save();

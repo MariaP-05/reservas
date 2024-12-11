@@ -37,30 +37,7 @@ return new class extends Migration
                 ->onUpdate('cascade');
         });
         
-        //clientes
-        Schema::create('clientes', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('denominacion')->nullable();
-            $table->text('observaciones')->nullable();
-            $table->string('cuit')->nullable();
-            $table->string('direccion')->nullable();
-            $table->date('fecha_nacimiento')->nullable();
-            $table->string('telefono')->nullable();
-            $table->string('celular')->nullable();
-            $table->string('mail')->nullable();
-            $table->string('mail_2')->nullable();
-            $table->integer('id_localidad')->unsigned()->nullable();         
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
-       
-        Schema::table('clientes', function (Blueprint $table) {
-            $table->foreign('id_localidad')->references('id')->on('localidades')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');      
-        });
-
+        
     }
 
     /**
@@ -70,8 +47,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clientes');
+       
         Schema::dropIfExists('localidades');
         Schema::dropIfExists('provincias');
+    
     }
 };

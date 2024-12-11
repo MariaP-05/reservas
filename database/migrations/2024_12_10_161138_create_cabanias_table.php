@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        //dominio
-         Schema::table('polizas', function (Blueprint $table) {
-            $table->string('dominio')->nullable()->after('marca');
+        Schema::create('cabanias', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('denominacion')->nullable();
+            $table->string('capacidad')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +29,8 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('reservas');
+        Schema::dropIfExists('cabanias');
+        
     }
 };

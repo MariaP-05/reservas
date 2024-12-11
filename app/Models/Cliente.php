@@ -24,7 +24,7 @@ class Cliente extends Model
         'dni',
         'fecha_nacimiento',
         'telefono',
-        'celular',
+        'telefono_aux',
         'mail',
         'direccion',
         'id_localidad',

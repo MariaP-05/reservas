@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('companias', function (Blueprint $table) {
+        Schema::create('caracteristicas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('denominacion')->nullable();
-            $table->string('codigo')->nullable();
             $table->timestamps();
             $table->softDeletes();
-                });
+
+        });
     }
 
     /**
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companias');
+        Schema::dropIfExists('caracteristicas');
     }
 };

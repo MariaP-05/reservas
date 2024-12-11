@@ -13,14 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('productores', function (Blueprint $table) {
+       
+        Schema::create('estados_reserva', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre')->nullable();
-            $table->string('codigo')->nullable();
-            $table->string('matricula')->nullable();
+            $table->string('denominacion')->nullable();
+            $table->string('icono')->nullable();
+            $table->string('color')->nullable();
             $table->timestamps();
             $table->softDeletes();
-                });
+        });
+
     }
 
     /**
@@ -30,6 +32,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('productores');
+       
+        Schema::dropIfExists('estados_reserva');
+    
     }
 };
