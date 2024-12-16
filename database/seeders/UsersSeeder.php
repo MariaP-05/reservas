@@ -18,17 +18,17 @@ class UsersSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'Gustavo',
-            'email' => 'Gustavo@Veiga.com',
+            'name' => 'Guadalupe',
+            'email' => 'guadif.arroyo@gmail.com',
             'email_verified_at' => Carbon::now(),
-            'password' => Hash::make('0501')
+            'password' => Hash::make('altos123')
         ]);
 
         User::create([
-            'name' => 'Roberto',
-            'email' => 'Roberto@Cordoba.com',
+            'name' => 'Roxana',
+            'email' => 'petrocelliiglesias@gmail.com',
             'email_verified_at' => Carbon::now(),
-            'password' => Hash::make('0501')
+            'password' => Hash::make('altos123')
         ]);
     }
 }
