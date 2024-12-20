@@ -28,16 +28,9 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                             <th>Id</th>
                             <th>Cabaña</th>
                             <th>Cliente</th>
-                            <th>Cantidad de personas</th>
                             <th>Fecha desde</th>
                             <th>Fecha hasta</th>
-                            <th>Hora de ingreso</th>
-                            <th>Hora de egreso</th>
-                            <th>Seña</th>
-                            <th>Descuento</th>
                             <th>Estado</th>
-                            <th>Forma de pago</th>
-                            <th>Observaciones</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -47,19 +40,10 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                 <td>{{ $reserva->id }}</td>
                                 <td>{{ isset($reserva->Cabania) ? $reserva->Cabania->denominacion : '' }}</td>
                                 <td>{{ isset($reserva->Cliente) ? $reserva->Cliente->nombre : '' }}</td>
-                                <td>{{ $reserva->cantidad_personas }}</td>   
-
-                                
                                 <td>{{ $reserva->fecha_desde }}</td>
-                                <td>{{ $reserva->fecha_hasta }}</td>
-                                <td>{{ $reserva->hora_ingreso }}</td>
-                                <td>{{ $reserva->hora_egreso }}</td>
-
-                                <td>{{ $reserva->senia }}</td>
-                                <td>{{ $reserva->descuento }}</td>
-                                <td>{{ isset($reserva->Estado_reserva) ? $reserva->Estado_reserva->denominacion : '' }}</td>
-                                <td>{{ isset($reserva->Forma_pago) ? $reserva->Forma_pago->denominacion : '' }}</td>
-                                <td>{{ $reserva->observaciones }}</td>
+                                <td>{{ $reserva->fecha_hasta }}</td>                               
+                                <td>{{ isset($reserva->Estado_reservas) ? $reserva->Estado_reservas->denominacion : '' }}</td>
+                               
                                 <td>
                                     <div class="row">
                                         <div class="col-md-6 form-group">
@@ -82,12 +66,36 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                             </form>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-4 form-group">
+                                            @php
+                                                    $reserva->deno_cabania = isset($reserva->Cabania)
+                                                    ? $reserva->Cabania->denominacion : '';
+
+                                                    $reserva->nom_cliente = isset($reserva->Cliente)
+                                                    ? $reserva->Cliente->nombre : '';
+
+                                                    $reserva->deno_pago = isset($reserva->Forma_pago)
+                                                    ? $reserva->Forma_pago->denominacion : '';
+
+                                                    $reserva->deno_est_reserva = isset($reserva->Estado_reserva)
+                                                    ? $reserva->Estado_reserva->denominacion : '';
+                                            @endphp
+                                            <button type="button" class="btn btn-outline-warning"
+                                                title="Ver datos reserva" onMouseOver="this.style.color='#FFF'"
+                                                onMouseOut="this.style.color= '#fa7101'" data-toggle="modal"
+                                                data-target="#VerModal" data-whatever="{{ $reserva }}">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
+            @include('admin.reservas.partials.ver')
         </div>
     @stop
 

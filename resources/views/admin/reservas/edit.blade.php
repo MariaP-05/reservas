@@ -55,13 +55,13 @@
                                 {{ Form::text('cantidad_personas', null, ['id' => 'cantidad_personas', 'class' => 'form-control']) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
-                            @if (isset($reserva->id))
+                           
                                 <div class="col-md-6 form-group has-feedback">
                                     <label for="id_estado_reserva">Estado de reserva</label>
-                                    {{ Form::select('id_estado_reserva', $estado_reserva, null, ['id' => 'id_estado_reserva', 'class' => 'form-control select2']) }}
+                                    {{ Form::select('id_estado_reserva', $estado_reservas, null, ['id' => 'id_estado_reserva', 'class' => 'form-control select2']) }}
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 </div>
-                            @endif
+                           
                         </div>
 
                         <hr style="background-color:LightBlue ; height: 1px"></hr>

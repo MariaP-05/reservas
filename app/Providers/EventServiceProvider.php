@@ -37,7 +37,7 @@ class EventServiceProvider extends ServiceProvider
            [
             'text'        => 'Reservas',
             'url'         => 'admin/reservas',
-            'icon'        => 'fa fa-calendar',
+            'icon'        => 'fa fa-calendar-check',
 
         ],
 
@@ -53,19 +53,19 @@ class EventServiceProvider extends ServiceProvider
         [
             'text'        => 'Cabañas',
             'url'         => 'admin/cabanias',
-            'icon'        => 'fa fa-hospital',
+            'icon'        => 'fa fa-home',
 
         ],
         [
             'text'        => 'Caracteristicas',
             'url'         => 'admin/caracteristicas',
-            'icon'        => 'fa fa-address-card',
+            'icon'        => 'fa fa-server',
 
         ],
         [
             'text'        => 'Precio',
             'url'         => 'admin/precios',
-            'icon'        => 'fa fa-address-card',
+            'icon'        => 'fa fa-envelope',
 
         ]
     );

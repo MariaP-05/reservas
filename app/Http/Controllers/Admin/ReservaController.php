@@ -16,53 +16,9 @@ class ReservaController extends Controller
 {
     public function index(Request $request)
     {
-        $reservas = Reserva::search($request)->get();
-        //$this->insert_servicios();
-       // $polizas = Poliza::all();
+        $reservas = Reserva::all();
 
-       $fecha_desde = null;
-
-       if (isset($request->fec_desde)) {
-           $fecha_desde = $request->fec_desde;
-       }
-       $fecha_hasta = null;
-
-       if (isset($request->fec_hasta)) {
-           $fecha_hasta = $request->fec_hasta;
-       }
-
-        $clientes = Cliente::orderBy('denominacion')->pluck('denominacion', 'id')->all();
-        $clientes = array('' => trans('message.select')) + $clientes;
-
-        if (isset($request->id_cliente)) {
-            $id_cliente = $request->id_cliente;
-        } else {
-            $id_cliente = null;
-        }
-
-        $cabanias = Cabania::orderBy('denominacion')->pluck('denominacion', 'id')->all();
-        $cabanias = array('' => trans('message.select')) + $cabanias;
-
-        if (isset($request->id_cabania)) {
-            $id_cabania = $request->id_cabania;
-        } else {
-            $id_cabania = null;
-        }
-
-
-        $estado_reservas = Estado_reserva::orderBy('denominacion')->pluck('denominacion', 'id')->all();
-        $estado_reservas = array('' => trans('message.select')) + $estado_reservas;
-
-        if (isset($request->id_estado_reservas)) {
-            $id_estado_reservas = $request->id_estado_reservas;
-        } else {
-            $id_estado_reservas = null;
-        }
-
-        return view('admin.reservas.index', compact('reservas', 'id_cliente', 'clientes',
-          'estado_reservas','$id_estado_reservas',
-          'id_cabania', 'cabanias',
-          'fecha_desde', 'fecha_hasta' , 'fec_hasta', 'fec_desde'));
+        return view('admin.reservas.index', compact('reservas'));
     }
 
     public function create()
@@ -77,8 +33,11 @@ class ReservaController extends Controller
         $formas_pago = Forma_pago::orderBy('denominacion')->pluck('denominacion', 'id')->all();
         $formas_pago = array('' => trans('message.select')) + $formas_pago;
 
+        $estado_reservas = Estado_reserva::orderBy('denominacion')->pluck('denominacion', 'id')->all();
+        $estado_reservas = array('' => trans('message.select')) + $estado_reservas;
 
-        return view('admin.reservas.edit', compact('clientes','cabanias','formas_pago'));
+
+        return view('admin.reservas.edit', compact('clientes','cabanias','formas_pago', 'estado_reservas'));
     }
 
     public function store(Request $request)
@@ -86,7 +45,7 @@ class ReservaController extends Controller
 
         try {
             $reserva = new Reserva($request->all());
-            $reserva->id_estado_reservas = 1;
+            $reserva->id_estado_reserva = 1;
 
             $reserva->save();
  
@@ -119,7 +78,7 @@ class ReservaController extends Controller
         $reserva = Reserva::findOrFail($id);
 
 
-        $clientes = Cliente::orderBy('denominacion')->pluck('denominacion', 'id')->all();
+        $clientes = Cliente::orderBy('nombre')->pluck('nombre', 'id')->all();
         $clientes = array('' => trans('message.select')) + $clientes;
 
 
@@ -151,7 +110,7 @@ class ReservaController extends Controller
             $reserva->id_cabania = $request->id_cabania;
             $reserva->id_cliente = $request->id_cliente;
             $reserva->id_forma_pago = $request->id_forma_pago;
-            $reserva->id_estado_reservas = $request->id_estado_reservas;
+            $reserva->id_estado_reserva = $request->id_estado_reserva;
             $reserva->fecha_desde = $request->fecha_desde;
             $reserva->fecha_hasta = $request->fecha_hasta;
             $reserva->hora_ingreso = $request->hora_ingreso;
@@ -160,8 +119,7 @@ class ReservaController extends Controller
             $reserva->senia =$request->senia;
             $reserva->descuento = $request->descuento;
             $reserva->oberservaciones = $request->oberservaciones;
-           
-            
+         
             $reserva->save();
 
             session()->flash('alert-success', trans('message.successaction'));
