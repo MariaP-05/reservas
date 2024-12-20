@@ -1,10 +1,13 @@
 @extends('adminlte::page')
 
-@section('title', 'Nueva Obra Social')
-
+@if(isset($precio))
+@section('title', 'Editar Precio')
+@else
+@section('title', 'Nuevo Precio')
+@endif
 
 @section('content_header')
-<h1>Obras Sociales</h1>
+<h1>Precios</h1>
 @stop
 
 @section('content')
@@ -18,68 +21,44 @@
                 <!-- /.box-header -->
                 <div class="box-body">
 
-                    @if(isset($obra_social))
-                    {{ Form::model($obra_social,['route'=>['admin.obras_sociales.update', $obra_social->id],'method' => 'PUT', 'role'=>'form', 'data-toggle'=>'validator']) }}
+                    @if(isset($precio))
+                    {{ Form::model($precio,['route'=>['admin.precios.update', $precio->id],'method' => 'PUT', 'role'=>'form', 'data-toggle'=>'validator']) }}
                     @else
-                    {{ Form::open(['route' => 'admin.obras_sociales.store','method'=>'POST', 'role'=>'form', 'data-toggle'=>'validator']) }}
+                    {{ Form::open(['route' => 'admin.precios.store','method'=>'POST', 'role'=>'form', 'data-toggle'=>'validator']) }}
                     @endif
 
-                    @if(isset($obra_social->id))
+                    @if(isset($precio->id))
                     <div class="row  col-md-12">
-                      <div class="form-group col-md-6">
-                        <label for="id">{{ trans('message.code') }}</label>
-                        {{ Form::text('id', null, array('id' => 'id','class' => 'form-control','placeholder'=>"id", 'readonly')) }}
-                      </div>
+                        <div class="form-group col-md-6">
+                            <label for="id">{{ trans('message.code') }}</label>
+                            {{ Form::text('id', null, array('id' => 'id','class' => 'form-control','placeholder'=>"id", 'readonly')) }}
+                        </div>
                     </div>
                     @endif
                     <div class="row  col-md-12">
                         <div class="col-md-6 form-group has-feedback">
-                            <label for="denominacion">Denominación</label>
-                            {{ Form::text('denominacion', null, array('id' => 'denominacion','class' => 'form-control','placeholder' => trans('message.denomination'), 'required')) }}
-                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <label for="id_cabania">Cabaña</label>
+                            {{ Form::select('id_cabania', $cabanias, null, ['id' => 'id_cabania', 'class' => 'form-control select2']) }}
                         </div>
-                        <div class="col-md-6 form-group has-feedback">
-                            <label for="denominacion_amigable">Denominación amigable</label>
-                            {{ Form::text('denominacion_amigable', null, array('id' => 'denominacion_amigable','class' => 'form-control','placeholder' => 'Denominación amigable', 'required')) }}
-                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                        </div>    
-                    </div>
 
-                    <div class="row  col-md-12">
                         <div class="col-md-6 form-group has-feedback">
-                            <label for="telefono">Teléfono</label>
-                            {{ Form::text('telefono', null, array('id' => 'telefono','class' => 'form-control','placeholder' => 'Telefono')) }}
-                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                        </div>
-                            
-                        <div class="col-md-6 form-group has-feedback">
-                                <label for="direccion">Dirección</label>
-                                {{ Form::text('direccion', null, array('id' => 'direccion','class' => 'form-control','placeholder' => 'Direccion')) }}
-                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                        </div>
-                           
-                    </div>
-                        <div class="row  col-md-12">
-                            <div class="col-md-6 form-group has-feedback">
-                                <label for="cuit">CUIT</label>
-                                {{ Form::text('cuit', null, array('id' => 'cuit','class' => 'form-control','placeholder' => 'CUIT')) }}
+                            <label for="fecha_desde">Fecha Desde</label>
+                            <div class="input-group date">
+
+                                {{ Form::text('fecha_desde', isset($precio->fecha_desde) ? $precio->fecha_desde : null, ['id' => 'fecha_desde', 'class' => 'form-control', 'placeholder' => 'dd-mm-aaaa']) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                         </div>
-                            <div class="row  col-md-12">
-                                <div class="col-md-12  form-group has-feedback">
-                                    <label for="observacion">Observaciones </label>
-                                    <textarea class="form-control" name="observacion" id="observacion" rows="3">{{isset($obra_social) ? $obra_social->observacion : ''}}</textarea>
-                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                </div>
-                            </div>
-                                
+                    </div>
+                    <div class="row col-md-12">
+                        <div class="col-md-6 form-group has-feedback">
+                            <label for="valor">Valor</label>
+                            {{ Form::number('valor', null, array('id' =>'valor', 'class' => 'form-control', 'step'=>'any')) }}
 
-
-                    
-
+                        </div>
+                    </div>
                     <div class="box-footer col-md-6 form-group pull-right ">
-                        <a type="button" class="btn btn-outline-danger" href="{{route('admin.obras_sociales.index')}}">{{ trans('message.close') }}</a>
+                        <a type="button" class="btn btn-outline-danger" href="{{route('admin.precios.index')}}">{{ trans('message.close') }}</a>
                         <button type="submit" class="btn btn-outline-primary">{{ trans('message.save') }}</button>
                     </div>
                     {{ Form::close() }}
@@ -99,6 +78,5 @@
 
 
 @section('js')
-
-
+<script src="{{ asset('admin1/precios/edit.js') }}"></script>
 @stop

@@ -79,6 +79,7 @@ class CabaniaController extends Controller
             
                 $cabania->denominacion = ucwords (strtolower( $request->denominacion));
                 $cabania->capacidad = $request->capacidad;
+                $cabania->observaciones = $request->observaciones;
                 
                 $cabania->save();
                 session()->flash('alert-success', trans('message.successaction'));
