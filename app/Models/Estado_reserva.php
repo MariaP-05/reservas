@@ -28,5 +28,5 @@ class Estado_reserva extends Model
      *
      * @var string
      */
-    protected $table = 'estado_reservas';
+    protected $table = 'estados_reserva';
 }

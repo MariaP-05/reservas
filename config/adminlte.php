@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'Gestión de Turnos',
+    'title' => 'Alto de las Pampas',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -63,12 +63,12 @@ return [
     |
     */
 
-    'logo' => 'Gestión de Turnos',
-    'logo_img' => 'vendor/adminlte/dist/img/iconoshead-04.png',
-    'logo_img_class' => 'brand-image img-circle elevation-3',
+    'logo' => 'Alto de las Pampas',
+    'logo_img' => 'vendor/adminlte/dist/img/rustic.jpeg',
+    'logo_img_class' => 'brand-image img-circle',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Turnos Logo',
+    'logo_img_alt' => 'Reservas Logo',
 
     /*
     |--------------------------------------------------------------------------

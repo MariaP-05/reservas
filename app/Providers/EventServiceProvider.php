@@ -35,40 +35,41 @@ class EventServiceProvider extends ServiceProvider
            // $event->menu->add('MAIN NAVIGATION');
            $event->menu->add(
            [
-            'text'        => 'Turnos',
-            'url'         => 'admin/turnos',
+            'text'        => 'Reservas',
+            'url'         => 'admin/reservas',
             'icon'        => 'fa fa-calendar',
 
         ],
 
-        [
-
-            'text'        => 'Tipos de Turnos',
-            'url'         => 'admin/tipos_turno',
-            'icon'        => 'fa fa-ambulance',
-        ],
+        
 
         [
-            'text'        => 'Pacientes',
-            'url'         => 'admin/pacientes',
+            'text'        => 'Clientes',
+            'url'         => 'admin/clientes',
             'icon'        => 'fa fa-user-plus',
 
         ],
       
         [
-            'text'        => 'Instituciones',
-            'url'         => 'admin/instituciones',
+            'text'        => 'Cabañas',
+            'url'         => 'admin/cabanias',
             'icon'        => 'fa fa-hospital',
 
         ],
         [
-            'text'        => 'Obras Sociales',
-            'url'         => 'admin/obras_sociales',
+            'text'        => 'Caracteristicas',
+            'url'         => 'admin/caracteristicas',
+            'icon'        => 'fa fa-address-card',
+
+        ],
+        [
+            'text'        => 'Precio',
+            'url'         => 'admin/precios',
             'icon'        => 'fa fa-address-card',
 
         ]
     );
-           if(!isset(Auth::user()->Profesional))
+         /*  if(!isset(Auth::user()->Profesional))
            {
             $event->menu->add(
                 [
@@ -89,7 +90,7 @@ class EventServiceProvider extends ServiceProvider
                 'icon'        => 'fa fa-user',
 
             ]);
-           }
+           }*/
            
         });
     }
