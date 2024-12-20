@@ -14,10 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //$this->call(UsersSeeder::class);
-        //$this->call(FormasPagoSeeder::class);
-       $this->call(ProvinciasSeeder::class);
-       $this->call(LocalidadesSeeder::class);
-       $this->call(Estado_reservasSeeder::class);
+        $this->call(UsersSeeder::class);
+        $this->call(FormasPagoSeeder::class);
+      // $this->call(ProvinciasSeeder::class);
+      // $this->call(LocalidadesSeeder::class);
+      // $this->call(Estado_reservasSeeder::class);
     }
 }
