@@ -35,7 +35,7 @@
                             <th>Mail</th>
                             <th>Dirección</th>
                             <th>Localidad</th>
-                            <th>Observaciones</th>
+                            
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -51,7 +51,7 @@
                                 <td>{{ $cliente->mail }}</td>
                                 <td>{{ $cliente->direccion }}</td>
                                 <td>{{ isset($cliente->Localidad) ? $cliente->Localidad->denominacion : '' }}</td>
-                                <td>{{ $cliente->observaciones}}</td>
+                               
                                 <td>
                                     <div class="row">
                                         <div class="col-md-4 form-group">

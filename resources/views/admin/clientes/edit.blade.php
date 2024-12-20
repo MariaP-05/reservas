@@ -52,6 +52,25 @@
                         <div class="row  col-md-12">
 
                             <div class="col-md-6 form-group has-feedback">
+                                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                                <div class="input-group date">
+
+                                    {{ Form::text('fecha_nacimiento', isset($valor->fecha_nacimiento) ? $valor->fecha_nacimiento : null, ['id' => 'fecha_nacimiento', 'class' => 'form-control', 'placeholder' => 'dd-mm-aaaa']) }}
+                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 form-group has-feedback">
+                                <label for="mail">{{ trans('message.email') }}</label>
+                                    {{ Form::text('mail', null, ['id' => 'mail', 'class' => 'form-control', 'placeholder' => trans('message.email'), 'pattern' => '^[^@\\s]+@([^@\\s]+\\.)+[^@\\s]+$']) }}
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="row  col-md-12">
+
+                            <div class="col-md-6 form-group has-feedback">
                                 <label for="telefono_aux">Telefono Auxiliar</label>
                                 {{ Form::text('telefono_aux', null, ['id' => 'telefono_aux', 'class' => 'form-control', 'placeholder' => '0341353222']) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -77,26 +96,11 @@
                             </div>
                         </div>
 
-                        <div class="row  col-md-12">
-
-                            <div class="col-md-6 form-group has-feedback">
-                                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                                <div class="input-group date">
-
-                                    {{ Form::text('fecha_nacimiento', isset($valor->fecha_nacimiento) ? $valor->fecha_nacimiento : null, ['id' => 'fecha_nacimiento', 'class' => 'form-control', 'placeholder' => 'dd-mm-aaaa']) }}
-                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                </div>
-                                <div class="col-md-6 form-group has-feedback">
-                                    <label for="mail">{{ trans('message.email') }}</label>
-                                    {{ Form::text('mail', null, ['id' => 'mail', 'class' => 'form-control', 'placeholder' => trans('message.email'), 'pattern' => '^[^@\\s]+@([^@\\s]+\\.)+[^@\\s]+$']) }}
-                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                </div>
-
-                            </div>
+                        
 
 
-                            <hr style="background-color:blue ; height: 2px">
-                            </hr>
+                            <hr style="background-color:blue ; height: 2px"></hr>
+
                             <div class="info-card bg-secondary col-md-12" style="padding: 1em">
                                 <label for="Archivo_Adjunto">Archivos Adjuntos</label>
                                 <input type="file" class="form-control"
@@ -105,19 +109,18 @@
 
                             </div>
 
-                            <hr style="background-color:blue ; height: 2px">
-                            </hr>
+                            <hr style="background-color:blue ; height: 2px"></hr>
+
                             <h3>Observaciones</h3>
                             <div class="row  col-md-12">
                                 <div class="col-md-6 form-group has-feedback">
-                                    <label for="observacion">Observaciones</label>
-                                    <textarea class="form-control" name="observacion" id="observacion" rows="1"></textarea>
+                                    <label for="observaciones">Observaciones</label>
+                                    <textarea class="form-control" name="observaciones" id="observaciones" rows="1">{{isset($cliente) ? $cliente->observaciones : ''}}</textarea>
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 </div>
                             </div>
 
-                            <hr style="background-color:LightBlue ; height: 1px">
-                            </hr>
+                            
                             <br>
                             <div class="box-footer col-md-6 form-group pull-right ">
                                 <a type="button" class="btn btn-outline-danger"
@@ -126,15 +129,7 @@
                             </div>
                             <br>
 
-                            <hr style="background-color:blue ; height: 3px">
-                            </hr>
-
-
                             </table>
-                            <hr style="background-color:blue ; height: 2px">
-                            </hr>
-
-
 
 
                             {{ Form::close() }}
