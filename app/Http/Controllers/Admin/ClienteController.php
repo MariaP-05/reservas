@@ -75,8 +75,11 @@ class ClienteController extends Controller
         $localidades = Localidad::orderBy('denominacion')->pluck('denominacion', 'id')->all();
         $localidades = array('' => trans('message.select')) + $localidades;
 
+        $eva = $this->cantidad_archivos($id, 'Archivo_Adjunto', 15);
+
+
        
-        return view('admin.clientes.edit', compact('cliente',  'localidades'));
+        return view('admin.clientes.edit', compact('cliente','eva',  'localidades'));
     }
 
     /**
@@ -100,7 +103,18 @@ class ClienteController extends Controller
             $cliente->telefono = $request->telefono;
             $cliente->telefono_aux = $request->telefono_aux;
             $cliente->mail = (strtolower ($request->mail));
-                 
+            $cadenas =  explode(". ", $request->observaciones);
+            $cliente->observaciones = null; //pongo la observacion en null para evitar repeticiones
+            foreach ($cadenas as $cadena) {
+                if ($cliente->observaciones != null) //si ya tiene algun valor agrrego . espacio nueva oracion
+                {
+                    $cliente->observaciones = $cliente->observaciones . '. ' . ucfirst($cadena);
+
+                } else { //si no tiene ningun valor solo nueva oracion (es la primer oracion)
+                    $cliente->observaciones = ucfirst($cadena);
+                }
+            }
+            //     dd($cadena, $request->observaciones, $cliente->observaciones );
            
            
             $cliente->save();
@@ -134,6 +148,142 @@ class ClienteController extends Controller
             return redirect()->route('admin.clientes.index');
         }
     }
+
+
+    public function store_files_contenedor_files(Request $request, $id)
+{
+   
+    $eva = count($this->cantidad_archivos($id, 'Archivo_Adjunto', 15)) + 1;      
+    $this->store_files($request, $id, $eva, 'Archivo_Adjunto', 'Archivo_Adjunto');       
+
+    return redirect()->back();
+}
+
+public function store_files_contenedor(Request $request, $id)
+{
+    $archivos = count($this->cantidad_archivos($id, 'Archivo_Adjunto', 15)) + 1;     
+    $this->store_files($request, $id, $archivos, 'Archivo_Adjunto', 'Archivo_Adjunto');
+
+    return redirect()->back();
+}
+public function cantidad_archivos($id, $nombre, $largo)
+{
+    $path = public_path() . '/storage/clientes/' . $id . '/archivos/'; //Declaramos un  variable con la ruta donde guardaremos los archivos
+
+    $archivos = array();
+    $i = 1;
+
+    if (file_exists($path)) {
+        $files = File::allFiles($path);
+
+        foreach ($files as $file) {
+            $var = explode(".", $file->getFilename());
+            $tipo =  substr($var[0], -$largo);
+            if ($tipo == $nombre) {
+                $archivos[$i]['nombre'] = $file->getFilename();
+                $archivos[$i]['tamaño'] = $file->getSize();
+                $archivos[$i]['extension'] = $file->getExtension();
+                $i++;
+            }
+        }
+    }
+    return $archivos;
+}
+
+public function delete_file(Request $request, $id, $file_name)
+{
+    $directorio = public_path() . '/storage/clientes/' . $id . '/archivos/'; //Declaramos un  variable con la ruta donde guardaremos los archivos
+    File::delete($directorio . $file_name);
+
+    return redirect()->back();
+}
+
+public function store_files(Request $request, $id, $i, $nombre_archivo, $nuevo)
+{
+    foreach ($_FILES[$nombre_archivo]['tmp_name'] as $key => $tmp_name) {
+
+        if ($_FILES[$nombre_archivo]["name"][$key]) {
+            $var = explode(".", $_FILES[$nombre_archivo]['name'][$key]);
+            $cant = count($var);
+            $esten = $cant - 1;
+
+            $filename = $nuevo . '.' . $var[$esten]; //Obtenemos el nombre original del archivo
+
+            $source = $_FILES[$nombre_archivo]["tmp_name"][$key]; //Obtenemos un nombre temporal del archivo
+
+            $direct = public_path() . '/storage/pacientes/'; //Declaramos un  variable con la ruta donde guardaremos los archivos
+
+            if (!file_exists($direct)) {
+                mkdir($direct, 0777) or die("No se puede crear el directorio comuniquese con el area de sistemas");
+            }
+            $director = $direct . $id . '/'; //Declaramos un  variable con la ruta donde guardaremos los archivos
+
+            if (!file_exists($director)) {
+                mkdir($director, 0777) or die("No se puede crear el directorio comuniquese con el area de sistemas");
+            }
+
+            $directorio = $director. '/archivos/'; //Declaramos un  variable con la ruta donde guardaremos los archivos
+
+            if (!file_exists($directorio)) {
+                mkdir($directorio, 0777) or die("No se puede crear el directorio comuniquese con el area de sistemas");
+            }
+
+            $dir = opendir($directorio); //Abrimos el directorio de destino
+            $fecha =  Carbon::now()->format('d-m-Y');
+            $filename =  '_' . $fecha . '_' . $filename;
+            $z = $this->verificar_archivo($id ,$filename,$i );
+           
+            while ($z == 1 )
+            {
+                $i++;
+                $z = $this->verificar_archivo($id ,$filename, $i);
+            }
+
+            $target_path = $directorio . $i .$filename; //Indicamos la ruta de destino, así como el nombre del archivo
+            move_uploaded_file($source, $target_path);
+
+            closedir($dir);
+        }
+        $i++;
+       
+    }
+    return redirect()->back()->with('message', 'Operation Successful !');
+    //return redirect()->route('admin.comunicaciones.archivos', ['id' => $id]);
+}
+
+public function verificar_archivo($id, $nombre, $i)
+{
+    $path = public_path() . '/storage/clientes/' . $id . '/archivos/'; //Declaramos un  variable con la ruta donde guardaremos los archivos
+
+    $z=0;
+
+    if (file_exists($path)) {
+        $files = File::allFiles($path);
+
+        foreach ($files as $file) {
+           
+            if ($file->getFilename() == $i.$nombre) {
+              $z=1;
+            }
+        }
+    }
+    return  $z;
+}
+
+public function archivos($id)
+{
+    $i = 1;
+    $eva = $this->cantidad_archivos($id, 'Archivo_Adjunto', 15);
+   
+    $cliente = Cliente::find($id);
+    $puede_eliminar = true;
+    $puede_modificar = false;        
+     
+    return view('admin.clientes.archivos', compact('id','eva','i','puede_eliminar',
+    'puede_modificar' ));
+}
+
+
 /*    // Generate TXT
     public function createTXT()
     {

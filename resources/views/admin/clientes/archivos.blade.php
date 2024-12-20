@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Archivos de Pacientes')
+@section('title', 'Archivos de Clientes')
 
 @section('content_header')
-<h1>Pacientes</h1>
+<h1>Clientes</h1>
 @stop
 
 @section('content')
@@ -45,19 +45,19 @@
                             @if($archivo['extension'] !== 'xls' && $archivo['extension'] !== 'doc'
                             && $archivo['extension'] !== 'xlsx' && $archivo['extension'] !== 'docx')
 
-                            <embed name="plugin" src="{{url('storage/pacientes/'.$id.'/archivos/'.$archivo['nombre'])}}"
+                            <embed name="plugin" src="{{url('storage/clientes/'.$id.'/archivos/'.$archivo['nombre'])}}"
                                 type="application/pdf" style="width: 100%; height: 500px ">
                             @else
-                            <img src="{{url('storage/pacientes/'.$id.'/archivos/'.$archivo['nombre'])}}" style="width: 100% ; height: auto " class="center-block">
+                            <img src="{{url('storage/clientes/'.$id.'/archivos/'.$archivo['nombre'])}}" style="width: 100% ; height: auto " class="center-block">
                             @endif
                             @else
-                            <img src="{{url('storage/pacientes/'.$id.'/archivos/'.$archivo['nombre'])}}" style="width: 100% ; height: auto " class="center-block">
+                            <img src="{{url('storage/clientes/'.$id.'/archivos/'.$archivo['nombre'])}}" style="width: 100% ; height: auto " class="center-block">
 
                             @endif
                         </div>
 
                         <a type="button"
-                            href="{{url('storage/pacientes/'.$id.'/archivos/'.$archivo['nombre'])}}"
+                            href="{{url('storage/clientes/'.$id.'/archivos/'.$archivo['nombre'])}}"
                             target="_blank" class="btn-secondary" title="{{$archivo['nombre']}}">
                             <p><span>{{$archivo['nombre']}}</span>
                             </p>

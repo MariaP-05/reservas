@@ -28,6 +28,7 @@ Route::resource('admin/users', App\Http\Controllers\Admin\UserController::class)
 Route::resource('admin/clientes', App\Http\Controllers\Admin\ClienteController::class)->names('admin.clientes')->middleware('auth');
 
 Route::resource('admin/reservas', App\Http\Controllers\Admin\ReservaController::class)->names('admin.reservas')->middleware('auth');
+Route::get('admin/clientes/archivos/{id}', [App\Http\Controllers\Admin\ClienteController::class, 'archivos'] )->name('admin.clientes.archivos')->middleware('auth');
  /*
 Route::post('admin/pacientes/store_files_contenedor_files/{id}/{i}', [App\Http\Controllers\Admin\PacienteController::class],'store_files_contenedor_files')->name('admin.pacientes.store_files_contenedor_files');
 Route::get('admin/pacientes/delete_file/{id}/{file_name}', [App\Http\Controllers\Admin\PacienteController::class, 'delete_file'] )->name('admin.pacientes.delete_file')->middleware('auth');

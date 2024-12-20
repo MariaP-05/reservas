@@ -68,7 +68,7 @@ class ReservaController extends Controller
     public function create()
     {
     
-        $clientes = Cliente::orderBy('denominacion')->pluck('denominacion', 'id')->all();
+        $clientes = Cliente::orderBy('nombre')->pluck('nombre', 'id')->all();
         $clientes = array('' => trans('message.select')) + $clientes;
 
         $cabanias = Cabania::orderBy('denominacion')->pluck('denominacion', 'id')->all();

@@ -14,6 +14,8 @@
     modal.find('.telefono_aux').val(recipient.telefono_aux)
     modal.find('.direccion').val(recipient.direccion)
     modal.find('.localidad').val(recipient.deno_localidad)
+    modal.find('.observaciones').val(recipient.observaciones)
+    
   });
 
   $(document).ready(function() {

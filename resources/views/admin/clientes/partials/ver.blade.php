@@ -61,6 +61,11 @@
                         <label for="localidad" class="col-form-label">Localidad</label>
                         <input type="text" class="form-control localidad" id="localidad" disabled>
                     </div>
+
+                    <div class="form-group">
+                        <label for="observacion" class="col-form-label">Observaciones</label>
+                        <input type="text" class="form-control observacion" id="observacion" disabled>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
