@@ -24,7 +24,7 @@ class Cliente extends Model
         'dni',
         'fecha_nacimiento',
         'telefono',
-        'celular',
+        'telefono_aux',
         'mail',
         'direccion',
         'id_localidad',
@@ -60,5 +60,15 @@ class Cliente extends Model
         $value = $value !== null ? $value->format('d-m-Y') : null;
 
         return $value;
+    }
+
+    public static function countFiles($id)
+    {
+        $path = public_path() . '/storage/clientes/' . $id . '/archivos/*'; //Declaramos un  variable con la ruta donde guardaremos los archivos
+        $i = 0;
+        foreach (glob("$path") as $filename) {
+            $i++;
+        }
+        return ' ' . $i;
     }
 }

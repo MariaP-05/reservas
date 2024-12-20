@@ -25,7 +25,6 @@ class Cabania extends Model
         return $this->hasMany('App\Models\Precio', 'id_cabania');
     }
   
-
     public function Caracteristicas()
     {
         return $this->hasMany('App\Models\Caracteristica_cab', 'id_cabania');
@@ -35,4 +34,5 @@ class Cabania extends Model
     {
         return $this->hasMany('App\Models\Reserva', 'id_cabania');
     }
+
 }

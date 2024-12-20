@@ -17,7 +17,7 @@ class FormasPagoSeeder extends Seeder
     {
         //
         Forma_pago::create([
-            'denominacion' => 'Cupones'
+            'denominacion' => 'Transferencias'
         ] );
 
         Forma_pago::create([
@@ -25,7 +25,15 @@ class FormasPagoSeeder extends Seeder
         ] );
 
         Forma_pago::create([
+            'denominacion' => 'Efectivo'
+        ] );
+
+        Forma_pago::create([
             'denominacion' => 'Debito CBU'
+        ] );
+
+        Forma_pago::create([
+            'denominacion' => 'Crédito Tarjeta'
         ] );
        
     }

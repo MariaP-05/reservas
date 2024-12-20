@@ -25,7 +25,6 @@ class Caracteristica_cab extends Model
         return $this->belongsTo('App\Models\Cabania', 'id_cabania');
     }
 
-
     public function Caracteristica()
     {
         return $this->belongsTo('App\Models\Caracteristica', 'id_caracteristica');
