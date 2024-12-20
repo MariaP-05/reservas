@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'VeigaCor',
+    'title' => 'Gestión de Turnos',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -63,12 +63,12 @@ return [
     |
     */
 
-    'logo' => '<b>VeigaCor',
-    'logo_img' => 'vendor/adminlte/dist/img/VeigaCor.png',
+    'logo' => 'Gestión de Turnos',
+    'logo_img' => 'vendor/adminlte/dist/img/iconoshead-04.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'VeigaCor Logo',
+    'logo_img_alt' => 'Turnos Logo',
 
     /*
     |--------------------------------------------------------------------------
@@ -86,7 +86,7 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/calendariodeturnos',
             'alt' => 'Auth Logo',
             'class' => '',
             'width' => 50,
@@ -109,7 +109,7 @@ return [
     'preloader' => [
         'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/calendariodeturnos',
             'alt' => 'AdminLTE Preloader Image',
             'effect' => 'animation__shake',
             'width' => 60,
@@ -291,7 +291,7 @@ return [
 
     'menu' => [
         // Navbar items:
-        
+
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
@@ -299,54 +299,7 @@ return [
 
         // Sidebar items:
         
-        [
-            'text'        => 'Companias',
-            'url'         => 'admin/companias',
-            'icon'        => 'far fa-fw fa-file',
-           
-        ],
-        [
-            'text'        => 'Clientes',
-            'url'         => 'admin/clientes',
-            'icon'        => 'far fa-fw fa-file',
-           
-        ],
-        [
-            'text'        => 'Productores',
-            'url'         => 'admin/productores',
-            'icon'        => 'far fa-fw fa-file', 
-           
-        ],
-        [
-            'text'        => 'Secciones',
-            'url'         => 'admin/secciones',
-            'icon'        => 'far fa-fw fa-file', 
-           
-        ],
-        [
-            'text'        => 'Polizas',
-            'url'         => 'admin/polizas',
-            'icon'        => 'far fa-fw fa-file', 
-           
-        ],
-        [
-            'text'        => 'Formas de Pago',
-            'url'         => 'admin/formas_pago',
-            'icon'        => 'far fa-fw fa-file', 
-           
-        ],
-       /* [
-            'text'        => 'Localidades',
-            'url'         => 'admin/localidades',
-            'icon'        => 'far fa-fw fa-file', 
-           
-        ],
-        [
-            'text'        => 'Provincias',
-            'url'         => 'admin/provincias',
-            'icon'        => 'far fa-fw fa-file', 
-           
-        ],*/
+
 
 
         /*['header' => 'account_settings'],
@@ -452,56 +405,91 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => false,
+            'active' => true,
             'files' => [
+
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
+                    'asset' => true,
+                    'location' => '//code.jquery.com/jquery-3.7.1.js',
                 ],
-                [
+              [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
+                    'location' => '//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js',
                 ],
+             /* [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/3.7.1/js/dataTables.js',
+                ],
+                  [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js',
+                ],*/
+              [
+                    'type' => 'js',
+                    'asset' => false,// activa el ver
+                    'location' => '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
+                ],
+                
+                [
+                    'type' => 'js',
+                    'asset' => false, //le da formato lindo pero en el medio
+                    'location' => '//cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js',
+                ],
+                 [
+                    'type' => 'js',
+                    'asset' => false, //hace que se oculte data y se despliegue en el id
+                    'location' => '//cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js',
+                ],
+                [
+                    'type' => 'js', //hace que se vuelva a agrandar la tabla segun se modifique la pantalla
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js',
+                ], 
                 [
                     'type' => 'css',
-                    'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
+                    'asset' => true,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css',
                 ],
+               
+               /* */
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
                 ],
             ],
         ],
+        
         'Chartjs' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
                 ],
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
                 ],
             ],
@@ -511,12 +499,12 @@ return [
             'files' => [
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-radar.min.css',
                 ],
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
                 ],
             ],

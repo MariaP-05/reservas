@@ -4,7 +4,10 @@
 
 @section('adminlte_css')
     @stack('css')
+    
+     
     @yield('css')
+    
 @stop
 
 @section('classes_body', $layoutHelper->makeBodyClasses())
@@ -13,12 +16,11 @@
 
 @section('body')
     <div class="wrapper">
-    
- 
-       <!-- Optional theme -->
+
         {{-- Preloader Animation --}}
-        
-         
+        @if($layoutHelper->isPreloaderEnabled())
+            @include('adminlte::partials.common.preloader')
+        @endif
 
         {{-- Top Navbar --}}
         @if($layoutHelper->isLayoutTopnavEnabled())
@@ -54,5 +56,7 @@
 
 @section('adminlte_js')
     @stack('js')
+
     @yield('js')
+         
 @stop

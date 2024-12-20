@@ -10,8 +10,26 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="denominacion" class="col-form-label">Denominación</label>
-                        <input type="text" class="form-control denominacion" id="denominacion" disabled>
+                        <label for="nombre" class="col-form-label">Nombre y Apellido</label>
+                        <input type="text" class="form-control nombre" id="nombre" disabled>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="dni" class="col-form-label">DNI</label>
+                        <input type="text" class="form-control dni" id="dni" disabled>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="obra_social" class="col-form-label">Obra Social</label>
+                        <input type="text" class="form-control obra_social" id="obra_social" disabled>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="numero_afiliado" class="col-form-label">Número de afiliado</label>
+                        <input type="text" class="form-control numero_afiliado" id="numero_afiliado" disabled>
                     </div>
 
 
@@ -22,41 +40,26 @@
 
 
                     <div class="form-group">
-                        <label for="cuit" class="col-form-label">CUIT/CUIL</label>
-                        <input type="text" class="form-control cuit" id="cuit" disabled>
+                        <label for="telefono" class="col-form-label">Teléfono</label>
+                        <input type="text" class="form-control telefono" id="telefono" disabled>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="mail" class="col-form-label">Mail</label>
+                        <input type="text" class="form-control mail" id="mail" disabled>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="direccion" class="col-form-label">Dirección</label>
+                        <input type="text" class="form-control direccion" id="direccion" disabled>
                     </div>
 
 
                     <div class="form-group">
                         <label for="localidad" class="col-form-label">Localidad</label>
                         <input type="text" class="form-control localidad" id="localidad" disabled>
-                    </div>
-
-                    
-                    <div class="form-group">
-                        <label for="direccion" class="col-form-label">Dirección</label>
-                        <input type="text" class="form-control direccion" id="direccion" disabled>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="telefono" class="col-form-label">Teléfono</label>
-                        <input type="text" class="form-control telefono" id="telefono" disabled>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="celular" class="col-form-label">Celular</label>
-                        <input type="text" class="form-control celular" id="celular" disabled>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="mail" class="col-form-label">Correo Electrónico</label>
-                        <input type="text" class="form-control mail" id="mail" disabled>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="mail_2" class="col-form-label">Correo Electrónico Auxiliar</label>
-                        <input type="text" class="form-control mail_2" id="mail_2" disabled>
                     </div>
                 </form>
             </div>

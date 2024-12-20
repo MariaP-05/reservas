@@ -1,28 +1,26 @@
-$('#VerModal').on('show.bs.modal', function (event) {
+  
+  $('#VerModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
     var recipient = button.data('whatever') // Extract info from data-* attributes
     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
     var modal = $(this)
-    modal.find('.modal-title').text('Vizualizando Cliente ' + recipient.denomicacion)
-    modal.find('.denominacion').val(recipient.denominacion)
+    modal.find('.modal-title').text('Vizualizando cliente ' + recipient.nombre)
+    modal.find('.nombre').val(recipient.nombre)
+    modal.find('.dni').val(recipient.dni)
     modal.find('.fecha_nacimiento').val(recipient.fecha_nacimiento)
-    modal.find('.cuit').val(recipient.cuit)
-    modal.find('.localidad').val(recipient.deno_localidad)
-    modal.find('.direccion').val(recipient.direccion)
-    modal.find('.telefono').val(recipient.telefono)
-    modal.find('.celular').val(recipient.celular)
     modal.find('.mail').val(recipient.mail)
-    modal.find('.mail_2').val(recipient.mail_2)
-    
-    
+    modal.find('.telefono').val(recipient.telefono)
+    modal.find('.telefono_aux').val(recipient.telefono_aux)
+    modal.find('.direccion').val(recipient.direccion)
+    modal.find('.localidad').val(recipient.deno_localidad)
   });
 
   $(document).ready(function() {
     $('#clientes').DataTable({
             "language": {
                 "search": "Buscar",
-                "lengthMenu": "Mostrar _MENU_ registros por pagina",
+                "lengthMenu": "Pacientes por pagina _MENU_ ",
                 "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                 "paginate": {
                     "first": "Primero",
@@ -45,10 +43,12 @@ $('#VerModal').on('show.bs.modal', function (event) {
 
 
 
-            },
-            order: [
-                [0, 'desc']
-            ]
+           
+    },
+   
+   responsive: true,
+   autowith:false ,
+   order: [[ 0, 'desc' ]]
         }
 
     );

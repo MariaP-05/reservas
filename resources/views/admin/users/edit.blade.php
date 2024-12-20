@@ -1,10 +1,31 @@
-@extends('adminlte::page')
 
+@extends('adminlte::page')
+@if(Auth::user()->id_profesional >= 1 && Auth::user()->id !== $user->id )
+@section('content')
+<div class="card">
+ 
+<h3 class="box-title bg-red">No tiene Permiso para acceder a esta seccion</h3>
+</div> 
+@stop
+@else
+@if(!isset(Auth::user()->Profesional))
+@if(isset($user->id))
+@section('title', 'Editar Usuario')
+@else
 @section('title', 'Nuevo Usuario')
+@endif
+@else
+@section('title', 'Cambiar Contraseña')
+@endif
+
 
 
 @section('content_header')
+@if(!isset(Auth::user()->Profesional))
 <h1>Usuarios</h1>
+@else
+<h1>Cambiar Contraseña</h1>
+@endif
 @stop
 
 @section('content')
@@ -23,7 +44,7 @@
                     @else
                     {{ Form::open(['route' => 'admin.users.store','method'=>'POST', 'role'=>'form', 'data-toggle'=>'validator']) }}
                     @endif
-
+                    @if(!isset(Auth::user()->Profesional))
                     @if(isset($user->id))
                     <div class="row  col-md-12">
                     <div class="form-group col-md-6">
@@ -44,7 +65,7 @@
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         </div>
                     </div>                   
-
+                    @endif
                     <div class="row   col-md-12">
                         <div class="col-md-6 form-group has-feedback">
                             <label for="password">{{trans('message.password')}}</label>
@@ -56,8 +77,8 @@
                     
 
                     <div class="box-footer col-md-6 form-group pull-right ">
-                        <a type="button" class="btn btn-danger" href="{{route('admin.users.index')}}">{{ trans('message.close') }}</a>
-                        <button type="submit" class="btn btn-primary">{{ trans('message.save') }}</button>
+                        <a type="button" class="btn btn-outline-danger" href="{{route('admin.users.index')}}">{{ trans('message.close') }}</a>
+                        <button type="submit" class="btn btn-outline-primary">{{ trans('message.save') }}</button>
                     </div>
                     {{ Form::close() }}
                     <!-- /.box-body -->
@@ -79,3 +100,6 @@
 
 
 @stop
+
+
+@endif
