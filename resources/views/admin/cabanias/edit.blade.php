@@ -48,8 +48,8 @@
 
                         <div class="row  col-md-12">
                             <div class="col-md-6  form-group has-feedback">
-                                <label for="observacion">Observaciones </label>
-                                <textarea class="form-control" name="observacion" id="observacion" rows="3">{{ isset($institucion) ? $institucion->observacion : '' }}</textarea>
+                                <label for="observaciones">Observaciones </label>
+                                <textarea class="form-control" name="observaciones" id="observaciones" rows="3">{{ isset($cabania) ? $cabania->observaciones : '' }}</textarea>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
 

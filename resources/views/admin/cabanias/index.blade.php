@@ -27,24 +27,29 @@
                             <th>Id</th>
                             <th>Denominación</th>
                             <th>Capacidad</th>
+                            <th>Observaciones</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($cabanias as $cabania)
                             <tr>
-                                <td>{{ $institucion->id }}</td>
-                                <td>{{ $institucion->denominacion }}</td>
-                                <td>{{ $institucion->capacidad }}</td>
-                                
+                                <td>{{ $cabania->id }}</td>
+                                <td>{{ $cabania->denominacion }}</td>
+                                <td>{{ $cabania->capacidad }}</td>
+                                <td>{{ $cabania->observaciones}}</td>
                                 <td>
                                     <div class="row">
-                                        <div class="col-md-4 form-group">
-                                            <button type="button" class="btn btn-outline-danger"
-                                                title="Eliminar Cabaña" data-toggle="modal"
-                                                data-target="#EliminarModal" data-whatever="{{ $cabania }}">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
+                                    <div class="col-md-4 form-group">
+                                            <form method="post"
+                                                action="{{ route('admin.cabanias.destroy', $cabania->id) }}">
+                                                @method('delete')
+                                                @csrf
+                                                <button type="submit" class="btn btn-outline-danger"
+                                                    title="Eliminar Cabaña">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                         <div class="col-md-4 form-group">
                                             <form method="get"
@@ -65,7 +70,7 @@
                 </table>
             </div>
         </div>
-        @include('admin.cabanias.partials.eliminar')
+      
     </div>
     @stop
     @section('css')
