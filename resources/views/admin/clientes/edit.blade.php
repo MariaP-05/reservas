@@ -55,7 +55,7 @@
                                 <label for="fecha_nacimiento">Fecha de Nacimiento</label>
                                 <div class="input-group date">
 
-                                    {{ Form::text('fecha_nacimiento', isset($valor->fecha_nacimiento) ? $valor->fecha_nacimiento : null, ['id' => 'fecha_nacimiento', 'class' => 'form-control', 'placeholder' => 'dd-mm-aaaa']) }}
+                                    {{ Form::text('fecha_nacimiento', isset($cliente->fecha_nacimiento) ? $cliente->fecha_nacimiento : null, ['id' => 'fecha_nacimiento', 'class' => 'form-control', 'placeholder' => 'dd-mm-aaaa']) }}
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 </div>
                             </div>

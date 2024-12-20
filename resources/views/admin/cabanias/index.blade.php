@@ -47,7 +47,7 @@
                                                 @csrf
                                                 <button type="submit" class="btn btn-outline-danger"
                                                     title="Eliminar Cabaña">
-                                                    <i class="fa fa-trash"></i>
+                                                    <i class="fa fa-trash"></i> 
                                                 </button>
                                             </form>
                                         </div>

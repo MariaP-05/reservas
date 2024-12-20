@@ -27,6 +27,7 @@ Route::get('/', function(){
 Route::resource('admin/users', App\Http\Controllers\Admin\UserController::class)->names('admin.users')->middleware('auth');
 Route::resource('admin/clientes', App\Http\Controllers\Admin\ClienteController::class)->names('admin.clientes')->middleware('auth');
 Route::resource('admin/cabanias', App\Http\Controllers\Admin\CabaniaController::class)->names('admin.cabanias')->middleware('auth');
+Route::resource('admin/precios', App\Http\Controllers\Admin\PrecioController::class)->names('admin.precios')->middleware('auth');
 
 Route::resource('admin/reservas', App\Http\Controllers\Admin\ReservaController::class)->names('admin.reservas')->middleware('auth');
 Route::get('admin/clientes/archivos/{id}', [App\Http\Controllers\Admin\ClienteController::class, 'archivos'] )->name('admin.clientes.archivos')->middleware('auth');
