@@ -64,7 +64,7 @@ return [
     */
 
     'logo' => 'Alto de las Pampas',
-    'logo_img' => 'vendor/adminlte/dist/img/rustic.jpeg',
+    'logo_img' => 'vendor/adminlte/dist/img/logotipocabaña.jpg',
     'logo_img_class' => 'brand-image img-circle',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -86,7 +86,7 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/calendariodeturnos',
+            'path' => 'vendor/adminlte/dist/img/logotipocabaña.jpg',
             'alt' => 'Auth Logo',
             'class' => '',
             'width' => 50,
@@ -109,7 +109,7 @@ return [
     'preloader' => [
         'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/calendariodeturnos',
+            'path' => 'vendor/adminlte/dist/img/logotipocabaña.jpg',
             'alt' => 'AdminLTE Preloader Image',
             'effect' => 'animation__shake',
             'width' => 60,
