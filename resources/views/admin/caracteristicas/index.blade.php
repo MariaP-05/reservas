@@ -21,7 +21,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
             <div class="row"> 
         <br>
             </div>
-    <table id="caracteristica" class="table table-striped col-sm-12">
+    <table id="caracteristicas" class="table table-striped col-sm-12">
         <thead class="bg-secondary text-white">
             <tr>
                 <th>Id</th>
