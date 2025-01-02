@@ -33,18 +33,85 @@
                             </div>
                         @endif
                         <div class="row  col-md-12">
-                                <div class="col-md-6 form-group has-feedback">
-                                    <label for="denominacion">Denominación</label>
-                                    {{ Form::text('denominacion', null, array('id' => 'denominacion','class' => 'form-control','placeholder' => trans('Denominación'), 'required')) }}
-                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                </div>
-                                <div class="col-md-6 form-group has-feedback">
-                                    <label for="capacidad">Capacidad</label>
-                                    {{ Form::text('capacidad', null, ['id' => 'capacidad', 'class' => 'form-control', 'placeholder' => 'Capacidad']) }}
-                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                </div>
-                        
+                            <div class="col-md-6 form-group has-feedback">
+                                <label for="denominacion">Denominación</label>
+                                {{ Form::text('denominacion', null, ['id' => 'denominacion', 'class' => 'form-control', 'placeholder' => trans('Denominación'), 'required']) }}
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
+                            <div class="col-md-6 form-group has-feedback">
+                                <label for="capacidad">Capacidad</label>
+                                {{ Form::text('capacidad', null, ['id' => 'capacidad', 'class' => 'form-control', 'placeholder' => 'Capacidad']) }}
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+
+                        </div>
+
+
+
+                        <hr style="background-color:blue ; height: 2px">
+                        </hr>
+                        <h3>Caracteristicas</h3>
+                        <div class="caracteristicas-section col-md-12">
+                            <div class="row nueva_caracteristica col-md-12">
+
+                                <div class="col-md-6 form-group has-feedback">
+                                    <label for="id_caracteristica">Caracteristica</label>
+                                    {{ Form::select('id_caracteristica[]', $caracteristicas, null, ['id' => 'id_caracteristica', 'class' => 'form-control select2']) }}
+                                </div>
+
+                                <div class="col-md-6 form-group has-feedback">
+                                    <label for="cantidad">Cantidad</label>
+                                    {{ Form::number('cantidad[]', null, ['id' => 'cantidad', 'class' => 'form-control cantidad']) }}
+                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-6 form-group">
+
+                            <a class="btn btn-xs btn-info btn-add-caracteristica" role="button">
+                                <i class="fa fa-plus"> </i>
+                            </a>
+                        </div>
+                        <hr style="background-color:aliceblue ; height: 2px">
+                        </hr>
+                        @if (isset($cabania->Caracteristicas))
+                            @if (count($cabania->Caracteristicas) > 0)
+                            @endif
+
+                            <table id="caracteristicas" class="table table-striped col-12">
+                                <thead class="bg-secondary text-white">
+
+                                    <tr>
+                                        <th>Caracteristica</th>
+                                        <th>Cantidad</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                @foreach ($cabania->Caracteristicas as $caracteristica)
+                                    <tr>
+                                        <td class="col-md-6 form-group">
+                                            {{ isset($caracteristica->Caracteristica) ? $caracteristica->Caracteristica->denominacion : '' }}
+                                        </td>
+                                        <td class="col-md-6 form-group">
+                                            {{ $caracteristica->cantidad }}
+                                        </td>
+                                        <td>
+                                            <div class="col-md-3 form-group">
+                                                <a href="{{ route('admin.cabanias.delete_caract', ['id' => $caracteristica->id]) }}"
+                                                    class="btn btn-xs btn-outline-danger float-right" title="Eliminar"
+                                                    role="button">
+                                                    <i class="fa fa-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                        @endif
+
+                        </table>
+                        <hr style="background-color:blue ; height: 2px">
+                        </hr>
 
                         <div class="row  col-md-12">
                             <div class="col-md-6  form-group has-feedback">
@@ -78,6 +145,5 @@
 
 
 @section('js')
-
-
+    <script src="{{ asset('admin1/cabanias/edit.js') }}"></script>
 @stop

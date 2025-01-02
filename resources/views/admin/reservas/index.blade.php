@@ -42,7 +42,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                 <td>{{ isset($reserva->Cliente) ? $reserva->Cliente->nombre : '' }}</td>
                                 <td>{{ $reserva->fecha_desde }}</td>
                                 <td>{{ $reserva->fecha_hasta }}</td>                               
-                                <td>{{ isset($reserva->Estado_reservas) ? $reserva->Estado_reservas->denominacion : '' }}</td>
+                                <td>{{ isset($reserva->Estado_reserva) ? $reserva->Estado_reserva->denominacion : '' }}</td>
                                
                                 <td>
                                     <div class="row">

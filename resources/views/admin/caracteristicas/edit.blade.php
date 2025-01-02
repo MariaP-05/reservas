@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Nueva Forma de Pago')
+@section('title', 'Caracteristica')
 
 
 @section('content_header')
-<h1>Nueva Forma de Pago</h1>
+<h1>Caracteristica</h1>
 @stop
 
 @section('content')
@@ -18,13 +18,13 @@
                 <!-- /.box-header -->
                 <div class="box-body">
 
-                    @if(isset($forma_pago))
-                    {{ Form::model($forma_pago,['route'=>['admin.formas_pago.update', $forma_pago->id],'method' => 'PUT', 'role'=>'form', 'data-toggle'=>'validator']) }}
+                    @if(isset($caracteristica))
+                    {{ Form::model($caracteristica,['route'=>['admin.caracteristicas.update', $caracteristica->id],'method' => 'PUT', 'role'=>'form', 'data-toggle'=>'validator']) }}
                     @else
-                    {{ Form::open(['route' => 'admin.formas_pago.store','method'=>'POST', 'role'=>'form', 'data-toggle'=>'validator']) }}
+                    {{ Form::open(['route' => 'admin.caracteristicas.store','method'=>'POST', 'role'=>'form', 'data-toggle'=>'validator']) }}
                     @endif
 
-                    @if(isset($forma_pago->id))
+                    @if(isset($caracteristica->id))
                     <div class="row  col-md-12">
                         <div class="form-group col-md-6">
                             <label for="id">Id</label>
@@ -43,7 +43,7 @@
 
 
                     <div class="box-footer col-md-12 form-group pull-left ">
-                        <a type="button" class="btn btn-outline-danger" href="{{route('admin.formas_pago.index')}}">{{ trans('message.close') }}</a>
+                        <a type="button" class="btn btn-outline-danger" href="{{route('admin.caracteristicas.index')}}">{{ trans('message.close') }}</a>
                         <button type="submit" class="btn btn-outline-primary">{{ trans('message.save') }}</button>
                     </div>
                     {{ Form::close() }}
