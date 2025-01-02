@@ -15,7 +15,7 @@ $(document).ready(function () {
     $('#cabanias').DataTable({
         "language": {
             "search":   "Buscar",
-            "lengthMenu": "Mostrar _MENU_ registros por pagina",
+            "lengthMenu": "Cabañas por pagina _MENU_ ",
             "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
             "paginate": {
                 "first": "Primero",

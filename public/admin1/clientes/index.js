@@ -22,7 +22,7 @@
     $('#clientes').DataTable({
             "language": {
                 "search": "Buscar",
-                "lengthMenu": "Pacientes por pagina _MENU_ ",
+                "lengthMenu": "Clientes por pagina _MENU_ ",
                 "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                 "paginate": {
                     "first": "Primero",

@@ -2,7 +2,7 @@ $(document).ready(function() {
     $('#caracteristicas').DataTable({
             "language": {
                 "search": "Buscar",
-                "lengthMenu": "Formas de pago por pagina _MENU_ ",
+                "lengthMenu": "Caracteristicas por pagina _MENU_ ",
                 "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                 "paginate": {
                     "first": "Primero",
