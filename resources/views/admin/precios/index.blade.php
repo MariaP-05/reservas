@@ -30,7 +30,7 @@
                 <th>Cabaña</th>
                 <th>Fecha desde</th>
                 <th>Valor</th>
-                <th>Observaciones</th>
+                 
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -41,7 +41,7 @@
                 <td>{{ isset($precio->Cabania) ? $precio->Cabania->denominacion : '' }}</td>
                 <td>{{$precio->fecha_desde}}</td>
                 <td>{{$precio->valor}}</td>
-                <td>{{ $precio->observaciones }}</td>
+                 
                 <td>
                     <div class="row">
                         <div class="col-md-6 form-group">
