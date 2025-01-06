@@ -3,33 +3,33 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Gestion_caja;
+use App\Models\Movimiento;
 use App\Models\Categoria;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
 
-class Gestion_cajaController extends Controller
+class MovimientoController extends Controller
 {
     public function index(Request $request)
     {
-        $gestiones_caja = Gestion_caja::all();
+        $movimientos = Movimiento::all();
 
-        return view('admin.gestiones_caja.index', compact('gestiones_caja'));
+        return view('admin.movimientos.index', compact('movimientos'));
     }
 
     public function create()
     {
     
-        $usuarios = User::orderBy('nombre')->pluck('nombre', 'id')->all();
+        $usuarios = User::orderBy('name')->pluck('name', 'id')->all();
         $usuarios = array('' => trans('message.select')) + $usuarios;
 
         $categorias = Categoria::orderBy('denominacion')->pluck('denominacion', 'id')->all();
         $categorias = array('' => trans('message.select')) + $categorias;
 
 
-        return view('admin.gestiones_caja.edit', compact('usuarios','categorias'));
+        return view('admin.movimientos.edit', compact('usuarios','categorias'));
     }
 
     public function store(Request $request)
@@ -37,15 +37,15 @@ class Gestion_cajaController extends Controller
 
         try {
 
-            $gestiones_caja = new Gestion_caja($request->all());
+            $movimientos = new Movimiento($request->all());
 
-            $gestiones_caja->save();
+            $movimientos->save();
  
             session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.gestiones_caja.index');
+            return redirect()->route('admin.movimientos.index');
         } catch (QueryException  $ex) {
             session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.gestiones_caja.index');
+            return redirect()->route('admin.movimientos.index');
         }
     }
 
@@ -67,16 +67,16 @@ class Gestion_cajaController extends Controller
      */
     public function edit($id)
     {
-        $gestiones_caja = Gestion_caja::findOrFail($id);
+        $movimiento = Movimiento::findOrFail($id);
 
 
-        $usuarios = User::orderBy('nombre')->pluck('nombre', 'id')->all();
+        $usuarios = User::orderBy('name')->pluck('name', 'id')->all();
         $usuarios = array('' => trans('message.select')) + $usuarios;
 
         $categorias = Categoria::orderBy('denominacion')->pluck('denominacion', 'id')->all();
         $categorias = array('' => trans('message.select')) + $categorias;
 
-        return view('admin.gestiones_caja.edit', compact('gestiones_caja', 'usuarios', 'categorias' ));
+        return view('admin.movimientos.edit', compact('movimiento', 'usuarios', 'categorias' ));
     }
 
     /**
@@ -89,25 +89,28 @@ class Gestion_cajaController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $gestion_caja = Gestion_caja::findOrFail($id);
+            $movimiento = Movimiento::findOrFail($id);
         
-            $gestion_caja->fecha = $request->fecha;
-            $gestion_caja->denominacion = $request->denominacion;
-            $gestion_caja->importe = $request->importe;
-            $gestion_caja->tipo_movimiento = $request->tipo_movimiento;
-            $gestion_caja->id_usuario = $request->id_usuario;
-            $gestion_caja->id_categoria = $request->id_categoria;
-            $gestion_caja->forma_pago = $request->forma_pago;
-            $gestion_caja->oberservaciones = $request->oberservaciones;
+            $movimiento->denominacion =ucwords(strtolower($request->denominacion));
+            $movimiento->fecha = $request->fecha;
+            $movimiento->importe = $request->importe;
+            $movimiento->tipo_movimiento =ucwords(strtolower($request->tipo_movimiento));
+            $movimiento->id_usuario = $request->id_usuario;
+            $movimiento->id_categoria = $request->id_categoria;
+            
+            $movimiento->forma_pago =ucwords(strtolower($request->forma_pago));
+            $movimiento->observaciones = $request->observaciones;
          
-            $gestion_caja->save();
+
+
+            $movimiento->save();
 
             session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.gestiones_caja.index');
+            return redirect()->route('admin.movimientos.index');
         } catch (QueryException  $ex) {
 
             session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.gestiones_caja.index');
+            return redirect()->route('admin.movimientos.index');
         }
     }
 
@@ -121,13 +124,13 @@ class Gestion_cajaController extends Controller
     {
         try {
            
-            Gestion_caja::destroy($id);
+            Movimiento::destroy($id);
 
             session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.gestiones_caja.index');
+            return redirect()->route('admin.movimientos.index');
         } catch (QueryException  $ex) {
             session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.gestiones_caja|.index');
+            return redirect()->route('admin.movimientos.index');
         }
 
 

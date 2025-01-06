@@ -20,6 +20,6 @@ class Categoria extends Model
      */
     protected $fillable = ['denominacion' ];
 
-    protected $table = 'categorias';
+    protected $table = 'categorias_movimiento';
 
 }

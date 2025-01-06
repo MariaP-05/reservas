@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
-class Gestion_caja extends Model
+class Movimiento extends Model
 {
     use SoftDeletes;
 
@@ -30,7 +30,7 @@ class Gestion_caja extends Model
         'observaciones'
         
     ];
-    protected $table = 'gestiones_caja';
+    protected $table = 'movimientos';
 
     public function Categoria()
     {

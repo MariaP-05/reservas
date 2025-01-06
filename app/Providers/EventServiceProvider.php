@@ -67,7 +67,22 @@ class EventServiceProvider extends ServiceProvider
             'url'         => 'admin/precios',
             'icon'        => 'fa fa-envelope',
 
+        ],
+        [
+            'text'        => 'Movimientos',
+            'url'         => 'admin/movimientos',
+            'icon'        => 'fa fa-archive',
+
         ]
+
+        ,
+        [
+            'text'        => 'Categorias',
+            'url'         => 'admin/categorias',
+            'icon'        => 'fa fa-bars',
+
+        ]
+
     );
          /*  if(!isset(Auth::user()->Profesional))
            {
