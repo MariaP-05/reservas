@@ -2,7 +2,6 @@ $(document).ready(function() {
 
     $('.select2').select2();
   
-  
     $.datepicker.regional['es'] = {
         closeText: 'Cerrar',
         prevText: '<Ant',
@@ -38,13 +37,11 @@ $(document).ready(function() {
         todayHighlight: true,
         dateFormat: 'dd-mm-yy'
     });
-  
-  
-  
+    
     $('#movimientos').DataTable({
             "language": {
                 "search": "Buscar",
-                "lengthMenu": "Caracteristicas por pagina _MENU_ ",
+                "lengthMenu": "Movimientos por pagina _MENU_ ",
                 "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                 "paginate": {
                     "first": "Primero",
