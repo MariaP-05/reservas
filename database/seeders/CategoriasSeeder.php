@@ -47,10 +47,10 @@ class CategoriasSeeder extends Seeder
         Categoria::create([
             'denominacion' => 'Otros Gastos'
         ]);
- /*
+
         Categoria::create([
             'denominacion' => 'Alquiler Cabañas'
         ]);
-*/
+
     }
 }
