@@ -22,7 +22,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                 <div class="row">
                     <br>
                 </div>
-                <table id="datatable1" class="table table-striped col-sm-12">
+                <table id="reservas" class="table table-striped col-sm-12">
                     <thead class="bg-secondary text-white">
                         <tr>
                             <th>Id</th>
@@ -46,8 +46,8 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                 <td>{{ isset($reserva->Estado_reserva) ? $reserva->Estado_reserva->denominacion : '' }}</td>
                                 <td>{{ $reserva->valor }}</td>                 
                                 <td>
-                                    <div class="row">
-                                        <div class="col-md-6 form-group">
+                                    <div class="row col-sm-12">
+                                        <div class="col-md-4 form-group">
                                             <form method="post" action="{{ route('admin.reservas.destroy', $reserva->id) }}">
                                                 @method('delete')
                                                 @csrf
@@ -57,7 +57,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 </button>
                                             </form>
                                         </div>
-                                        <div class="col-md-6 form-group">
+                                        <div class="col-md-4 form-group">
                                             <form method="get" action="{{ route('admin.reservas.edit', $reserva->id) }}">
 
                                                 <button type="submit" class="btn btn-outline-primary"
@@ -66,8 +66,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 </button>
                                             </form>
                                         </div>
-                                    </div>
-                                    <div class="row">
+                    
                                         <div class="col-md-4 form-group">
                                             @php
                                                     $reserva->deno_cabania = isset($reserva->Cabania)
