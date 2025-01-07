@@ -132,7 +132,7 @@ class ReservaController extends Controller
      */
     public function update(Request $request, $id)
     {
-      //  try {
+        try {
             $reserva = Reserva::findOrFail($id);
 
             $reserva->id_cabania = $request->id_cabania;
@@ -140,8 +140,8 @@ class ReservaController extends Controller
             if($request->nombre_cliente !== '')
             {
                 $cliente = new Cliente();
-                $cliente->denominacion = $request->nombre_cliente;
-                $cliente->telefono = $request->nombre_telefono;
+                $cliente->nombre = $request->nombre_cliente;
+                $cliente->telefono = $request->telefono_cliente;
                 $cliente->save();
                 $reserva->id_cliente = $cliente->id;
             }
@@ -160,14 +160,14 @@ class ReservaController extends Controller
             $reserva->observaciones = $request->observaciones;
 
             $reserva->save();
-/*
+
             session()->flash('alert-success', trans('message.successaction'));
             return redirect()->route('admin.reservas.index');
         } catch (QueryException  $ex) {
 
             session()->flash('alert-danger', $ex->getMessage());
             return redirect()->route('admin.reservas.index');
-        }*/
+        }
     }
 
     /**
