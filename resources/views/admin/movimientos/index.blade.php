@@ -17,6 +17,8 @@
             <i class="fa fa-plus" style="margin-top:16px"></i>
         </a>
 
+@include('admin.movimientos.partials.busqueda')
+
         <div class="cadr-body">
             <div class="form-group col-sm-12">
                 <div class="row">
@@ -45,7 +47,7 @@
                                 <td>{{ $movimiento->importe }}</td> 
                                 <td>{{ $movimiento->tipo_movimiento }}</td>
                                 <td>{{isset( $movimiento->id_usuario) ? $movimiento->User->name  : ''}}</td>
-                                <td>{{isset( $movimiento->id_categoria) ? $movimiento->id_categoria->denominacion  : ''}}</td>
+                                <td>{{isset( $movimiento->id_categoria) ? $movimiento->Categoria->denominacion  : ''}}</td>
                                 <td>{{ $movimiento->forma_pago }}</td>                             
                                
                                 <td>

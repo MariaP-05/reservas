@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class Movimiento extends Model
 {
@@ -61,5 +62,27 @@ class Movimiento extends Model
         return $value;
     }
 
-    
+    public static function search(Request $request)
+    {
+        $query = Movimiento::query();        
+
+        if (isset($request->fec_desde)) {
+            $fecha_d= new Carbon($request->fec_desde); 
+            $query = $query->where('fecha', '>=', $fecha_d->format('Y-m-d'));
+        }
+
+        if (isset($request->fec_hasta)) {
+            $fecha_h= new Carbon($request->fec_hasta);
+            $query = $query->where('fecha', '<=', $fecha_h->format('Y-m-d'));
+        }
+        
+              
+        if (isset($request->id_categoria)){
+            $query= $query->where('id_categoria', '=' , $request->id_categoria); 
+        }
+
+
+       return  $query = $query->orderby('id', 'desc') ;
+
+    }
 }

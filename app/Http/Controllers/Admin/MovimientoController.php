@@ -14,9 +14,33 @@ class MovimientoController extends Controller
 {
     public function index(Request $request)
     {
-        $movimientos = Movimiento::all();
+        $movimientos = Movimiento::search($request)->get();
 
-        return view('admin.movimientos.index', compact('movimientos'));
+       // $movimientos = Movimiento::all();
+
+       $fecha_desde = null;
+
+        if (isset($request->fec_desde)) {
+            $fecha_desde = $request->fec_desde;
+        }
+        $fecha_hasta = null;
+
+        if (isset($request->fec_hasta)) {
+            $fecha_hasta = $request->fec_hasta;
+        }
+
+
+        $categorias = Categoria::orderBy('denominacion')->pluck('denominacion', 'id')->all();
+        $categorias = array('' => trans('message.select')) + $categorias;
+
+        if (isset($request->id_categoria)) {
+            $id_categoria = $request->id_categoria;
+        } else {
+            $id_categoria = null;
+        }
+
+
+        return view('admin.movimientos.index', compact('movimientos','fecha_desde','fecha_hasta','categorias','id_categoria'));
     }
 
     public function create()
