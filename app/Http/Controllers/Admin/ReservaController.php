@@ -7,7 +7,9 @@ use App\Models\Cliente;
 use App\Models\Estado_reserva;
 use App\Models\Cabania;
 use App\Models\Forma_pago;
+use App\Models\Precio;
 use App\Models\Reserva;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
@@ -153,5 +155,33 @@ class ReservaController extends Controller
 
     }
 
+    public function get(Request $request)
+    {
+       
+        $id_cabania = $request->id_cabania;
+        $precio = 0;
+        
+        if($id_cabania >= 1 && isset($request->fecha_desde)  && isset($request->fecha_hasta) )
+        {
+            $fecha_desde = new Carbon($request->fecha_desde);
+            $fecha_hasta =  new Carbon($request->fecha_hasta);
+
+            if($fecha_hasta > $fecha_desde )
+            {
+                $precio_entrada = Precio::where('id_cabania',$id_cabania)->where('fecha_desde', '<=',$fecha_desde )
+                ->orderby('fecha_desde', 'desc')->first();
+    
+                /*$precio_salida = Precio::where('id_cabania',$id_cabania)->where('fecha', '<=',$fecha_hasta )
+                ->oderby('fecha', 'desc')->first();
+                 ver como es cuando se tomauna fehca de entrada y una de salida con distintos valores*/
+                $cant_dias = $fecha_desde->diffInDays($fecha_hasta);
+    
+                $precio =  $precio_entrada->valor * $cant_dias ;
+            }
+           
+        }
+          
+        return response()->json(['data' => $precio]);
+    }
    
 }

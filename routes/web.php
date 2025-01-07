@@ -30,6 +30,7 @@ Route::resource('admin/cabanias', App\Http\Controllers\Admin\CabaniaController::
 Route::resource('admin/precios', App\Http\Controllers\Admin\PrecioController::class)->names('admin.precios')->middleware('auth');
 Route::resource('admin/caracteristicas', App\Http\Controllers\Admin\CaracteristicaController::class)->names('admin.caracteristicas')->middleware('auth');
 Route::get('admin/cabanias/delete_caract/{id}', [App\Http\Controllers\Admin\CabaniaController::class, 'delete_caract'] )->name('admin.cabanias.delete_caract')->middleware('auth');
+Route::get('admin/reservas/get/{id?}', [App\Http\Controllers\Admin\ReservaController::class, 'get'] )->name('admin.reservas.get')->middleware('auth');
 
 
 

@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
-    $('.select2').select2();
-  
+    $('.select2').select2();  
   
     $.datepicker.regional['es'] = {
         closeText: 'Cerrar',
