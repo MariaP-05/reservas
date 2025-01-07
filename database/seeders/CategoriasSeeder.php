@@ -16,7 +16,7 @@ class CategoriasSeeder extends Seeder
     public function run()
     {
 
-       /* Categoria::create([
+       Categoria::create([
             'denominacion' => 'Limpieza'
         ]);
 
@@ -46,11 +46,11 @@ class CategoriasSeeder extends Seeder
 
         Categoria::create([
             'denominacion' => 'Otros Gastos'
-        ]);*/
-
+        ]);
+ /*
         Categoria::create([
             'denominacion' => 'Alquiler Cabañas'
         ]);
-
+*/
     }
 }
