@@ -27,7 +27,7 @@
                             <th>Id</th>
                             <th>Denominación</th>
                             <th>Capacidad</th>
-                            <th>Observaciones</th>
+                            
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -37,7 +37,7 @@
                                 <td>{{ $cabania->id }}</td>
                                 <td>{{ $cabania->denominacion }}</td>
                                 <td>{{ $cabania->capacidad }}</td>
-                                <td>{{ $cabania->observaciones}}</td>
+                                
                                 <td>
                                     <div class="row">
                                     <div class="col-md-4 form-group">

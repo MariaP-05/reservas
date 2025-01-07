@@ -20,21 +20,23 @@
                 <!-- /.box-header -->
                 <div class="box-body">
 
-                    @if (isset($reserva))
-                    {{ Form::model($reserva, ['route' => ['admin.reservas.update', $reserva->id], 'method' => 'PUT', 'role' => 'form', 'data-toggle' => 'validator']) }}
-                    @else
-                    {{ Form::open(['route' => 'admin.reservas.store', 'method' => 'POST', 'role' => 'form', 'data-toggle' => 'validator']) }}
-                    @endif
+                 
 
-                    @if (isset($reserva->id))
-                    <div class="row  col-md-12">
-                        <div class="form-group col-md-6">
-                            <label for="id">{{ trans('message.code') }}</label>
-                            {{ Form::text('id', null, ['id' => 'id', 'class' => 'form-control', 'placeholder' => 'id', 'readonly']) }}
-                        </div>
-                    </div>
-                    @endif
+                        @if (isset($reserva))
+                            {{ Form::model($reserva, ['route' => ['admin.reservas.update', $reserva->id], 'method' => 'PUT', 'role' => 'form', 'data-toggle' => 'validator']) }}
+                        @else
+                            {{ Form::open(['route' => 'admin.reservas.store', 'method' => 'POST', 'role' => 'form', 'data-toggle' => 'validator']) }}
+                        @endif
 
+                        @if (isset($reserva->id))
+                            <div class="row  col-md-12">
+                                <div class="form-group col-md-6">
+                                    <label for="id">{{ trans('message.code') }}</label>
+                                    {{ Form::text('id', null, ['id' => 'id', 'class' => 'form-control', 'placeholder' => 'id', 'readonly']) }}
+                                </div>
+                            </div>
+                        @endif
+ 
                     <div class="row col-md-12">
                         <div class="col-md-6 form-group has-feedback">
                             <label for="id_cabania">Cabaña</label>
@@ -43,6 +45,7 @@
                         </div>                        
                         <div class="col-md-6 form-group cliente-select has-feedback">
                             <a class="btn btn-xs btn-primary btn-add-cliente" title="Agregar Cliente" role="button"> <i class="fa fa-plus"></i></a>
+ 
                         
                             <label for="id_cliente">Cliente</label>
                             {{ Form::select('id_cliente', $clientes, null, ['id' => 'id_cliente', 'class' => 'form-control select2']) }}
@@ -230,14 +233,19 @@
                         {{ Form::select('id_forma_pago', $formas_pago, null, ['id' => 'id_forma_pago', 'class' => 'form-control select2']) }}
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                     </div>
+                    <div class="col-md-6 form-group has-feedback">
+                        <label for="ctabancaria">Cuenta Bancaria</label>
+                        {{ Form::text('ctabancaria', null, ['id' => 'ctabancaria', 'class' => 'form-control']) }}
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
                 </div>
 
                 <hr style="background-color:blue ; height: 3px">
                 </hr>
                 <div class="row col-md-12">
                     <div class="col-sm-12  form-group has-feedback">
-                        <label for="observacion">Observaciones </label>
-                        <textarea class="form-control" name="observacion" id="observacion" rows="3">{{ isset($reserva) ? $reserva->observacion : '' }}</textarea>
+                        <label for="observaciones">Observaciones </label>
+                        <textarea class="form-control" name="observaciones" id="observaciones" rows="3">{{ isset($reserva) ? $reserva->observaciones : '' }}</textarea>
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                     </div>
                 </div>

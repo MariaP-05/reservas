@@ -109,12 +109,16 @@ class ReservaController extends Controller
             ->orderby('fecha_desde', 'desc')->first();
         $cant_dias = $fecha_desde->diffInDays($fecha_hasta);
 
-        $reserva->importe_reserva =  $precio_entrada->valor * $cant_dias;
+        if(isset($precio_entrada) )
+        {
+            $reserva->importe_reserva =  $precio_entrada->valor * $cant_dias;
 
-        $reserva->descuento_porce = (100 * $reserva->descuento) / $reserva->importe_reserva;
-        $reserva->total = $reserva->importe_reserva - $reserva->descuento;
-        $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total;
-        $reserva->total_deuda = $reserva->total + $reserva->recargo - $reserva->senia;
+            $reserva->descuento_porce = (100 * $reserva->descuento) / $reserva->importe_reserva;
+            $reserva->total = $reserva->importe_reserva - $reserva->descuento;
+            $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total;
+            $reserva->total_deuda = $reserva->total + $reserva->recargo - $reserva->senia;
+        }
+       
 
         return view('admin.reservas.edit', compact('reserva', 'clientes', 'cabanias', 'formas_pago',  'estado_reservas'));
     }
@@ -136,12 +140,13 @@ class ReservaController extends Controller
             if($request->nombre_cliente !== '')
             {
                 $cliente = new Cliente();
-                $cliente->denominacion = $request->nombre_cliente;
-                $cliente->telefono = $request->nombre_telefono;
+                $cliente->nombre = $request->nombre_cliente;
+                $cliente->telefono = $request->telefono_cliente;
                 $cliente->save();
                 $reserva->id_cliente = $cliente->id;
             }
             $reserva->id_forma_pago = $request->id_forma_pago;
+            $reserva->ctabancaria = $request->ctabancaria;
             $reserva->id_estado_reserva = $request->id_estado_reserva;
             $reserva->fecha_desde = $request->fecha_desde;
             $reserva->fecha_hasta = $request->fecha_hasta;
@@ -152,7 +157,7 @@ class ReservaController extends Controller
             $reserva->descuento = $request->descuento;
             $reserva->recargo = $request->recargo;
             $reserva->valor = $request->recargo +  $request->total;
-            $reserva->oberservaciones = $request->oberservaciones;
+            $reserva->observaciones = $request->observaciones;
 
             $reserva->save();
 
