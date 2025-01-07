@@ -5,7 +5,7 @@
     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
     var modal = $(this)
-    modal.find('.modal-title').text('Vizualizando cliente ' + recipient.nombre)
+    modal.find('.modal-title').text('Vizualizando reserva ' + recipient.id)
     modal.find('.cabania').val(recipient.deno_cabania)
     modal.find('.cliente').val(recipient.nom_cliente)
     modal.find('.forma_pago').val(recipient.deno_pago)
@@ -21,7 +21,7 @@
   });
 
   $(document).ready(function() {
-    $('reservas').DataTable({
+    $('#reservas').DataTable({
             "language": {
                 "search": "Buscar",
                 "lengthMenu": "Reservas por pagina _MENU_ ",
