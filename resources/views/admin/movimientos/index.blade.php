@@ -24,7 +24,7 @@
                 <div class="row">
                     <br>
                 </div>
-                <table id="datatable1" class="table table-striped col-sm-12">
+                <table id="movimientos" class="table table-striped col-sm-12">
                     <thead class="bg-secondary text-white">
                         <tr>
                             <th>Id</th>

@@ -31,10 +31,8 @@
                             <th>DNI</th>
                             <th>Fecha de Nacimiento</th>
                             <th>Teléfono</th>
-                            <th>Teléfono Auxiliar</th>
+                            <th>Teléfono Aux</th>
                             <th>Mail</th>
-                            <th>Dirección</th>
-                            <th>Localidad</th>
                             
                             <th>Acciones</th>
                         </tr>
@@ -49,19 +47,21 @@
                                 <td>{{ $cliente->telefono }}</td>
                                 <td>{{ $cliente->telefono_aux }}</td>
                                 <td>{{ $cliente->mail }}</td>
-                                <td>{{ $cliente->direccion }}</td>
-                                <td>{{ isset($cliente->Localidad) ? $cliente->Localidad->denominacion : '' }}</td>
-                               
+                                
                                 <td>
-                                    <div class="row">
-                                        <div class="col-md-4 form-group">
-                                            <a href="{{ route('admin.clientes.archivos', $cliente->id) }}"
-                                                class="btn btn-success" title="Archivos Cliente" role="button"
-                                                target="_blank">
-                                                <i class="fa fa-folder"><?php echo \App\Models\Cliente::countFiles($cliente->id); ?> </i>
-                                            </a>
+                                    <div class="row col-sm-md-lg-12">
+                                        <div class="col-md-2 form-group">
+                                            <form method="get"
+                                                action="{{ route('admin.clientes.edit', $cliente->id) }}">
+
+                                                <button type="submit" class="btn btn-outline-primary"
+                                                    title="Editar Cliente">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                            </form>
                                         </div>
-                                        <div class="col-md-4 form-group">
+                                        
+                                        <div class="col-md-2 form-group">
                                             <form method="post"
                                                 action="{{ route('admin.clientes.destroy', $cliente->id) }}">
                                                 @method('delete')
@@ -72,19 +72,8 @@
                                                 </button>
                                             </form>
                                         </div>
-                                        <div class="col-md-4 form-group">
-                                            <form method="get"
-                                                action="{{ route('admin.clientes.edit', $cliente->id) }}">
-
-                                                <button type="submit" class="btn btn-outline-primary"
-                                                    title="Editar Cliente">
-                                                    <i class="fa fa-edit"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4 form-group">
+                                    
+                                        <div class="col-md-2 form-group">
                                             @php
                                                 $cliente->deno_localidad = isset($cliente->Localidad)
                                                     ? $cliente->Localidad->denominacion
@@ -97,6 +86,17 @@
                                                 <i class="fa fa-eye"></i>
                                             </button>
                                         </div>
+
+                                        <div class="col-md-2 form-group">
+                                            <a href="{{ route('admin.clientes.archivos', $cliente->id) }}"
+                                                class="btn btn-outline-success" title="Archivos Cliente"
+                                                 role="button"
+                                                target="_blank" style="width:44px;	height:39px; top:40px;	right:20px;">
+                                                <i class="fa fa-folder-open"><?php echo \App\Models\Cliente::countFiles($cliente->id); ?> </i>
+                                            </a>
+                                        </div>
+
+                                                                          
                                     </div>
                                 </td>
                             </tr>
