@@ -21,7 +21,7 @@
   });
 
   $(document).ready(function() {
-    $('#datatable1').DataTable({
+    $('reservas').DataTable({
             "language": {
                 "search": "Buscar",
                 "lengthMenu": "Reservas por pagina _MENU_ ",
