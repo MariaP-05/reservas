@@ -109,12 +109,16 @@ class ReservaController extends Controller
             ->orderby('fecha_desde', 'desc')->first();
         $cant_dias = $fecha_desde->diffInDays($fecha_hasta);
 
-        $reserva->importe_reserva =  $precio_entrada->valor * $cant_dias;
+        if(isset($precio_entrada) )
+        {
+            $reserva->importe_reserva =  $precio_entrada->valor * $cant_dias;
 
-        $reserva->descuento_porce = (100 * $reserva->descuento) / $reserva->importe_reserva;
-        $reserva->total = $reserva->importe_reserva - $reserva->descuento;
-        $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total;
-        $reserva->total_deuda = $reserva->total + $reserva->recargo - $reserva->senia;
+            $reserva->descuento_porce = (100 * $reserva->descuento) / $reserva->importe_reserva;
+            $reserva->total = $reserva->importe_reserva - $reserva->descuento;
+            $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total;
+            $reserva->total_deuda = $reserva->total + $reserva->recargo - $reserva->senia;
+        }
+       
 
         return view('admin.reservas.edit', compact('reserva', 'clientes', 'cabanias', 'formas_pago',  'estado_reservas'));
     }
@@ -128,7 +132,7 @@ class ReservaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
+      //  try {
             $reserva = Reserva::findOrFail($id);
 
             $reserva->id_cabania = $request->id_cabania;
@@ -153,17 +157,17 @@ class ReservaController extends Controller
             $reserva->descuento = $request->descuento;
             $reserva->recargo = $request->recargo;
             $reserva->valor = $request->recargo +  $request->total;
-            $reserva->oberservaciones = $request->oberservaciones;
+            $reserva->observaciones = $request->observaciones;
 
             $reserva->save();
-
+/*
             session()->flash('alert-success', trans('message.successaction'));
             return redirect()->route('admin.reservas.index');
         } catch (QueryException  $ex) {
 
             session()->flash('alert-danger', $ex->getMessage());
             return redirect()->route('admin.reservas.index');
-        }
+        }*/
     }
 
     /**
