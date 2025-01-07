@@ -110,6 +110,7 @@ class ReservaController extends Controller
             $reserva->id_cabania = $request->id_cabania;
             $reserva->id_cliente = $request->id_cliente;
             $reserva->id_forma_pago = $request->id_forma_pago;
+            $reserva->ctabancaria = $request->ctabancaria;
             $reserva->id_estado_reserva = $request->id_estado_reserva;
             $reserva->fecha_desde = $request->fecha_desde;
             $reserva->fecha_hasta = $request->fecha_hasta;

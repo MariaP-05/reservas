@@ -128,9 +128,14 @@
                                 {{ Form::select('id_forma_pago', $formas_pago, null, ['id' => 'id_forma_pago', 'class' => 'form-control select2']) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
+                            <div class="col-md-6 form-group has-feedback">
+                                <label for="ctabancaria">Cuenta Bancaria</label>
+                                {{ Form::text('ctabancaria', null, ['id' => 'ctabancaria', 'class' => 'form-control']) }}
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
                         </div>
 
-                            <hr style="background-color:blue ; height: 3px"></hr>
+                            
                             <div class="row col-md-12">
                             <div class="col-sm-12  form-group has-feedback">
                                 <label for="observacion">Observaciones </label>
