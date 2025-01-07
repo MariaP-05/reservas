@@ -80,7 +80,7 @@ reservas = {
 
         if (descuento > 0) {
             descuento_porce = (100 * descuento) / parseFloat(importe_reserva);
-            descuento_porce = descuento_porce.toFixed(2);
+            descuento_porce = descuento_porce.toFixed(0);
 
             $("#descuento_porce").val(descuento_porce);
         }
@@ -98,7 +98,7 @@ reservas = {
 
         if (recargo > 0) {
             recargo_porce = (100 * recargo) / parseFloat(total);
-            recargo_porce = recargo_porce.toFixed(2);
+            recargo_porce = recargo_porce.toFixed(0);
 
             $("#recargo_porce").val(recargo_porce);
         }
@@ -133,18 +133,30 @@ reservas = {
         }
         $("#total_deuda").val(total_deuda);
     },
+    addCliente: function () {
+      $(".cliente-select").hide();
+      $(".cliente_section").show();
+    },
+    deleteCliente: function () {
+      $("#nombre_cliente").val('');
+      $(".cliente_section").hide();
+      $(".cliente-select").show();
+    },
 
     init: function () {
         $("#fecha_desde, #fecha_hasta, #id_cabania").on(
             "change",
             this.FechaChange
         );
+        $(".btn-add-cliente").on("click", this.addCliente);
+        $(".btn-delete-cliente").on("click", this.deleteCliente);
         $(".descuento_porce").on("input", this.UpdatePorce);
         $(".descuento").on("input", this.UpdateDescuento);
         $(".recargo_porce").on("input", this.UpdateRecargoPorce);
         $(".recargo").on("input", this.UpdateRecargo);
         // $(".senia").on('change', this.UpdateDeuda);
         $(".senia").on("input", this.UpdateDeuda); 
+        $(".cliente_section").hide();
     },
 };
 

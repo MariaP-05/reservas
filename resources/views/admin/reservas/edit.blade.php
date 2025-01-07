@@ -35,13 +35,15 @@
                     </div>
                     @endif
 
-                    <div class="row  col-md-12">
+                    <div class="row col-md-12">
                         <div class="col-md-6 form-group has-feedback">
                             <label for="id_cabania">Cabaña</label>
                             {{ Form::select('id_cabania', $cabanias, null, ['id' => 'id_cabania', 'class' => 'select2 form-control', 'data-url'=> route('admin.reservas.get')]) }}
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                        </div>
-                        <div class="col-md-6 form-group has-feedback">
+                        </div>                        
+                        <div class="col-md-6 form-group cliente-select has-feedback">
+                            <a class="btn btn-xs btn-primary btn-add-cliente" title="Agregar Cliente" role="button"> <i class="fa fa-plus"></i></a>
+                        
                             <label for="id_cliente">Cliente</label>
                             {{ Form::select('id_cliente', $clientes, null, ['id' => 'id_cliente', 'class' => 'form-control select2']) }}
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -49,7 +51,28 @@
 
                     </div>
 
-                    <div class="row  col-md-12">
+                    <div class="cliente_section">
+                    <hr style="background-color:blue ; height: 1px"> </hr>
+                        
+                    
+                    <div class="row col-md-12">
+                    <h5 class=" box-title">
+                            <a class="btn btn-xs btn-warning btn-delete-cliente" title="Seleccionar Cliente" role="button">
+                                <i class="fa fa-minus"></i></a> Nuevo Cliente
+                        </h5>
+                        <div class="col-md-6 form-group">
+                            <label for="nombre_cliente">Nombre</label>
+                            {{ Form::text('nombre_cliente', null, array('id' => 'nombre_cliente','class' => 'form-control','placeholder'=>"Nombre del Cliente")) }}
+                        </div>
+                        <div class=" col-md-6 form-group">
+                            <label for="telefono_cliente">Telefono</label>
+                            {{ Form::text('telefono_cliente', null, array('id' => 'telefono_cliente','class' => 'form-control','placeholder'=>"Telefono del Cliente")) }}
+                        </div>
+                       
+                    </div>
+                    <hr style="background-color:blue ; height: 1px">
+                    </div>
+                    <div class="row col-md-12">
                         <div class="col-md-6 form-group has-feedback">
                             <label for="cantidad_personas">Cantidad de personas</label>
                             {{ Form::text('cantidad_personas', null, ['id' => 'cantidad_personas', 'class' => 'form-control']) }}
@@ -159,7 +182,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-xs-6 form-group pull-left">
                                 <label for="recargo_porce">Recargo %</label>
-                                {{ Form::number('recargo_porce',null , array('id' => 'recargo_porce','class' => 'form-control recargo_porce', 'min'=>'0,00', 'step'=>'0,00','oninput'=>"validity.valid||(value='');")) }}
+                                {{ Form::number('recargo_porce',null , array('id' => 'recargo_porce','class' => 'form-control recargo_porce', 'min'=>'0', 'step'=>'0','oninput'=>"validity.valid||(value='');")) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                             @else
@@ -170,7 +193,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-xs-6 form-group pull-left">
                                 <label for="recargo_porce">Recargo %</label>
-                                {{ Form::number('recargo_porce',0 , array('id' => 'recargo_porce','class' => 'form-control recargo_porce',  'min'=>'0,00', 'step'=>'0,00', 'oninput'=>"validity.valid||(value='');")) }}
+                                {{ Form::number('recargo_porce',0 , array('id' => 'recargo_porce','class' => 'form-control recargo_porce',  'min'=>'0', 'step'=>'0', 'oninput'=>"validity.valid||(value='');")) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                             @endif

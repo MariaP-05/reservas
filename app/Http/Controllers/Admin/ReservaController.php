@@ -44,9 +44,20 @@ class ReservaController extends Controller
 
     public function store(Request $request)
     {
-
+       
         try {
             $reserva = new Reserva($request->all());
+            if($request->nombre_cliente !== '' && $request->nombre_cliente !== null)
+            {
+                $cliente = new Cliente();
+                $cliente->nombre = $request->nombre_cliente;
+                $cliente->telefono = $request->telefono_cliente;
+                 
+                $cliente->save();
+               
+                $reserva->id_cliente = $cliente->id;
+            }
+            
             // $reserva->id_estado_reserva = 1;
             $reserva->valor = $request->recargo +  $request->total;
             $reserva->save();
@@ -122,6 +133,14 @@ class ReservaController extends Controller
 
             $reserva->id_cabania = $request->id_cabania;
             $reserva->id_cliente = $request->id_cliente;
+            if($request->nombre_cliente !== '')
+            {
+                $cliente = new Cliente();
+                $cliente->denominacion = $request->nombre_cliente;
+                $cliente->telefono = $request->nombre_telefono;
+                $cliente->save();
+                $reserva->id_cliente = $cliente->id;
+            }
             $reserva->id_forma_pago = $request->id_forma_pago;
             $reserva->id_estado_reserva = $request->id_estado_reserva;
             $reserva->fecha_desde = $request->fecha_desde;
