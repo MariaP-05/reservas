@@ -31,6 +31,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                             <th>Fecha desde</th>
                             <th>Fecha hasta</th>
                             <th>Estado</th>
+                            <th>Importe</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -43,7 +44,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                 <td>{{ $reserva->fecha_desde }}</td>
                                 <td>{{ $reserva->fecha_hasta }}</td>                               
                                 <td>{{ isset($reserva->Estado_reserva) ? $reserva->Estado_reserva->denominacion : '' }}</td>
-                               
+                                <td>{{ $reserva->valor }}</td>                 
                                 <td>
                                     <div class="row col-sm-12">
                                         <div class="col-md-4 form-group">
