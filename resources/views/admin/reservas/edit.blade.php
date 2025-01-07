@@ -121,38 +121,74 @@
                             @if(isset($reserva))
                             <div class="col-lg-4 col-md-4 col-xs-6 form-group pull-left">
                                 <label for="descuento">Descuento $</label>
-                                {{ Form::number('descuento',null , array('id' => 'descuento','class' => 'form-control descuento', 'step'=>'any')) }}
+                                {{ Form::number('descuento',null , array('id' => 'descuento','class' => 'form-control descuento',  'min'=>'0,00', 'step'=>'0,00','oninput'=>"validity.valid||(value='');")) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                             <div class="col-lg-4 col-md-4 col-xs-6 form-group pull-left">
                                 <label for="descuento_porce">Descuento %</label>
-                                {{ Form::number('descuento_porce',null , array('id' => 'descuento_porce','class' => 'form-control descuento_porce', 'step'=>'any')) }}
+                                {{ Form::number('descuento_porce',null , array('id' => 'descuento_porce','class' => 'form-control descuento_porce', 'min'=>'0,00', 'step'=>'0,00','oninput'=>"validity.valid||(value='');")) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                             @else
                             <div class="col-lg-4 col-md-4 col-xs-6 form-group pull-left">
                                 <label for="descuento">Descuento $</label>
-                                {{ Form::number('descuento',0 , array('id' => 'descuento','class' => 'form-control descuento', 'step'=>'any')) }}
+                                {{ Form::number('descuento',0 , array('id' => 'descuento','class' => 'form-control descuento', 'min'=>'0,00', 'step'=>'0,00','oninput'=>"validity.valid||(value='');")) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                             <div class="col-lg-4 col-md-4 col-xs-6 form-group pull-left">
                                 <label for="descuento_porce">Descuento %</label>
-                                {{ Form::number('descuento_porce',0 , array('id' => 'descuento_porce','class' => 'form-control descuento_porce', 'step'=>'any')) }}
+                                {{ Form::number('descuento_porce',0 , array('id' => 'descuento_porce','class' => 'form-control descuento_porce',  'min'=>'0,00', 'step'=>'0,00', 'oninput'=>"validity.valid||(value='');")) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                             @endif
+
+
                             <div class="col-lg-4 col-md-4 col-xs-6 form-group pull-right">
                                 <label for="total">TOTAL A PAGAR</label>
                                 {{ Form::text('total',null , array('id' => 'total','class' => 'form-control total', 'readonly')) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-4 form-group has-feedback">
-                                <label for="senia">Seña</label>
-                                {{ Form::text('senia', null, ['id' => 'senia', 'class' => 'form-control senia']) }}
+                       
+                            <div class="row">
+                            @if(isset($reserva))
+                            <div class="col-lg-4 col-md-4 col-xs-6 form-group pull-left">
+                                <label for="recargo">Recargo $</label>
+                                {{ Form::number('recargo',null , array('id' => 'recargo','class' => 'form-control recargo',  'min'=>'0,00', 'step'=>'0,00','oninput'=>"validity.valid||(value='');")) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
+                            <div class="col-lg-4 col-md-4 col-xs-6 form-group pull-left">
+                                <label for="recargo_porce">Recargo %</label>
+                                {{ Form::number('recargo_porce',null , array('id' => 'recargo_porce','class' => 'form-control recargo_porce', 'min'=>'0,00', 'step'=>'0,00','oninput'=>"validity.valid||(value='');")) }}
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            @else
+                            <div class="col-lg-4 col-md-4 col-xs-6 form-group pull-left">
+                                <label for="recargo">Recargo $</label>
+                                {{ Form::number('recargo',0 , array('id' => 'recargo','class' => 'form-control recargo', 'min'=>'0,00', 'step'=>'0,00','oninput'=>"validity.valid||(value='');")) }}
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-xs-6 form-group pull-left">
+                                <label for="recargo_porce">Recargo %</label>
+                                {{ Form::number('recargo_porce',0 , array('id' => 'recargo_porce','class' => 'form-control recargo_porce',  'min'=>'0,00', 'step'=>'0,00', 'oninput'=>"validity.valid||(value='');")) }}
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            @endif
+                            </div>
+                        <div class="row">
+                        @if(isset($reserva))
+                            <div class="col-md-4 form-group has-feedback">
+                                <label for="senia">Seña</label>
+                                {{ Form::text('senia', null, ['id' => 'senia', 'class' => 'form-control senia',  'min'=>'0,00', 'step'=>'0,00', 'oninput'=>"validity.valid||(value='');"]) }}
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        @else
+                        <div class="col-md-4 form-group has-feedback">
+                                <label for="senia">Seña</label>
+                                {{ Form::text('senia', 0, ['id' => 'senia', 'class' => 'form-control senia',  'min'=>'0,00', 'step'=>'0,00', 'oninput'=>"validity.valid||(value='');"]) }}
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        @endif
                             <div class="col-lg-4 col-md-4 col-xs-6 form-group pull-right">
                                 <label for="total_deuda">TOTAL ADEUDADO</label>
                                 {{ Form::text('total_deuda',null , array('id' => 'total_deuda','class' => 'form-control total_deuda', 'readonly')) }}
