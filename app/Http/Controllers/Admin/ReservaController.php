@@ -54,7 +54,7 @@ class ReservaController extends Controller
                 $cliente->telefono = $request->telefono_cliente;
                  
                 $cliente->save();
-               
+              
                 $reserva->id_cliente = $cliente->id;
             }
             if( $reserva->id_estado_reserva == '')
@@ -141,13 +141,14 @@ class ReservaController extends Controller
 
             $reserva->id_cabania = $request->id_cabania;
             $reserva->id_cliente = $request->id_cliente;
-            if($request->nombre_cliente !== '')
+            if($request->nombre_cliente !== '' && $request->nombre_cliente !== null )
             {
                 $cliente = new Cliente();
                 $cliente->nombre = $request->nombre_cliente;
                 $cliente->telefono = $request->telefono_cliente;
                 $cliente->save();
                 $reserva->id_cliente = $cliente->id;
+                
             }
             $reserva->id_forma_pago = $request->id_forma_pago;
             $reserva->ctabancaria = $request->ctabancaria;
