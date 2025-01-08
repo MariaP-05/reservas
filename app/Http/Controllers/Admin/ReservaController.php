@@ -57,8 +57,12 @@ class ReservaController extends Controller
                
                 $reserva->id_cliente = $cliente->id;
             }
+            if( $reserva->id_estado_reserva == '')
+            {
+                $reserva->id_estado_reserva = 1;
+            }
             
-            // $reserva->id_estado_reserva = 1;
+            
             $reserva->valor = $request->recargo +  $request->total;
             $reserva->save();
 
