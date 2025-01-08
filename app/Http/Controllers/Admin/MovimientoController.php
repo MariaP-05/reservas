@@ -16,8 +16,13 @@ class MovimientoController extends Controller
     {
         $movimientos = Movimiento::search($request)->get();
 
-       // $movimientos = Movimiento::all();
+        //calculamos el saldo segun la busqueda
+        $movimientos_egreso = Movimiento::search($request)->where('tipo_movimiento','Egreso')->sum('importe');
+        $movimientos_ingreso = Movimiento::search($request)->where('tipo_movimiento','Ingreso')->sum('importe');
+        $saldo = $movimientos_ingreso -  $movimientos_egreso;
+        $saldo = '$ '. number_format($saldo, 2,',','.');
 
+        //ponemos las fechas filtradas para que se muestren en el buscador
        $fecha_desde = null;
 
         if (isset($request->fec_desde)) {
@@ -40,7 +45,7 @@ class MovimientoController extends Controller
         }
 
 
-        return view('admin.movimientos.index', compact('movimientos','fecha_desde','fecha_hasta','categorias','id_categoria'));
+        return view('admin.movimientos.index', compact('saldo','movimientos','fecha_desde','fecha_hasta','categorias','id_categoria'));
     }
 
     public function create()
