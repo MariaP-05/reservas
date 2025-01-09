@@ -10,14 +10,14 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="deno_cabania" class="col-form-label">Cabaña</label>
-                        <input type="text" class="form-control deno_cabania" id="deno_cabania" disabled>
+                        <label for="cabania" class="col-form-label">Cabaña</label>
+                        <input type="text" class="form-control cabania" id="cabania" disabled>
                     </div>
 
 
                     <div class="form-group">
-                        <label for="nom_cliente" class="col-form-label">Cliente</label>
-                        <input type="text" class="form-control nom_cliente" id="nom_cliente" disabled>
+                        <label for="cliente" class="col-form-label">Cliente</label>
+                        <input type="text" class="form-control cliente" id="cliente" disabled>
                     </div>
 
                     <div class="form-group">
@@ -43,14 +43,14 @@
 
                     <div class="form-group">
                         <label for="hora_egreso" class="col-form-label">Hora egreso</label>
-                        <input type="text" class="form-control hora_ingreso" id="hora_ingreso" disabled>
+                        <input type="text" class="form-control hora_egreso" id="hora_egreso" disabled>
                     </div>
 
                     
 
                     <div class="form-group">
-                        <label for="deno_est_reserva" class="col-form-label">Estado de reserva</label>
-                        <input type="text" class="form-control deno_est_reserva" id="deno_est_reserva" disabled>
+                        <label for="estado_reserva" class="col-form-label">Estado de reserva</label>
+                        <input type="text" class="form-control estado_reserva" id="estado_reserva" disabled>
                     </div>
 
                     <div class="form-group">
@@ -65,8 +65,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="deno_pago" class="col-form-label">Forma de pago</label>
-                        <input type="text" class="form-control deno_pago" id="deno_pago" disabled>
+                        <label for="forma_pago" class="col-form-label">Forma de pago</label>
+                        <input type="text" class="form-control forma_pago" id="forma_pago" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ctabancaria" class="col-form-label">Cuenta Bancaria</label>
+                        <input type="text" class="form-control ctabancaria" id="ctabancaria" disabled>
                     </div>
 
 
