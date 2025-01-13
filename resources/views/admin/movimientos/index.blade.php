@@ -51,8 +51,8 @@
                         <td>{{ $movimiento->fecha}}</td>
                         <td>{{ $movimiento->importe }}</td>
                         <td>{{ $movimiento->tipo_movimiento }}</td>
-                        <td>{{isset( $movimiento->id_usuario) ? $movimiento->User->name  : ''}}</td>
-                        <td>{{isset( $movimiento->id_categoria) ? $movimiento->Categoria->denominacion  : ''}}</td>
+                        <td>{{isset( $movimiento->User) ? $movimiento->User->name  : ''}}</td>
+                        <td>{{isset( $movimiento->Categoria) ? $movimiento->Categoria->denominacion  : ''}}</td>
                         <td>{{ $movimiento->forma_pago }}</td>
 
                         <td>
