@@ -20,6 +20,8 @@ class MovimientoController extends Controller
         $movimientos_egreso = Movimiento::search($request)->where('tipo_movimiento','Egreso')->sum('importe');
         $movimientos_ingreso = Movimiento::search($request)->where('tipo_movimiento','Ingreso')->sum('importe');
         $saldo = $movimientos_ingreso -  $movimientos_egreso;
+        //number_format es la funcion para dar formato de numero a una variable: 
+        //entonces se describe (variable,cantidad de decimales, separador de decimales, separador de miles)
         $saldo = '$ '. number_format($saldo, 2,',','.');
 
         //ponemos las fechas filtradas para que se muestren en el buscador
