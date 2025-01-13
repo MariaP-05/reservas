@@ -154,11 +154,21 @@ class MovimientoController extends Controller
     public function destroy(Request $request, $id)
     {
         try {
-           
+        //se creo una variable nueva solo para eliminar elementos que no esten en uso
+         $movimientos_det= Movimiento::where('id_movimiento', $id)->count();
+         if ($movimientos_det == 0) {
             Movimiento::destroy($id);
+             session()->flash('alert-success', trans('message.successaction'));
+         }
 
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.movimientos.index');
+         else{
+                session()->flash('alert-danger', '¡Error! El Movimiento está siendo utilizado, no se puede eliminar');
+         }
+
+        
+         return redirect()->route('admin.movimientos.index');
+
+         
         } catch (QueryException  $ex) {
             session()->flash('alert-danger', $ex->getMessage());
             return redirect()->route('admin.movimientos.index');
