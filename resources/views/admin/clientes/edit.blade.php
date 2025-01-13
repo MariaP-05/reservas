@@ -71,15 +71,17 @@
                         <div class="row  col-md-12">
 
                             <div class="col-md-6 form-group has-feedback">
-                                <label for="telefono_aux">Telefono Auxiliar</label>
-                                {{ Form::text('telefono_aux', null, ['id' => 'telefono_aux', 'class' => 'form-control', 'placeholder' => '0341353222']) }}
-                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                            </div>
-                            <div class="col-md-6 form-group has-feedback">
                                 <label for="telefono">Telefono</label>
                                 {{ Form::text('telefono', null, ['id' => 'telefono', 'class' => 'form-control', 'placeholder' => '0341353222']) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
+
+                            <div class="col-md-6 form-group has-feedback">
+                                <label for="telefono_aux">Telefono Auxiliar</label>
+                                {{ Form::text('telefono_aux', null, ['id' => 'telefono_aux', 'class' => 'form-control', 'placeholder' => '0341353222']) }}
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            
                         </div>
 
 

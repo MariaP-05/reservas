@@ -22,22 +22,15 @@
 
 
                     <div class="form-group">
-                        <label for="obra_social" class="col-form-label">Obra Social</label>
-                        <input type="text" class="form-control obra_social" id="obra_social" disabled>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="numero_afiliado" class="col-form-label">Número de afiliado</label>
-                        <input type="text" class="form-control numero_afiliado" id="numero_afiliado" disabled>
-                    </div>
-
-
-                    <div class="form-group">
                         <label for="fecha_nacimiento" class="col-form-label">Fecha de Nacimiento</label>
                         <input type="text" class="form-control fecha_nacimiento" id="fecha_nacimiento" disabled>
                     </div>
 
+
+                    <div class="form-group">
+                        <label for="mail" class="col-form-label">Mail</label>
+                        <input type="text" class="form-control mail" id="mail" disabled>
+                    </div>
 
                     <div class="form-group">
                         <label for="telefono" class="col-form-label">Teléfono</label>
@@ -46,8 +39,8 @@
 
 
                     <div class="form-group">
-                        <label for="mail" class="col-form-label">Mail</label>
-                        <input type="text" class="form-control mail" id="mail" disabled>
+                        <label for="telefono_aux" class="col-form-label">Teléfono Auxiliar</label>
+                        <input type="text" class="form-control telefono_aux" id="telefono_aux" disabled>
                     </div>
 
 
@@ -63,8 +56,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="observacion" class="col-form-label">Observaciones</label>
-                        <input type="text" class="form-control observacion" id="observacion" disabled>
+                        <label for="observaciones" class="col-form-label">Observaciones</label>
+                        <input type="text" class="form-control observaciones" id="observaciones" disabled>
                     </div>
                 </form>
             </div>
