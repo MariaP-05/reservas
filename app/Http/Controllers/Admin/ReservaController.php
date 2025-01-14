@@ -140,8 +140,9 @@ class ReservaController extends Controller
             $reserva = Reserva::findOrFail($id);
 
             $reserva->id_cabania = $request->id_cabania;
-            $reserva->id_cliente = $request->id_cliente;
-            if($request->nombre_cliente !== '' && $request->nombre_cliente !== null )
+            $reserva->id_cliente = $request->id_cliente; 
+ 
+            if($request->nombre_cliente !== '' && $request->nombre_cliente !== null)
             {
                 $cliente = new Cliente();
                 $cliente->nombre = $request->nombre_cliente;
