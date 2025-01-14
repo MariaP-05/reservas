@@ -221,4 +221,26 @@ class ReservaController extends Controller
 
         return response()->json(['data' => $precio]);
     }
+
+    public function calendario(Request $request)
+    {
+        $reservas = Reserva::all();
+
+        $fecha_desde = new Carbon();
+        $fecha_desde->firstOfMonth();
+
+        $fecha_hasta = new Carbon();
+        $fecha_hasta->lastOfMonth();
+
+        $dias = [];
+       
+        while($fecha_desde <= $fecha_hasta)
+        {
+           
+            $dias[] =new Carbon( $fecha_desde);
+            $fecha_desde->addDays(1); 
+        }
+        dd($dias, $fecha_hasta, $fecha_desde );
+        return view('admin.reservas.calendario', compact('reservas','fecha_desde', 'fecha_hasta'));
+    }
 }

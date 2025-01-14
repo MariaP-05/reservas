@@ -36,9 +36,11 @@ Route::resource('admin/categorias', App\Http\Controllers\Admin\CategoriaControll
  
 Route::get('admin/reservas/get/{id?}', [App\Http\Controllers\Admin\ReservaController::class, 'get'] )->name('admin.reservas.get')->middleware('auth');
  
+Route::get('admin/reservas/calendario', [App\Http\Controllers\Admin\ReservaController::class, 'calendario'] )->name('admin.reservas.calendario')->middleware('auth');
 Route::resource('admin/reservas', App\Http\Controllers\Admin\ReservaController::class)->names('admin.reservas')->middleware('auth');
 Route::get('admin/clientes/archivos/{id}', [App\Http\Controllers\Admin\ClienteController::class, 'archivos'] )->name('admin.clientes.archivos')->middleware('auth');
- /*
+
+/*
 Route::post('admin/pacientes/store_files_contenedor_files/{id}/{i}', [App\Http\Controllers\Admin\PacienteController::class],'store_files_contenedor_files')->name('admin.pacientes.store_files_contenedor_files');
 Route::get('admin/pacientes/delete_file/{id}/{file_name}', [App\Http\Controllers\Admin\PacienteController::class, 'delete_file'] )->name('admin.pacientes.delete_file')->middleware('auth');
 Route::get('admin/pacientes/delete_hc/{id}', [App\Http\Controllers\Admin\PacienteController::class, 'delete_hc'] )->name('admin.pacientes.delete_hc')->middleware('auth');
