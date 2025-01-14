@@ -66,11 +66,11 @@ class ReservaController extends Controller
             $reserva->valor = $request->recargo +  $request->total;
             $reserva->save();
 
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.reservas.index');
+            
+            return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.reservas.index');
+          
+            return redirect()->route('admin.reservas.index')->with('error', $ex->getMessage());
         }
     }
 
@@ -166,13 +166,11 @@ class ReservaController extends Controller
             $reserva->observaciones = $request->observaciones;
 
             $reserva->save();
-
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.reservas.index');
+  
+            return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.reservas.index');
+          
+            return redirect()->route('admin.reservas.index')->with('error', $ex->getMessage());
         }
     }
 
@@ -185,14 +183,12 @@ class ReservaController extends Controller
     public function destroy(Request $request, $id)
     {
         try {
-
             Reserva::destroy($id);
-
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.reservas.index');
+        
+            return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.reservas|.index');
+            
+            return redirect()->route('admin.reservas.index')->with('error', $ex->getMessage());
         }
     }
 

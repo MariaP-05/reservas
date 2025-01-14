@@ -20,15 +20,19 @@
     @include('admin.movimientos.partials.busqueda')
 
     <div class="cadr-body">
-        <div class="form-group col-sm-12">
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group col-md-6">
                         <label for="saldo">Saldo</label>
                         {{ Form::text('saldo', $saldo, ['saldo' => 'saldo', 'class' => 'form-control',  'readonly']) }}
                     </div>
-                </div>
             </div>
+            <div class="cadr-body">
+                <div class="form-group col-sm-12">
+                    <div class="row"> 
+                    @include('flash-message')
+                <br>
+                    </div>
             <table id="movimientos" class="table table-striped col-sm-12">
                 <thead class="bg-secondary text-white">
                     <tr>

@@ -35,11 +35,11 @@ class PrecioController extends Controller
 
             $precio->save();
 
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.precios.index');
+           
+            return redirect()->route('admin.precios.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.precios.index');
+          
+            return redirect()->route('admin.precios.index')->with('error', $ex->getMessage());
         }
     }
 
@@ -90,12 +90,11 @@ class PrecioController extends Controller
 
             $precio->save();
 
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.precios.index');
+              
+            return redirect()->route('admin.precios.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.precios.index');
+          
+            return redirect()->route('admin.precios.index')->with('error', $ex->getMessage());
         }
     }
 
@@ -108,14 +107,13 @@ class PrecioController extends Controller
     public function destroy(Request $request, $id)
     {
         try {
-           
-            Precio::destroy($id);
-
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.precios.index');
+            
+                Precio::destroy($id);
+                   
+            return redirect()->route('admin.precios.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.precios.index');
+          
+            return redirect()->route('admin.precios.index')->with('error', $ex->getMessage());
         }
     }
    

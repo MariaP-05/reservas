@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Movimiento;
 use App\Models\User;
 use Dotenv\Validator as DotenvValidator;
 use Illuminate\Http\Request;
@@ -36,11 +37,11 @@ class UserController extends Controller
             $usuario->save();
 
         
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.users.index');
+            
+            return redirect()->route('admin.users.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.users.index');
+          
+            return redirect()->route('admin.users.index')->with('error', $ex->getMessage());
         }
     }
 
@@ -93,13 +94,13 @@ class UserController extends Controller
                 $usuario->name = $request->name;
                 $usuario->email = $request->email;
                 $usuario->save();
-
-                session()->flash('alert-success', trans('message.successaction'));
-                return redirect()->route('admin.users.index');
-        } catch (QueryException  $ex) {            
-                session()->flash('alert-danger', $ex->getMessage());
-                return redirect()->route('admin.users.index');           
-        }
+ 
+            
+                return redirect()->route('admin.users.index')->with('success', trans('message.successaction'));
+            } catch (QueryException  $ex) {
+              
+                return redirect()->route('admin.users.index')->with('error', $ex->getMessage());
+            }
     }
 
     /**
@@ -111,14 +112,20 @@ class UserController extends Controller
     public function destroy(Request $request, $id)
     {
         try {
+            $movimientos = Movimiento::where('id_usuario', $id)->count();
+            if ($movimientos == 0 ) {
+               User::destroy($id);
+               return redirect()->route('admin.users.index')->with('success', trans('message.successaction'));
+            }
+   
+            else{
+               return redirect()->route('admin.users.index')->with('error', '¡Error! El Usuario tiene asignado un Movimiento, no se puede eliminar.');
+            }
+   
            
-            User::destroy($id);
-
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.users.index');
-        } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.users.index');
-        }
+           } catch (QueryException  $ex) {
+               //session()->flash('alert-danger', $ex->getMessage());
+               return redirect()->route('admin.users.index')->with('error', $ex->getMessage());
+           }
+       }
     }
-}

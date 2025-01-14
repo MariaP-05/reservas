@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Cliente;
 use App\Models\Localidad;
+use App\Models\Reserva;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -43,11 +44,11 @@ class ClienteController extends Controller
 
             $cliente->save();
 
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.clientes.index');
+            
+            return redirect()->route('admin.clientes.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.clientes.index');
+           
+            return redirect()->route('admin.clientes.index')->with('error', $ex->getMessage());
         }
     }
 
@@ -120,12 +121,12 @@ class ClienteController extends Controller
             $cliente->save();
             //;
           //  dd($cliente->save());
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.clientes.index');
+            
+            return redirect()->route('admin.clientes.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
 
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.clientes.index');
+            
+            return redirect()->route('admin.clientes.index')->with('error', $ex->getMessage());
         }
     }
 
@@ -138,14 +139,17 @@ class ClienteController extends Controller
     public function destroy(Request $request, $id)
     {
         try {
-           
-            Cliente::destroy($id);
-
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.clientes.index');
+            $reservas = Reserva::where('id_cliente', $id)->count();
+            
+            if ($reservas == 0) {
+                Cliente::destroy($id);
+                return redirect()->route('admin.clientes.index')->with('success', trans('message.successaction'));
+            } else {
+                return redirect()->route('admin.clientes.index')->with('error', '¡Error! El Cliente tiene asignado una reserva, no se puede eliminar.');
+            }
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.clientes.index');
+            //session()->flash('alert-danger', $ex->getMessage());
+            return redirect()->route('admin.clientes.index')->with('error', $ex->getMessage());
         }
     }
 

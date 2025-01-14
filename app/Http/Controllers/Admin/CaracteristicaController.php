@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Caracteristica;
+use App\Models\Caracteristica_cab;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException; 
 
@@ -30,11 +31,11 @@ class CaracteristicaController extends Controller
 
             $caracteristica->save();
 
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.caracteristicas.index');
+           ;
+            return redirect()->route('admin.caracteristicas.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.caracteristicas.index');
+            
+            return redirect()->route('admin.caracteristicas.index')->with('error', $ex->getMessage());
         }
     }
 
@@ -84,12 +85,12 @@ class CaracteristicaController extends Controller
 
             $caracteristica->save();
 
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.caracteristicas.index');
+           
+            return redirect()->route('admin.caracteristicas.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
 
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.caracteristicas.index');
+           
+            return redirect()->route('admin.caracteristicas.index')->with('error', $ex->getMessage());
         }
     }
 
@@ -102,14 +103,19 @@ class CaracteristicaController extends Controller
     public function destroy(Request $request, $id)
     {
         try {
-           
+            $caracteristicas = Caracteristica_cab::where('id_caracteristica', $id)->count();
+            
+            if ($caracteristicas == 0) {
             Caracteristica::destroy($id);
 
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.caracteristicas.index');
+            return redirect()->route('admin.caracteristicas.index')->with('success', trans('message.successaction'));
+        } else {
+            return redirect()->route('admin.caracteristicas.index')->with('error', '¡Error! La Característica es parte de una Cabaña, no se puede eliminar.');
+        }
+        
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.caracteristicas.index');
+            
+            return redirect()->route('admin.caracteristicas.index')->with('error', $ex->getMessage());
         }
     }
    
