@@ -28,19 +28,19 @@
         @else
             @include('adminlte::partials.navbar.navbar')
         @endif
-
+       
         {{-- Left Main Sidebar --}}
         @if(!$layoutHelper->isLayoutTopnavEnabled())
             @include('adminlte::partials.sidebar.left-sidebar')
         @endif
-
+       
         {{-- Content Wrapper --}}
         @empty($iFrameEnabled)
             @include('adminlte::partials.cwrapper.cwrapper-default')
         @else
             @include('adminlte::partials.cwrapper.cwrapper-iframe')
         @endempty
-
+       
         {{-- Footer --}}
         @hasSection('footer')
             @include('adminlte::partials.footer.footer')
