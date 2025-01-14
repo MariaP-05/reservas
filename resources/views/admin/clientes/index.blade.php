@@ -17,10 +17,11 @@
             <i class="fa fa-plus" style="margin-top:16px"></i>
         </a>
 
-        <div class="card-body">
+        <div class="cadr-body">
             <div class="form-group col-sm-12">
-                <div class="row">
-                    <br>
+                <div class="row"> 
+@include('flash-message')
+            <br>
                 </div>
 
                 <table id="clientes" class="table table-striped col-sm-12">
@@ -50,7 +51,7 @@
                                 
                                 <td>
                                     <div class="row col-sm-md-lg-12">
-                                        <div class="col-md-2 form-group">
+                                        <div class="col-md-3 form-group">
                                             <form method="get"
                                                 action="{{ route('admin.clientes.edit', $cliente->id) }}">
 
@@ -61,7 +62,7 @@
                                             </form>
                                         </div>
                                         
-                                        <div class="col-md-2 form-group">
+                                        <div class="col-md-3 form-group">
                                             <form method="post"
                                                 action="{{ route('admin.clientes.destroy', $cliente->id) }}">
                                                 @method('delete')
@@ -73,7 +74,7 @@
                                             </form>
                                         </div>
                                     
-                                        <div class="col-md-2 form-group">
+                                        <div class="col-md-3 form-group">
                                             @php
                                                 $cliente->deno_localidad = isset($cliente->Localidad)
                                                     ? $cliente->Localidad->denominacion
@@ -87,7 +88,7 @@
                                             </button>
                                         </div>
 
-                                        <div class="col-md-2 form-group">
+                                        <div class="col-md-3 form-group">
                                             <a href="{{ route('admin.clientes.archivos', $cliente->id) }}"
                                                 class="btn btn-outline-success" title="Archivos Cliente"
                                                  role="button"

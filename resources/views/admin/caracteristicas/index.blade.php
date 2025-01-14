@@ -19,6 +19,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
     <div class="cadr-body">
         <div class="form-group col-sm-12">
             <div class="row"> 
+@include('flash-message')
         <br>
             </div>
     <table id="caracteristicas" class="table table-striped col-sm-12">

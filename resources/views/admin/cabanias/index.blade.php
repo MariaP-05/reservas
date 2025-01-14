@@ -18,8 +18,9 @@
         </a>
         <div class="cadr-body">
             <div class="form-group col-sm-12">
-                <div class="row">
-                    <br>
+                <div class="row"> 
+@include('flash-message')
+            <br>
                 </div>
                 <table id="cabanias" class="table table-striped col-sm-12">
                     <thead class="bg-secondary text-white">

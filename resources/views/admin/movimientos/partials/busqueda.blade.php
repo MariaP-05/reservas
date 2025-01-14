@@ -4,7 +4,6 @@
     <div class="form-group col-sm-12" place-items= "center">
         <h4 class="box-title">Búsqueda</h4>
     </div>
-    <hr>
     <div class="box-body">
         {{ Form::open(['route' => 'admin.movimientos.index', 'method' => 'GET', 'role' => 'form']) }}
         <div class="form-group col-sm-12">
@@ -24,14 +23,10 @@
                     </div>
                 </div>
 
-                
                 <div class="form-group col-sm-4">
                     <label for="id_categoria">Categoría</label>
                         {{ Form::select('id_categoria', $categorias, $id_categoria,  ['id' => 'id_categoria','class' => 'form-control select2']) }}
                 </div> 
-
-
-
             </div>
         </div>
     </div>
@@ -45,4 +40,3 @@
 {{ Form::hidden('fec_desde') }}
 {{ Form::hidden('fec_hasta') }}
 {{ Form::hidden('id_categoria') }}
-<br>

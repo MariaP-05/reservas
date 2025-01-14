@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Cabania;
 use App\Models\Caracteristica;
 use App\Models\Caracteristica_cab;
+use App\Models\Precio;
+use App\Models\Reserva;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
@@ -52,11 +54,11 @@ class CabaniaController extends Controller
             }
 
 
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.cabanias.index');
+           
+            return redirect()->route('admin.cabanias.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.cabanias.index');
+           
+            return redirect()->route('admin.cabanias.index')->with('error', $ex->getMessage());
         }
     }
 
@@ -123,12 +125,12 @@ class CabaniaController extends Controller
                 }
             }
 
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.cabanias.index');
+           // session()->flash('alert-success', trans('message.successaction'));
+           return redirect()->route('admin.cabanias.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
 
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.cabanias.index');
+           // session()->flash('alert-danger', $ex->getMessage());
+            return redirect()->route('admin.cabanias.index')->with('error', $ex->getMessage());
         }
     }
 
@@ -141,14 +143,18 @@ class CabaniaController extends Controller
     public function destroy(Request $request, $id)
     {
         try {
-
-            Cabania::destroy($id);
-
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.cabanias.index');
+            //se creo una variable nueva solo para eliminar elemento que no esten en uso
+            $reservas = Reserva::where('id_cabania', $id)->count();
+            $precios = Precio::where('id_cabania', $id)->count();
+            if ($reservas == 0 && $precios == 0) {
+                Cabania::destroy($id);
+                return redirect()->route('admin.cabanias.index')->with('success', trans('message.successaction'));
+            } else {
+                return redirect()->route('admin.cabanias.index')->with('error', '¡Error! La cabaña tiene asignado un precio y/o una reserva, no se puede eliminar.');
+            }
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.cabanias.index');
+            //session()->flash('alert-danger', $ex->getMessage());
+            return redirect()->route('admin.cabanias.index')->with('error', $ex->getMessage());
         }
     }
 

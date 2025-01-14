@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Movimiento;
 use App\Models\Categoria;
+use App\Models\Forma_pago;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
@@ -72,11 +73,11 @@ class MovimientoController extends Controller
 
             $movimientos->save();
  
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.movimientos.index');
+            
+            return redirect()->route('admin.movimientos.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.movimientos.index');
+          
+            return redirect()->route('admin.movimientos.index')->with('error', $ex->getMessage());
         }
     }
 
@@ -136,12 +137,12 @@ class MovimientoController extends Controller
 
             $movimiento->save();
 
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.movimientos.index');
+          
+            return redirect()->route('admin.movimientos.index')->with ('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
 
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.movimientos.index');
+           
+            return redirect()->route('admin.movimientos.index')->with('error', $ex->getMessage());
         }
     }
 
@@ -154,27 +155,17 @@ class MovimientoController extends Controller
     public function destroy(Request $request, $id)
     {
         try {
-        //se creo una variable nueva solo para eliminar elementos que no esten en uso
-         $movimientos_det= Movimiento::where('id_movimiento', $id)->count();
-         if ($movimientos_det == 0) {
-            Movimiento::destroy($id);
-             session()->flash('alert-success', trans('message.successaction'));
-         }
-
-         else{
-                session()->flash('alert-danger', '¡Error! El Movimiento está siendo utilizado, no se puede eliminar');
-         }
-
         
-         return redirect()->route('admin.movimientos.index');
-
-         
+            Movimiento::destroy($id);
+           
+           
+          return redirect()->route('admin.movimientos.index')->with('success', trans('message.successaction'));
+       
+        
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.movimientos.index');
+            //session()->flash('alert-danger', $ex->getMessage());
+            return redirect()->route('admin.movimientos.index')->with('error', $ex->getMessage());
         }
-
-
     }
 
    

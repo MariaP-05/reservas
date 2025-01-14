@@ -81,12 +81,11 @@ class CategoriaController extends Controller
 
             $categoria->save();
 
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.categorias.index');
+        
+            return redirect()->route('admin.categorias.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.categorias.index');
+            
+            return redirect()->route('admin.categorias.index')->with('error', $ex->getMessage());
         }
     }
 

@@ -24,10 +24,11 @@
                 <i class="fa fa-plus" style="margin-top:16px"></i>
             </a>
 
-            <div class="card-body">
+            <div class="cadr-body">
                 <div class="form-group col-sm-12">
-                    <div class="row">
-                        <br>
+                    <div class="row"> 
+                    @include('flash-message')
+                <br>
                     </div>
                     <table id="users" class="table table-striped col-sm-12">
                         <thead class="bg-primary text-white">
