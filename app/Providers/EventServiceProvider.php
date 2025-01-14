@@ -81,6 +81,13 @@ class EventServiceProvider extends ServiceProvider
             'url'         => 'admin/categorias',
             'icon'        => 'fa fa-bars',
 
+        ],
+
+        [
+            'text'        => 'Usuarios',
+            'url'         => 'admin/users',
+            'icon'        => 'fa fa-users',
+
         ]
 
     );
