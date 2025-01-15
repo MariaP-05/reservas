@@ -59,7 +59,7 @@ class EventServiceProvider extends ServiceProvider
         [
             'text'        => 'Caracteristicas',
             'url'         => 'admin/caracteristicas',
-            'icon'        => 'fa fa-server',
+            'icon'        => 'fa fa-list',
 
         ],
         [
@@ -68,10 +68,19 @@ class EventServiceProvider extends ServiceProvider
             'icon'        => 'fa fa-envelope',
 
         ],
+
         [
             'text'        => 'Movimientos',
             'url'         => 'admin/movimientos',
             'icon'        => 'fa fa-archive',
+
+        ],
+
+
+        [
+            'text'        => 'Tareas',
+            'url'         => 'admin/tareas',
+            'icon'        => 'fa fa-server',
 
         ]
 
