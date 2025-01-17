@@ -200,6 +200,11 @@
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                             @endif
+                            <div class="col-lg-4 col-md-4 col-xs-6 form-group pull-right">
+                                <label for="motivos_recargos">Motivo del Recargo</label>
+                                {{ Form::text('motivos_recargos', null, ['id' => 'motivos_recargos', 'class' => 'form-control']) }}
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
                             </div>
                         <div class="row">
                         @if(isset($reserva))

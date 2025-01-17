@@ -162,6 +162,7 @@ class ReservaController extends Controller
             $reserva->senia = $request->senia;
             $reserva->descuento = $request->descuento;
             $reserva->recargo = $request->recargo;
+            $reserva->motivos_recargos = $request->motivos_recargos;
             $reserva->valor = $request->recargo +  $request->total;
             $reserva->observaciones = $request->observaciones;
 
