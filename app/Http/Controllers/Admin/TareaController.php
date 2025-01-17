@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Tarea;
 use App\Models\Estado_tarea;
+use App\Models\Historial_obs;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
-
+use Illuminate\Support\Facades\Auth;
 
 class TareaController extends Controller
 {
@@ -38,9 +39,46 @@ class TareaController extends Controller
 
         try {
 
-            $tareas = new Tarea($request->all());
+            $tarea = new Tarea($request->all());
+            if($tarea->id_estado_tarea == '' || $tarea->id_estado_tarea == null)
+            {
+                $tarea->id_estado_tarea = 1;
+            }
+ 
+            $tarea->save();
 
-            $tareas->save();
+            if(isset($request->observaciones))
+            {
+            $historial_obs = new Historial_obs();
+           
+            $fecha = new Carbon();
+            $historial_obs->fecha  = $fecha->format('Y-m-d');
+            $historial_obs->id_usuario = Auth::User()->id ;
+            $historial_obs->id_tarea = $tarea->id;
+
+
+            //divido las observaciones en oraciones
+            $cadenas =  explode(". ", $request->observaciones);
+            $historial_obs->observaciones= null; //pongo la observacion en null para evitar repeticiones
+            foreach($cadenas as $cadena )
+            {
+                if($historial_obs->observaciones != null) //si ya tiene algun valor agrrego . espacio nueva oracion
+                {
+                    $historial_obs->observaciones = $historial_obs->observaciones . '. '. ucfirst($cadena );
+                }
+                else
+                {//si no tiene ningun valor solo nueva oracion (es la primer oracion)
+                    $historial_obs->observaciones = ucfirst($cadena );
+                }
+               
+            }
+         
+
+
+            $historial_obs->save();
+            }
+           
+
  
             
             return redirect()->route('admin.tareas.index')->with('success', trans('message.successaction'));
@@ -76,7 +114,7 @@ class TareaController extends Controller
         try {
             $tarea = Tarea::findOrFail($id);
         
-            $tarea->denominacion =ucwords(strtolower($request->denominacion));
+            $tarea->denominacion = $request->denominacion;
             $tarea->fecha = $request->fecha;
             $tarea->descripcion = $request->descripcion;
             $tarea->prioridad =ucwords(strtolower($request->prioridad));
@@ -85,6 +123,36 @@ class TareaController extends Controller
         
             $tarea->observaciones = $request->observaciones;
             $tarea->save();
+
+            if(isset($request->observaciones))
+            {
+            $historial_obs = new Historial_obs();
+           
+            $fecha = new Carbon();
+            $historial_obs->fecha  = $fecha->format('Y-m-d');
+            $historial_obs->id_usuario = Auth::User()->id ;
+            $historial_obs->id_tarea = $tarea->id;
+
+            //divido las observaciones en oraciones
+            $cadenas =  explode(". ", $request->observaciones);
+            $historial_obs->observaciones= null; //pongo la observacion en null para evitar repeticiones
+            foreach($cadenas as $cadena )
+            {
+                if($historial_obs->observaciones != null) //si ya tiene algun valor agrrego . espacio nueva oracion
+                {
+                    $historial_obs->observaciones = $historial_obs->observaciones . '. '. ucfirst($cadena );
+                }
+                else
+                {//si no tiene ningun valor solo nueva oracion (es la primer oracion)
+                    $historial_obs->observaciones = ucfirst($cadena );
+                }
+               
+            }
+         
+
+
+            $historial_obs->save();
+            }
 
           
             return redirect()->route('admin.tareas.index')->with ('success', trans('message.successaction'));
@@ -110,4 +178,24 @@ class TareaController extends Controller
             return redirect()->route('admin.tareas.index')->with('error', $ex->getMessage());
         }
     }
+
+
+    public function delete_ho($id)
+
+
+    {
+        try {
+            
+        Historial_obs ::destroy($id);
+
+
+        session()->flash('alert-success', trans('message.successaction'));
+        return redirect()->back();
+    } catch (QueryException  $ex) {
+        session()->flash('alert-danger', $ex->getMessage());
+        return redirect()->back();
+    }
+       
+    }
+
 }

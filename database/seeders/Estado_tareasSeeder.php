@@ -23,20 +23,27 @@ class Estado_tareasSeeder extends Seeder
         ]);
 
         Estado_tarea::create([
-            'denominacion' => 'En proceso',
+            'denominacion' => 'En Proceso',
             'icono' => 'bi bi-houses-fill',
             'color' => 'Blue'
 
         ]);
 
         Estado_tarea::create([
-            'denominacion' => 'Hecha',
+            'denominacion' => 'Realizada',
             'icono' => 'bi bi-house-check-fill',
             'color' => 'green'
         ]);
 
         Estado_tarea::create([
-            'denominacion' => 'En espera',
+            'denominacion' => 'En Espera',
+            'icono' => 'bi bi-house-x-fill',
+            'color' => 'orange'
+
+        ]);
+
+        Estado_tarea::create([
+            'denominacion' => 'Cancelada',
             'icono' => 'bi bi-house-x-fill',
             'color' => 'red'
 

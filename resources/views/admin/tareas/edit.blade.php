@@ -59,7 +59,7 @@
                            
                             <div class="col-md-6 form-group has-feedback">
                                 <label for="prioridad">Prioridad</label>
-                                {{ Form::select('prioridad',[ 'Alta' => 'Alta', 'Media' => 'Media', 'Baja' => 'Baja'], null, array('id' => 'prioridad','class' => 'form-control') )}}
+                                {{ Form::select('prioridad',[ '' => 'Seleccione' , 'Alta' => 'Alta', 'Media' => 'Media', 'Baja' => 'Baja'], null, array('id' => 'prioridad','class' => 'form-control select2') )}}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>      
                             </div>
                            
@@ -81,16 +81,18 @@
                                 </div>
                             
                         </div>
-
+                        <hr style="background-color:blue ; height: 3px">
+                    </hr>
                         
+                        <h3>Observaciones</h3>
                         <div class="row  col-md-12">
-
-                            <div class="col-sm-12  form-group has-feedback">
-                                <label for="observaciones">Observaciones </label>
-                                <textarea class="form-control" name="observaciones" id="observaciones" rows="3">{{ isset($tarea) ? $tarea->observaciones : '' }}</textarea>
+                            <div class="col-md-6 form-group has-feedback">
+                                <label for="observaciones">Observaciones</label>
+                                <textarea class="form-control" name="observaciones" id="observaciones" rows="1"></textarea>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                         </div>
+
                         
 
                         <div class="box-footer col-md-12 form-group pull-left ">
@@ -98,6 +100,56 @@
                                 href="{{ route('admin.tareas.index') }}">{{ trans('message.close') }}</a>
                             <button type="submit" class="btn btn-outline-primary">{{ trans('message.save') }}</button>
                         </div>
+
+
+                        <hr style="background-color:blue ; height: 3px">
+                    </hr>
+
+
+                    @if (isset($tarea->Historial_obs))
+                        @if (count($tarea->Historial_obs) > 0)
+                            <h3>Historial de Observaciones</h3>
+                        
+                        <table id="historial_obs" class="table table-striped col-12">
+                            <thead class="bg-secondary text-white">
+                                <tr>
+                                    <th>Observación</th>
+                                    <th>Usuario</th>
+                                    <th>Fecha</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            @foreach ($tarea->Historial_obs as $historial_obs)
+                                <tr>
+
+                                    <td class="col-md-6 form-group"
+                                        style="text-align:center">
+                                        {{ $historial_obs->observaciones }}</td>
+                                    <td class="col-md-2 form-group">
+                                        {{ isset($historial_obs->User) ? $historial_obs->User->name : '' }}
+                                    </td>
+                                    <td class="col-md-3 form-group">{{ $historial_obs->fecha }}</td>
+                                    <td>
+                                        <div class="col-md-3 form-group">
+                                            <a href="{{route('admin.tareas.delete_ho',['id'=>$historial_obs->id ])}}"
+                                                class="btn btn-xs btn-outline-danger float-right" title="Eliminar" role="button">
+                                                <i class="fa fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+
+
+
+
+                    
+                    </table>
+                    @endif
+                    @endif
+                   
+
+
+
                         {{ Form::close() }}
                         <!-- /.box-body -->
                     </div>

@@ -35,7 +35,8 @@ Route::resource('admin/movimientos', App\Http\Controllers\Admin\MovimientoContro
 Route::resource('admin/categorias', App\Http\Controllers\Admin\CategoriaController::class)->names('admin.categorias')->middleware('auth');
  
 Route::get('admin/reservas/get/{id?}', [App\Http\Controllers\Admin\ReservaController::class, 'get'] )->name('admin.reservas.get')->middleware('auth');
- 
+Route::get('admin/tareas/delete_ho/{id}', [App\Http\Controllers\Admin\TareaController::class, 'delete_ho'] )->name('admin.tareas.delete_ho')->middleware('auth');
+
 Route::resource('admin/reservas', App\Http\Controllers\Admin\ReservaController::class)->names('admin.reservas')->middleware('auth');
 Route::get('admin/clientes/archivos/{id}', [App\Http\Controllers\Admin\ClienteController::class, 'archivos'] )->name('admin.clientes.archivos')->middleware('auth');
  /*

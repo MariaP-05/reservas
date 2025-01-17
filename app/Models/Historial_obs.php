@@ -1,60 +1,73 @@
 <?php
 
-namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model; 
+namespace App\Models;
+ 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class Tarea extends Model
+
+class Historial_obs extends Model
 {
     use SoftDeletes;
 
-    
+
+   
     protected $dates = ['deleted_at'];
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
+     *  Schema::create('sesiones', function (Blueprint $table) {
+     
+
+
      */
-    protected $fillable = [ 'denominacion', 'fecha', 'descripcion','prioridad', 'id_estado_tarea',
-    'id_usuario' , 'observaciones'];
-      
-    protected $table = 'tareas';
+    protected $fillable = [ 'id_tarea','id_usuario', 'observaciones', 'fecha'];
 
-    public function Estado_tarea()
-    {
-        return $this->belongsTo('App\Models\Estado_tarea', 'id_estado_tarea');
-    }
-    public function Historial_obs()
-    {
-        return $this->hasMany('App\Models\Historial_obs', 'id_tarea');
-    }
 
+    protected $table = 'historial_observaciones';
+
+
+   
+ 
     public function User()
     {
         return $this->belongsTo('App\Models\User', 'id_usuario');
     }
 
-    public function setFechaAttribute($value)
+    public function Tarea()
     {
-        if (trim($value) !== '') {
-            $p = new Carbon($value);
-            $p = $p->format('Y-m-d');
-        } else {
-            $p = null;
-        }
-        $this->attributes['fecha'] = $p;
+        return $this->belongsTo('App\Models\Tarea', 'id_tarea');
     }
 
+
+    public function setFechaAttribute($value)
+    {
+        if(trim($value) !== '')
+        {
+            $p = new Carbon($value);
+            $p = $p->format('Y-m-d');
+        }
+        else
+        {
+            $p = null;
+        }
+        $this->attributes['fecha']=$p;
+    }
+ 
     public function getFechaAttribute($value)
     {
         $value = $value !== null ? new Carbon($value) : null;
         $value = $value !== null ? $value->format('d-m-Y') : null;
-
+     
         return $value;
     }
+ 
+   
+   
+
+
 }
