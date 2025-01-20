@@ -47,7 +47,7 @@
                                     {{ Form::text('fecha', isset($valor->fecha) ? $valor->fecha : null, ['id' => 'fecha', 'class' => 'form-control']) }}
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 </div>
-
+                            </div>
                         </div>
 
                         <div class="row  col-md-12">
@@ -67,7 +67,6 @@
 
 
                         <div class="row  col-md-12">
-                            
                                 <div class="col-md-6 form-group has-feedback">
                                     <label for="id_estado_tarea">Estado</label>
                                     {{ Form::select('id_estado_tarea', $estados_tarea, null, ['id' => 'id_estado_tarea', 'class' => 'form-control select2']) }}
@@ -78,15 +77,14 @@
                                     <label for="id_usuario">Asignada para:</label>
                                     {{ Form::select('id_usuario', $usuarios, null, ['id' => 'id_usuario', 'class' => 'form-control select2']) }}
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                </div>
-                            
+                                </div>  
                         </div>
-                        <hr style="background-color:blue ; height: 3px">
-                    </hr>
+
+                        <hr style="background-color:blue ; height: 3px"></hr>
                         
                         <h3>Observaciones</h3>
                         <div class="row  col-md-12">
-                            <div class="col-md-6 form-group has-feedback">
+                            <div class="col-sm-12  form-group has-feedback">
                                 <label for="observaciones">Observaciones</label>
                                 <textarea class="form-control" name="observaciones" id="observaciones" rows="1"></textarea>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -95,20 +93,19 @@
 
                         
 
-                        <div class="box-footer col-md-12 form-group pull-left ">
+                        <div class="box-footer col-md-6 form-group pull-right ">
                             <a type="button" class="btn btn-outline-danger"
                                 href="{{ route('admin.tareas.index') }}">{{ trans('message.close') }}</a>
                             <button type="submit" class="btn btn-outline-primary">{{ trans('message.save') }}</button>
                         </div>
 
 
-                        <hr style="background-color:blue ; height: 3px">
-                    </hr>
+                        <hr style="background-color:blue ; height: 3px"></hr>
 
 
-                    @if (isset($tarea->Historial_obs))
-                        @if (count($tarea->Historial_obs) > 0)
-                            <h3>Historial de Observaciones</h3>
+                     @if (isset($tarea->Historial_obs))
+                       @if (count($tarea->Historial_obs) > 0)
+                        <h3>Historial de Observaciones</h3>
                         
                         <table id="historial_obs" class="table table-striped col-12">
                             <thead class="bg-secondary text-white">
@@ -138,14 +135,9 @@
                                     </td>
                                 </tr>
                             @endforeach
-
-
-
-
-                    
-                    </table>
-                    @endif
-                    @endif
+                        </table>
+                       @endif
+                     @endif
                    
 
 
@@ -156,8 +148,6 @@
                 </div>
                 <!-- /.box -->
             </div>
-
-
         </div>
     </div>
 @stop

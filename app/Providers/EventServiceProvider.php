@@ -41,8 +41,6 @@ class EventServiceProvider extends ServiceProvider
 
         ],
 
-        
-
         [
             'text'        => 'Clientes',
             'url'         => 'admin/clientes',
@@ -56,18 +54,6 @@ class EventServiceProvider extends ServiceProvider
             'icon'        => 'fa fa-home',
 
         ],
-        [
-            'text'        => 'Caracteristicas',
-            'url'         => 'admin/caracteristicas',
-            'icon'        => 'fa fa-list',
-
-        ],
-        [
-            'text'        => 'Precio',
-            'url'         => 'admin/precios',
-            'icon'        => 'fa fa-envelope',
-
-        ],
 
         [
             'text'        => 'Movimientos',
@@ -76,15 +62,27 @@ class EventServiceProvider extends ServiceProvider
 
         ],
 
-
         [
             'text'        => 'Tareas',
             'url'         => 'admin/tareas',
             'icon'        => 'fa fa-server',
 
-        ]
+        ],
 
-        ,
+        [
+            'text'        => 'Precio',
+            'url'         => 'admin/precios',
+            'icon'        => 'fa fa-envelope',
+
+        ],
+
+        [
+            'text'        => 'Caracteristicas',
+            'url'         => 'admin/caracteristicas',
+            'icon'        => 'fa fa-list',
+
+        ],
+
         [
             'text'        => 'Categorias',
             'url'         => 'admin/categorias',
@@ -100,28 +98,6 @@ class EventServiceProvider extends ServiceProvider
         ]
 
     );
-         /*  if(!isset(Auth::user()->Profesional))
-           {
-            $event->menu->add(
-                [
-                    'text'        => 'Profesionales',
-                    'url'         => 'admin/profesionales',
-                    'icon'        => 'fa fa-user-md',
-        
-                ],
-                [
-                    'text'        => 'Especialidades',
-                    'url'         => 'admin/especialidades',
-                    'icon'        => 'fa fa-university',
-        
-                ],
-                [
-                'text' => 'Usuarios',
-                'url' => 'admin/users',
-                'icon'        => 'fa fa-user',
-
-            ]);
-           }*/
            
         });
     }

@@ -32,7 +32,7 @@ $(document).ready(function() {
      }
     );
     
-       $("#fecha_hasta").datepicker(
+    $("#fecha_hasta").datepicker(
       {
          todayBtn: "linked",
          language: 'es',

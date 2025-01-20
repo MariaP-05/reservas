@@ -47,7 +47,7 @@
                                     {{ Form::text('fecha', isset($valor->fecha) ? $valor->fecha : null, ['id' => 'fecha', 'class' => 'form-control']) }}
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 </div>
-
+                            </div>
                         </div>
 
                         <div class="row  col-md-12">
@@ -62,12 +62,9 @@
                                 {{ Form::select('tipo_movimiento',[ 'Egreso' => 'Egreso', 'Ingreso' => 'Ingreso'], null, array('id' => 'tipo_movimiento','class' => 'form-control') )}}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>      
                             </div>
-                           
                         </div>
 
-
                         <div class="row  col-md-12">
-                            
                                 <div class="col-md-6 form-group has-feedback">
                                     <label for="id_categoria">Categoria</label>
                                     {{ Form::select('id_categoria', $categorias, null, ['id' => 'id_categoria', 'class' => 'form-control select2']) }}
@@ -79,12 +76,10 @@
                                     {{ Form::select('id_usuario', $usuarios, null, ['id' => 'id_usuario', 'class' => 'form-control select2']) }}
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 </div>
-                            </div>
                         </div>
 
                         
                         <div class="row  col-md-12">
-
                             <div class="col-md-6 form-group has-feedback">
                                 <label for="forma_pago">Forma de pago</label>
                                 {{ Form::text('forma_pago', null, ['id' => 'forma_pago', 'class' => 'form-control']) }}
@@ -98,8 +93,6 @@
                             </div>
                         </div>
                         
-
-
 
                         <div class="box-footer col-md-12 form-group pull-left ">
                             <a type="button" class="btn btn-outline-danger"

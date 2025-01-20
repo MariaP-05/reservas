@@ -23,13 +23,15 @@ $(document).ready(function() {
   
     $.datepicker.setDefaults($.datepicker.regional['es']);
   
-    $("#fecha").datepicker({
+    $("#fecha").datepicker(
+    {
         todayBtn: "linked",
         language: 'es',
         autoclose: true,
         todayHighlight: true,
         dateFormat: 'dd-mm-yy'
-    });
+    }
+    );
   
   
   
