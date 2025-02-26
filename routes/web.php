@@ -30,13 +30,16 @@ Route::resource('admin/cabanias', App\Http\Controllers\Admin\CabaniaController::
 Route::resource('admin/precios', App\Http\Controllers\Admin\PrecioController::class)->names('admin.precios')->middleware('auth');
 Route::resource('admin/caracteristicas', App\Http\Controllers\Admin\CaracteristicaController::class)->names('admin.caracteristicas')->middleware('auth');
 Route::get('admin/cabanias/delete_caract/{id}', [App\Http\Controllers\Admin\CabaniaController::class, 'delete_caract'] )->name('admin.cabanias.delete_caract')->middleware('auth');
-
+Route::resource('admin/tareas', App\Http\Controllers\Admin\TareaController::class)->names('admin.tareas')->middleware('auth');
 Route::resource('admin/movimientos', App\Http\Controllers\Admin\MovimientoController::class)->names('admin.movimientos')->middleware('auth');
 Route::resource('admin/categorias', App\Http\Controllers\Admin\CategoriaController::class)->names('admin.categorias')->middleware('auth');
  
 Route::get('admin/reservas/get/{id?}', [App\Http\Controllers\Admin\ReservaController::class, 'get'] )->name('admin.reservas.get')->middleware('auth');
+
  
 Route::get('admin/reservas/calendario', [App\Http\Controllers\Admin\ReservaController::class, 'calendario'] )->name('admin.reservas.calendario')->middleware('auth');
+Route::get('admin/tareas/delete_ho/{id}', [App\Http\Controllers\Admin\TareaController::class, 'delete_ho'] )->name('admin.tareas.delete_ho')->middleware('auth');
+
 Route::resource('admin/reservas', App\Http\Controllers\Admin\ReservaController::class)->names('admin.reservas')->middleware('auth');
 Route::get('admin/clientes/archivos/{id}', [App\Http\Controllers\Admin\ClienteController::class, 'archivos'] )->name('admin.clientes.archivos')->middleware('auth');
 

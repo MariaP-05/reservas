@@ -22,7 +22,7 @@ class Reserva extends Model
      */
     protected $fillable = [ 'id_cabania', 'id_cliente', 'id_forma_pago','ctabancaria', 'id_estado_reserva',
     'fecha_desde' , 'fecha_hasta' , 'hora_ingreso', 'hora_egreso' ,
-      'cantidad_personas', 'senia',  'descuento', 'observaciones' , 'valor','recargo' ];
+      'cantidad_personas', 'senia',  'descuento', 'observaciones' , 'valor','recargo', 'motivos_recargos' ];
       
     protected $table = 'reservas';
 

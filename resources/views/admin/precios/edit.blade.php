@@ -28,28 +28,31 @@
                     @endif
 
                     @if(isset($precio->id))
-                    <div class="row  col-md-12">
+                      <div class="row  col-md-12">
                         <div class="form-group col-md-6">
                             <label for="id">{{ trans('message.code') }}</label>
                             {{ Form::text('id', null, array('id' => 'id','class' => 'form-control','placeholder'=>"id", 'readonly')) }}
                         </div>
-                    </div>
+                      </div>
                     @endif
-                    <div class="row  col-md-12">
+
+                    <div class="row col-md-12">
                         <div class="col-md-6 form-group has-feedback">
                             <label for="id_cabania">Cabaña</label>
                             {{ Form::select('id_cabania', $cabanias, null, ['id' => 'id_cabania', 'class' => 'form-control select2']) }}
                         </div>
+                    </div>
 
+                    <div class="row col-md-12">
                         <div class="col-md-6 form-group has-feedback">
                             <label for="fecha_desde">Fecha Desde</label>
                             <div class="input-group date">
-
                                 {{ Form::text('fecha_desde', isset($precio->fecha_desde) ? $precio->fecha_desde : null, ['id' => 'fecha_desde', 'class' => 'form-control', 'placeholder' => 'dd-mm-aaaa']) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                         </div>
                     </div>
+
                     <div class="row col-md-12">
                         <div class="col-md-6 form-group has-feedback">
                             <label for="valor">Valor</label>
@@ -57,6 +60,7 @@
 
                         </div>
                     </div>
+                    
                     <div class="box-footer col-md-6 form-group pull-right ">
                         <a type="button" class="btn btn-outline-danger" href="{{route('admin.precios.index')}}">{{ trans('message.close') }}</a>
                         <button type="submit" class="btn btn-outline-primary">{{ trans('message.save') }}</button>

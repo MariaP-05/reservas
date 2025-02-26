@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-    $('.select2').select2();  
+    $('.select2').select2();
+  
   
     $.datepicker.regional['es'] = {
         closeText: 'Cerrar',
@@ -19,28 +20,19 @@ $(document).ready(function() {
         showMonthAfterYear: false,
         yearSuffix: ''
     };
-    
+  
     $.datepicker.setDefaults($.datepicker.regional['es']);
-   
-    $("#fecha_desde").datepicker(
-      {
-         todayBtn: "linked",
-         language: 'es',
-         autoclose: true,
-         todayHighlight: true,
-         dateFormat: 'dd-mm-yy' 
-     }
+  
+    $("#fecha").datepicker(
+    {
+        todayBtn: "linked",
+        language: 'es',
+        autoclose: true,
+        todayHighlight: true,
+        dateFormat: 'dd-mm-yy'
+    }
     );
-    
-    $("#fecha_hasta").datepicker(
-      {
-         todayBtn: "linked",
-         language: 'es',
-         autoclose: true,
-         todayHighlight: true,
-         dateFormat: 'dd-mm-yy' 
-     }
-    );
-   
+  
+  
   
   });

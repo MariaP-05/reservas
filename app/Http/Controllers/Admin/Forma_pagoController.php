@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Forma_pago;
+use App\Models\Reserva;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException; 
 
@@ -31,11 +32,11 @@ class Forma_pagoController extends Controller
 
             $forma_pago->save();
 
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.formas_pago.index');
+           
+            return redirect()->route('admin.formas_pago.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.formas_pago.index');
+            
+            return redirect()->route('admin.formas_pago.index')->with('error', $ex->getMessage());
         }
     }
 
@@ -80,15 +81,13 @@ class Forma_pagoController extends Controller
 
             $forma_pago->save();
 
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.formas_pago.index');
-        } catch (QueryException  $ex) {
+            
+        return redirect()->route('admin.formas_pago.index')->with('success', trans('message.successaction'));
+            } catch (QueryException  $ex) {
 
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.formas_pago.index');
-        }
+            return redirect()->route('admin.formas_pago.index')->with('error', $ex->getMessage());
+                }
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -98,15 +97,19 @@ class Forma_pagoController extends Controller
     public function destroy(Request $request, $id)
     {
         try {
-           
-            Forma_pago::destroy($id);
-
-            session()->flash('alert-success', trans('message.successaction'));
-            return redirect()->route('admin.formas_pago.index');
+            $reservas = Reserva::where('id_forma_pago', $id)->count();
+            
+            if ($reservas == 0) {
+                Forma_pago::destroy($id);
+                return redirect()->route('admin.formas_pago.index')->with('success', trans('message.successaction'));
+            } else {
+                return redirect()->route('admin.formas_pago.index')->with('error', '¡Error! La forma de pago tiene asignado una reserva, no se puede eliminar.');
+            }
         } catch (QueryException  $ex) {
-            session()->flash('alert-danger', $ex->getMessage());
-            return redirect()->route('admin.formas_pago.index');
+            //session()->flash('alert-danger', $ex->getMessage());
+            return redirect()->route('admin.formas_pago.index')->with('error', $ex->getMessage());
         }
     }
-   
 }
+   
+
