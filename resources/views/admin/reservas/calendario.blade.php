@@ -22,7 +22,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
             <div class="row">
                 <br>
             </div>
-            <table id="reservas" class="table table-striped col-sm-12">
+            <table  class="table table-striped col-sm-12">
                 <thead class="bg-secondary text-white">
                     <tr>
                     <th colspan="1" style = "border-right: solid 2px; border-color:#999;"></th>
@@ -47,16 +47,21 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                         @foreach ($cab[$cabania->id] as $reserva)
                             @if(isset($reserva->id))
                                 @if($reserva->id !== $id_reserva)                                    
-                                    <td style = "border-right: solid 2px; border-color:#999;" colspan="{{$reserva->span}}">{{isset($reserva->Cliente) ? $reserva->Cliente->nombre : ''}} </td>
+                                    <td  style = "border-right: solid 2px; border-color:#999; " colspan="{{$reserva->span}}">
+                                         <button type="button" class="btn btn-outline-success"
+                                                title="Ver datos reserva"   data-toggle="modal"
+                                                data-target="#VerModal" data-whatever="{{ $reserva }}">
+                                                <i  class="fa fa-eye">{{isset($reserva->Cliente) ? '  '.$reserva->Cliente->nombre : ''}}   </i>
+                                            </button> </td>
                                     @php
                                         $id_reserva = $reserva->id;
                                     @endphp
                                 @endif
                             @else
                                 @if(isset($reserva->span))
-                                <td style = "border-right: solid 2px; border-color:#999;" colspan="{{$reserva->span}}">s </td>
+                                <td style = "border-right: solid 2px; border-color:#999; background-color:aquamarine" colspan="{{$reserva->span}}"> </td>
                                 @else
-                                    <td style = "border-right: solid 2px; border-color:#999;" colspan="2">t </td>
+                                    <td style = "border-right: solid 2px; border-color:#999;" colspan="2"> </td>
                                 @endif
                             @endif
                         @endforeach
@@ -75,4 +80,5 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
 
     @section('js')
 
+    <script src="{{ asset('admin1/reservas/index.js') }}"></script>
     @stop
