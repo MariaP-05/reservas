@@ -12,7 +12,7 @@ use App\Models\Reserva;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
-
+use JeroenNoten\LaravelAdminLte\View\Components\Widget\Card;
 
 class ReservaController extends Controller
 {
@@ -220,37 +220,45 @@ class ReservaController extends Controller
         $cabanias = Cabania::all();
 
         $fecha_desde = new Carbon();
-        $fecha_desde->firstOfMonth();
-
+        $fecha_desde->addDays(-1);
+       // $fecha_desde->firstOfMonth();
+        $hoy = new Carbon();
+        $hoy->addDays(-1);
         $fecha_hasta = new Carbon();
-        $fecha_hasta->firstOfMonth();
-        // $fecha_hasta->addMonths(1);
-        $fecha_hasta->lastOfMonth();
-
+        //$fecha_hasta->firstOfMonth();
+        $fecha_hasta->addMonths(1);
+       // $fecha_hasta->lastOfMonth();
+       //$fecha_hasta->addDays(1);
 
         $dias = [];
         $months = [];
-        $span = [];
-        $i = 0;
+        $months_bandera = [];  
         $k = 0;
-        $sumo = 0;
+        $num_mes = 0;
+         
         while ($fecha_desde <= $fecha_hasta) {
             $mes = $fecha_desde->locale('es_Ar')->isoFormat('MMMM');
-            if (in_array($mes, $months) == false) {
-                $span[] = $i * 2;
-                $months[] =  $fecha_desde->locale('es_Ar')->isoFormat('MMMM');
-                $i = 1;
-            } else {
-                $i++;
-            }
+            if (in_array($mes, $months_bandera) == false) { 
+                $months_bandera[]=$fecha_desde->locale('es_Ar')->isoFormat('MMMM');
+                $months[$num_mes]['mes'] =  $fecha_desde->locale('es_Ar')->isoFormat('MMMM');
+                $ultimo_dia_mes = new Carbon($fecha_desde);
+                if($fecha_hasta < $ultimo_dia_mes->lastOfMonth())
+                {                     
+                    $months[$num_mes]['dias'] = (int)$fecha_hasta->format('d') ;   
+              }
+                else
+                {
+                    $months[$num_mes]['dias'] =(int)(($fecha_desde->daysInMonth - $fecha_desde->format('d')) +1 );
+                 }
+                 $num_mes++;              
+            } 
 
             $dias[] = new Carbon($fecha_desde);
             $fech_hast = new Carbon($fecha_desde);
             $fech_hast->addDays(1);
             $dia_compartido = 0;
             foreach ($cabanias as $cabania) {
-                $reserva = Reserva::where('id_cabania', $cabania->id)
-                    //->where('fecha_desde','>=',$fecha_desde->format('Y-m-d'))
+                $reserva = Reserva::where('id_cabania', $cabania->id) 
                     ->where('fecha_desde', '<=', $fecha_desde->format('Y-m-d'))
                     ->where('fecha_hasta', '>=', $fech_hast->format('Y-m-d')) //->first();
                     ->first();
@@ -258,84 +266,35 @@ class ReservaController extends Controller
                 if (isset($reserva)) { //si hay reserva entro aca
                     $comienzo = new Carbon($reserva->fecha_desde);
                     $fin = new Carbon($reserva->fecha_hasta);
-                    $reserva->span = $comienzo->diffInDays($fin) * 2 ; 
-
-                    if ($reserva->fecha_hasta == $fech_hast->format('d-m-Y')) {
-                        $cab[$cabania->id][$k] = $reserva;
-                      //  $k++;   
-                       // $reserva->span = $reserva->span + 1;
-                      /*  $dia_compartido = 2;
-                        $reserva_2 = new Reserva();
-                        $reserva_2->span = 1;
-                        $cab[$cabania->id][$k] = $reserva_2;
-                        $k++;   
-                        $sumo = 2;*/
-                       // dd( $dia_compartido );
-                    }
-                    if ($reserva->fecha_desde == $fecha_desde->format('d-m-Y')) {
-
-                       // if($k == 0)
-                        //{
-                     /*    $reserva_2 = new Reserva();
-                            $reserva_2->span = 1;
-                            $cab[$cabania->id][$k] = $reserva_2;
-                            $k++;   */
-                            // dd($reserva->fecha_desde,  $cab); $cab[$cabania->id][$k] = $reserva;
-                       // }
-                       // $reserva->span = $reserva->span - 1;
-                   //     $dia_compartido = 2;
-                        
-                    }
+                    if($comienzo < $hoy)
+                    {
+                        $comienzo = new Carbon();
+                        $comienzo->addDays(-2);
+                    }      
+                    if($fecha_hasta < $fin)
+                    {
+                        $fin = new Carbon($fecha_hasta);
+                        $fin->addDays(1); 
+                    }                     
                    
-                  /*  if($dia_compartido == 7)
-                    {
-                        $reserva_2 = new Reserva();
-                        $reserva_2->span = 1;
-                        $cab[$cabania->id][$k] = $reserva_2;
-                    //    $k++;
-                    }*/
-                } else {
-                    if($dia_compartido !== 2)
-                    {
+                   
+                    $reserva->span = $comienzo->diffInDays($fin) ;                     
+                  
+                } else {                    
                         $reserva = new Reserva();
-                        if ($dia_compartido == 1) {
-                            
-                            $reserva->span = 1;                            
-                            $dia_compartido = 0;
-                        } else {
-                             
-                                $reserva->span = 2;
-                            
-                        }
-                        $cab[$cabania->id][$k] = $reserva;
-                    }
-                    $dia_compartido = 0;
-                   
+                        $reserva->span = 1;       
                 }
-
-
-               
-                // dd($reserva,$cabania->id, $fecha_desde->format('Y-m-d'), $fech_hast->format('Y-m-d'));
-            }
+                $cab[$cabania->id][$k] = $reserva;
+}
             $fecha_desde->addDays(1);
-            if($sumo !== 2)
-            {
-
-                $k++;
-            }
-            else
-            {
-                $sumo = 0;
-            }
-        }
-//dd($cab, $span);
-        $span[] = $i * 2;
-        array_shift($span);
-        //dd($span );
+            $k++;
+         
+        } 
+        
         $t = 0;
         return view('admin.reservas.calendario', compact(
             'cab',
-            'span',
+            
             't',
             'months',
             'dias',
