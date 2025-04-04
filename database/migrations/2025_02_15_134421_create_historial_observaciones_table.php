@@ -15,7 +15,7 @@ return new class extends Migration
     {
        
         Schema::create('historial_observaciones', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->integer('id_tarea')->unsigned()->nullable();
             $table->integer('id_usuario')->unsigned()->nullable();
             $table->text('observaciones');
