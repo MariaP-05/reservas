@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-       
+       /*
         Schema::create('historial_observaciones', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_tarea')->unsigned()->nullable();
@@ -30,7 +30,7 @@ return new class extends Migration
                 ->onUpdate('cascade');  
         });
 
-        
+        */
     }
 
     /**
