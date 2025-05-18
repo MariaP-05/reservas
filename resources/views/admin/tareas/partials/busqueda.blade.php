@@ -30,7 +30,7 @@
 
                  <div class="form-group col-md-4">
                             <label for="estado">Estado</label>
-                           {{ Form::select('id_estado_tarea', $estados_tarea, $estado, ['id' => 'id_estado_tarea', 'class' => 'form-control select2']) }}
+                           {{ Form::select('estado', $estados_tarea, $estado, ['id' => 'estado', 'class' => 'form-control select2']) }}
                                       
                         </div>
             </div>
