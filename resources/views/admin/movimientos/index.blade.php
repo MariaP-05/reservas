@@ -35,7 +35,7 @@
                     </div>
             <table id="movimientos" class="table table-striped col-sm-12">
                 <thead class="bg-secondary text-white">
-                    <tr>
+                    <tr >
                         <th>Id</th>
                         <th>Detalle</th>
                         <th>Fecha</th>
@@ -44,12 +44,13 @@
                         <th>Hecho por</th>
                         <th>Categoría</th>
                         <th>Forma de Pago</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($movimientos as $movimiento)
-                    <tr>
+                    <tr >
                         <td>{{ $movimiento->id }}</td>
                         <td>{{ $movimiento->denominacion }}</td>
                         <td>{{ $movimiento->fecha}}</td>
@@ -58,7 +59,7 @@
                         <td>{{isset( $movimiento->User) ? $movimiento->User->name  : ''}}</td>
                         <td>{{isset( $movimiento->Categoria) ? $movimiento->Categoria->denominacion  : ''}}</td>
                         <td>{{ $movimiento->forma_pago }}</td>
-
+ <td>{{ $movimiento->estado }}</td>
                         <td>
                             <div class="row">
                                 <div class="col-md-6 form-group">

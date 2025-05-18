@@ -37,7 +37,8 @@ class MovimientoController extends Controller
             $fecha_hasta = $request->fec_hasta;
         }
 
-
+        //buscar categorias
+        //en la vista se mostrara el select con las categorias
         $categorias = Categoria::orderBy('denominacion')->pluck('denominacion', 'id')->all();
         $categorias = array('' => trans('message.select')) + $categorias;
 
@@ -47,8 +48,25 @@ class MovimientoController extends Controller
             $id_categoria = null;
         }
 
+         //buscar usuarios
+        //en la vista se mostrara el select con los usuarios 
+        $usuarios = User::orderBy('name')->pluck('name', 'id')->all();
+        $usuarios = array('' => trans('message.select')) + $usuarios;
 
-        return view('admin.movimientos.index', compact('saldo','movimientos','fecha_desde','fecha_hasta','categorias','id_categoria'));
+        if (isset($request->id_usuario)) {
+            $id_usuario = $request->id_usuario;
+        } else {
+            $id_usuario = null;
+        }
+
+         if (isset($request->estado)) {
+            $estado = $request->estado;
+        } else {
+            $estado = null;
+        }
+
+        return view('admin.movimientos.index', compact('saldo','movimientos','fecha_desde',
+        'fecha_hasta','categorias','id_categoria', 'usuarios','id_usuario', 'estado'));
     }
 
     public function create()
@@ -129,6 +147,7 @@ class MovimientoController extends Controller
             $movimiento->tipo_movimiento =ucwords(strtolower($request->tipo_movimiento));
             $movimiento->id_usuario = $request->id_usuario;
             $movimiento->id_categoria = $request->id_categoria;
+             $movimiento->estado = $request->estado;
             
             $movimiento->forma_pago =ucwords(strtolower($request->forma_pago));
             $movimiento->observaciones = $request->observaciones;

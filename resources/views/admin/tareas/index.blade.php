@@ -16,6 +16,8 @@
         onMouseOut="this.style.color='#25d366'; this.style.background = '#fff'">
         <i class="fa fa-plus" style="margin-top:16px"></i>
     </a>
+
+      @include('admin.tareas.partials.busqueda')
             <div class="cadr-body">
                 <div class="form-group col-sm-12">
                     <div class="row"> 
@@ -38,7 +40,7 @@
                 </thead>
                 <tbody>
                     @foreach ($tareas as $tarea)
-                    <tr>
+                    <tr >
                         <td>{{ $tarea->id }}</td>
                         <td>{{ $tarea->denominacion }}</td>
                         <td>{{ $tarea->fecha}}</td>

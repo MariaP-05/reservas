@@ -5,7 +5,7 @@
         <h4 class="box-title">Búsqueda</h4>
     </div>
     <div class="box-body">
-        {{ Form::open(['route' => 'admin.movimientos.index', 'method' => 'GET', 'role' => 'form']) }}
+        {{ Form::open(['route' => 'admin.tareas.index', 'method' => 'GET', 'role' => 'form']) }}
         <div class="form-group col-sm-12">
             <div class="row ">
 
@@ -22,12 +22,7 @@
                         {{ Form::text('fec_hasta', $fecha_hasta, ['id' => 'fec_hasta', 'class' => 'form-control']) }}
                     </div>
                 </div>
-
-                <div class="form-group col-sm-4">
-                    <label for="id_categoria">Categoría</label>
-                        {{ Form::select('id_categoria', $categorias, $id_categoria,  ['id' => 'id_categoria','class' => 'form-control select2']) }}
-                </div>
-                
+ 
                   <div class="form-group col-sm-4">
                     <label for="id_usuario">Usuario</label>
                         {{ Form::select('id_usuario', $usuarios, $id_usuario,  ['id' => 'id_usuario','class' => 'form-control select2']) }}
@@ -35,8 +30,8 @@
 
                  <div class="form-group col-md-4">
                             <label for="estado">Estado</label>
-                            {{ Form::select('estado',[ '' => 'Seleccione','Pendiente' => 'Pendiente', 'Saldado' => 'Saldado'], $estado, ['id' => 'estado','class' => 'form-control select2']) }}
-                             
+                           {{ Form::select('id_estado_tarea', $estados_tarea, $estado, ['id' => 'id_estado_tarea', 'class' => 'form-control select2']) }}
+                                      
                         </div>
             </div>
         </div>

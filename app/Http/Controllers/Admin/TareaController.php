@@ -16,9 +16,41 @@ class TareaController extends Controller
 {
     public function index(Request $request)
     {
-        $tareas = Tarea::all();
+        $tareas = Tarea::search($request)->get();
 
-        return view('admin.tareas.index', compact('tareas'));
+        $fecha_desde = null;
+
+        if (isset($request->fec_desde)) {
+            $fecha_desde = $request->fec_desde;
+        }
+        $fecha_hasta = null;
+
+        if (isset($request->fec_hasta)) {
+            $fecha_hasta = $request->fec_hasta;
+        }
+ 
+         //buscar usuarios
+        //en la vista se mostrara el select con los usuarios 
+        $usuarios = User::orderBy('name')->pluck('name', 'id')->all();
+        $usuarios = array('' => trans('message.select')) + $usuarios;
+
+        if (isset($request->id_usuario)) {
+            $id_usuario = $request->id_usuario;
+        } else {
+            $id_usuario = null;
+        }
+        $estados_tarea = Estado_tarea::orderBy('denominacion')->pluck('denominacion', 'id')->all();
+        $estados_tarea = array('' => trans('message.select')) + $estados_tarea;
+
+         if (isset($request->estado)) {
+            $estado = $request->estado;
+        } else {
+            $estado = null;
+        }
+
+
+        return view('admin.tareas.index', compact('tareas', 'fecha_desde',
+            'fecha_hasta', 'usuarios', 'id_usuario', 'estado', 'estados_tarea'));
     }
 
     public function create()
