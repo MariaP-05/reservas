@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Movimiento;
 use App\Models\Categoria;
 use App\Models\Forma_pago;
+use App\Models\Reserva;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
@@ -186,6 +187,36 @@ class MovimientoController extends Controller
             return redirect()->route('admin.movimientos.index')->with('error', $ex->getMessage());
         }
     }
+
+    public function impactar_pago($id)
+    {
+        $reserva = Reserva::findOrFail($id);
+
+        if($reserva->valor > 0)
+        {
+            $movimiento = new Movimiento();
+            $movimiento->denominacion = 'Pago de reserva N° '.$reserva->id;
+            $movimiento->fecha = date('Y-m-d');
+            $movimiento->importe = $reserva->valor;
+            $movimiento->tipo_movimiento = 'Ingreso';
+            $movimiento->id_usuario = auth()->user()->id;
+            $movimiento->id_categoria = 1; // Asignar una categoría por defecto
+            $movimiento->estado = 'Saldado';
+            $movimiento->forma_pago = isset($reserva->Forma_pago) ? $reserva->Forma_pago->denominacion : 'Efectivo'; // Asignar una forma de pago por defecto
+            $movimiento->observaciones = 'Pago de reserva N° '.$reserva->id;
+
+            $movimiento->save();
+
+            // Actualizar el estado de la reserva a "Pagada"
+            $reserva->id_estado_reserva = 2;
+            $reserva->save();
+
+           
+        }
+         return redirect()->route('admin.reservas.index')->with('success');
+    }
+
+      
 
    
 }

@@ -106,5 +106,15 @@ class Reserva extends Model
         } 
 
         return $query;
+    } 
+    public function isPagada( )
+     {
+        $movimiento = Movimiento::where('observaciones', 'Pago de reserva N° '.$this->id)->first();
+         
+        if (isset($movimiento->estado)) { // 2 es el id del estado "Pagada"
+            return false;
+        }
+        return true; 
+   
     }
 }

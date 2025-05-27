@@ -67,6 +67,8 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 </button>
                                             </form>
                                         </div>
+
+                                        
                     
                                         <div class="col-md-4 form-group">
                                             @php
@@ -88,6 +90,15 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 data-target="#VerModal" data-whatever="{{ $reserva }}">
                                                 <i class="fa fa-eye"></i>
                                             </button>
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <form method="get" action="{{ route('admin.movimientos.impactar_pago', $reserva->id) }}" >
+
+                                                <button type="submit" class="btn btn-outline-primary" {{$reserva->isPagada() ? ''  : 'disabled'}}
+                                                    title="Impactar Pago de Reserva">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </td>

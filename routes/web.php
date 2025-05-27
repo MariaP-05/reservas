@@ -35,6 +35,7 @@ Route::resource('admin/movimientos', App\Http\Controllers\Admin\MovimientoContro
 Route::resource('admin/categorias', App\Http\Controllers\Admin\CategoriaController::class)->names('admin.categorias')->middleware('auth');
  
 Route::get('admin/reservas/get/{id?}', [App\Http\Controllers\Admin\ReservaController::class, 'get'] )->name('admin.reservas.get')->middleware('auth');
+Route::get('admin/movimientos/impactar_pago/{id?}', [App\Http\Controllers\Admin\MovimientoController::class, 'impactar_pago'] )->name('admin.movimientos.impactar_pago')->middleware('auth');
 
  
 Route::get('admin/reservas/calendario', [App\Http\Controllers\Admin\ReservaController::class, 'calendario'] )->name('admin.reservas.calendario')->middleware('auth');
