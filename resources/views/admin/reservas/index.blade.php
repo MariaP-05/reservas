@@ -47,8 +47,8 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                 <td>{{ isset($reserva->Estado_reserva) ? $reserva->Estado_reserva->denominacion : '' }}</td>
                                 <td>{{ $reserva->valor }}</td>                 
                                 <td>
-                                    <div class="row col-sm-12">
-                                        <div class="col-md-4 form-group">
+                                    <div class="row col-md-12">
+                                        <div class="col-md-3 form-group">
                                             <form method="post" action="{{ route('admin.reservas.destroy', $reserva->id) }}">
                                                 @method('delete')
                                                 @csrf
@@ -58,7 +58,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 </button>
                                             </form>
                                         </div>
-                                        <div class="col-md-4 form-group">
+                                        <div class="col-md-3 form-group">
                                             <form method="get" action="{{ route('admin.reservas.edit', $reserva->id) }}">
 
                                                 <button type="submit" class="btn btn-outline-primary"
@@ -70,7 +70,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
 
                                         
                     
-                                        <div class="col-md-4 form-group">
+                                        <div class="col-md-3 form-group">
                                             @php
                                                     $reserva->deno_cabania = isset($reserva->Cabania)
                                                     ? $reserva->Cabania->denominacion : '';
@@ -91,10 +91,10 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 <i class="fa fa-eye"></i>
                                             </button>
                                         </div>
-                                        <div class="col-md-4 form-group">
+                                        <div class="col-md-3 form-group">
                                             <form method="get" action="{{ route('admin.movimientos.impactar_pago', $reserva->id) }}" >
 
-                                                <button type="submit" class="btn btn-outline-primary" {{$reserva->isPagada() ? ''  : 'disabled'}}
+                                                <button type="submit" class="btn btn-outline-success" {{$reserva->isPagada() ? ''  : 'disabled'}}
                                                     title="Impactar Pago de Reserva">
                                                     <i class="fas fa-dollar-sign"></i>
                                                 </button>
