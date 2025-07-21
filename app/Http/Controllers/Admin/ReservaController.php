@@ -12,6 +12,7 @@ use App\Models\Reserva;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use PDF;
 use JeroenNoten\LaravelAdminLte\View\Components\Widget\Card;
 
 class ReservaController extends Controller
@@ -64,10 +65,10 @@ class ReservaController extends Controller
             $reserva->valor = $request->recargo +  $request->total;
             $reserva->save();
 
-            
+
             return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-          
+
             return redirect()->route('admin.reservas.index')->with('error', $ex->getMessage());
         }
     }
@@ -162,10 +163,10 @@ class ReservaController extends Controller
             $reserva->observaciones = $request->observaciones;
 
             $reserva->save();
-  
+
             return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-          
+
             return redirect()->route('admin.reservas.index')->with('error', $ex->getMessage());
         }
     }
@@ -180,10 +181,10 @@ class ReservaController extends Controller
     {
         try {
             Reserva::destroy($id);
-        
+
             return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-            
+
             return redirect()->route('admin.reservas.index')->with('error', $ex->getMessage());
         }
     }
@@ -221,80 +222,73 @@ class ReservaController extends Controller
 
         $fecha_desde = new Carbon();
         $fecha_desde->addDays(-1);
-       // $fecha_desde->firstOfMonth();
+        // $fecha_desde->firstOfMonth();
         $hoy = new Carbon();
         $hoy->addDays(-1);
         $fecha_hasta = new Carbon();
         //$fecha_hasta->firstOfMonth();
         $fecha_hasta->addMonths(1);
-       // $fecha_hasta->lastOfMonth();
-       //$fecha_hasta->addDays(1);
+        // $fecha_hasta->lastOfMonth();
+        //$fecha_hasta->addDays(1);
 
         $dias = [];
         $months = [];
-        $months_bandera = [];  
+        $months_bandera = [];
         $k = 0;
         $num_mes = 0;
-         
+
         while ($fecha_desde <= $fecha_hasta) {
             $mes = $fecha_desde->locale('es_Ar')->isoFormat('MMMM');
-            if (in_array($mes, $months_bandera) == false) { 
-                $months_bandera[]=$fecha_desde->locale('es_Ar')->isoFormat('MMMM');
+            if (in_array($mes, $months_bandera) == false) {
+                $months_bandera[] = $fecha_desde->locale('es_Ar')->isoFormat('MMMM');
                 $months[$num_mes]['mes'] =  $fecha_desde->locale('es_Ar')->isoFormat('MMMM');
                 $ultimo_dia_mes = new Carbon($fecha_desde);
-                if($fecha_hasta < $ultimo_dia_mes->lastOfMonth())
-                {                     
-                    $months[$num_mes]['dias'] = (int)$fecha_hasta->format('d') ;   
-              }
-                else
-                {
-                    $months[$num_mes]['dias'] =(int)(($fecha_desde->daysInMonth - $fecha_desde->format('d')) +1 );
-                 }
-                 $num_mes++;              
-            } 
+                if ($fecha_hasta < $ultimo_dia_mes->lastOfMonth()) {
+                    $months[$num_mes]['dias'] = (int)$fecha_hasta->format('d');
+                } else {
+                    $months[$num_mes]['dias'] = (int)(($fecha_desde->daysInMonth - $fecha_desde->format('d')) + 1);
+                }
+                $num_mes++;
+            }
 
             $dias[] = new Carbon($fecha_desde);
             $fech_hast = new Carbon($fecha_desde);
             $fech_hast->addDays(1);
             $dia_compartido = 0;
             foreach ($cabanias as $cabania) {
-                $reserva = Reserva::where('id_cabania', $cabania->id) 
+                $reserva = Reserva::where('id_cabania', $cabania->id)
                     ->where('fecha_desde', '<=', $fecha_desde->format('Y-m-d'))
                     ->where('fecha_hasta', '>=', $fech_hast->format('Y-m-d')) //->first();
                     ->first();
-               
+
                 if (isset($reserva)) { //si hay reserva entro aca
                     $comienzo = new Carbon($reserva->fecha_desde);
                     $fin = new Carbon($reserva->fecha_hasta);
-                    if($comienzo < $hoy)
-                    {
+                    if ($comienzo < $hoy) {
                         $comienzo = new Carbon();
                         $comienzo->addDays(-2);
-                    }      
-                    if($fecha_hasta < $fin)
-                    {
+                    }
+                    if ($fecha_hasta < $fin) {
                         $fin = new Carbon($fecha_hasta);
-                        $fin->addDays(1); 
-                    }                     
-                   
-                   
-                    $reserva->span = $comienzo->diffInDays($fin) ;                     
-                  
-                } else {                    
-                        $reserva = new Reserva();
-                        $reserva->span = 1;       
+                        $fin->addDays(1);
+                    }
+
+
+                    $reserva->span = $comienzo->diffInDays($fin);
+                } else {
+                    $reserva = new Reserva();
+                    $reserva->span = 1;
                 }
                 $cab[$cabania->id][$k] = $reserva;
-}
+            }
             $fecha_desde->addDays(1);
             $k++;
-         
-        } 
-        
+        }
+
         $t = 0;
         return view('admin.reservas.calendario', compact(
             'cab',
-            
+
             't',
             'months',
             'dias',
@@ -303,5 +297,20 @@ class ReservaController extends Controller
             'fecha_desde',
             'fecha_hasta'
         ));
+    }
+
+    public function export($id,$mode)
+    {
+        $reserva = Reserva::find($id);
+        $cant = new Carbon($reserva->fecha_hasta);
+        
+        $reserva->cant_dias = $cant->diffInDays(new Carbon($reserva->fecha_desde)); 
+        $data = [ 'reserva' => $reserva      ];
+ 
+
+        $pdf = PDF::loadView('pdf/reserva', $data);
+
+
+        return $pdf->download( 'Reserva  ' .(isset($reserva->Cliente) ? $reserva->Cliente->nombre : '' ).'.pdf');  
     }
 }

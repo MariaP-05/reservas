@@ -100,6 +100,15 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 </button>
                                             </form>
                                         </div>
+                                          <div class="col-md-3 form-group">
+                                            <form method="get" action="{{ route('admin.reservas.export', [$reserva->id, 'pdf']) }}">
+
+                                                <button type="submit" class="btn btn-outline-secondary"
+                                                    title="Imprimir Comprobante">
+                                                    <i class="fa fa-file"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

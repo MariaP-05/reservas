@@ -37,7 +37,8 @@ Route::resource('admin/categorias', App\Http\Controllers\Admin\CategoriaControll
 Route::get('admin/reservas/get/{id?}', [App\Http\Controllers\Admin\ReservaController::class, 'get'] )->name('admin.reservas.get')->middleware('auth');
 Route::get('admin/movimientos/impactar_pago/{id?}', [App\Http\Controllers\Admin\MovimientoController::class, 'impactar_pago'] )->name('admin.movimientos.impactar_pago')->middleware('auth');
 
- 
+ Route::get('admin/reservas/export/{id}/{mode}', [App\Http\Controllers\Admin\ReservaController::class, 'export'] )->name('admin.reservas.export')->middleware('auth');
+
 Route::get('admin/reservas/calendario', [App\Http\Controllers\Admin\ReservaController::class, 'calendario'] )->name('admin.reservas.calendario')->middleware('auth');
 Route::get('admin/tareas/delete_ho/{id}', [App\Http\Controllers\Admin\TareaController::class, 'delete_ho'] )->name('admin.tareas.delete_ho')->middleware('auth');
 
