@@ -52,7 +52,7 @@
                     <td style="font-family:Verdana, Geneva, Tahoma, sans-serif; font-size:medium; padding-left: 5em; ">Cliente: <b>{{ isset($reserva->Cliente) ? $reserva->Cliente->nombre : '' }}</b></td>
                 </tr>
                 <tr>
-                    <td style="font-family:Verdana, Geneva, Tahoma, sans-serif; font-size:medium; padding-left: 5em; ">DNI: <b>{{ number_format(isset($reserva->Cliente) ? $reserva->Cliente->dni : '' , 0 ,',', '.')}}</b></td>
+                    <td style="font-family:Verdana, Geneva, Tahoma, sans-serif; font-size:medium; padding-left: 5em; ">DNI: <b>{{ number_format(isset($reserva->Cliente) ? $reserva->Cliente->dni : '' , 0 ,',', '.') != 0 ? number_format(isset($reserva->Cliente) ? $reserva->Cliente->dni : '' , 0 ,',', '.') : ''}}</b></td>
                 </tr>
 
                 <tr>
