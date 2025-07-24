@@ -117,7 +117,10 @@ class ReservaController extends Controller
 
             $reserva->descuento_porce = (100 * $reserva->descuento) / $reserva->importe_reserva;
             $reserva->total = $reserva->importe_reserva - $reserva->descuento;
-            $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total;
+            if ($reserva->total > 0) { 
+                $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total; 
+            } 
+            else { $reserva->recargo_porce = 0; }
             $reserva->total_deuda = $reserva->total + $reserva->recargo - $reserva->senia;
         }
 
