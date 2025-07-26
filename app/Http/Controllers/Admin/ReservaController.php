@@ -12,6 +12,7 @@ use App\Models\Reserva;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use PDF;
 use JeroenNoten\LaravelAdminLte\View\Components\Widget\Card;
 
 class ReservaController extends Controller
@@ -116,7 +117,10 @@ class ReservaController extends Controller
 
             $reserva->descuento_porce = (100 * $reserva->descuento) / $reserva->importe_reserva;
             $reserva->total = $reserva->importe_reserva - $reserva->descuento;
-            $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total;
+            if ($reserva->total > 0) { 
+                $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total; 
+            } 
+            else { $reserva->recargo_porce = 0; }
             $reserva->total_deuda = $reserva->total + $reserva->recargo - $reserva->senia;
         }
 
@@ -312,8 +316,9 @@ class ReservaController extends Controller
         //$fecha_hasta->firstOfMonth();
         $fecha_hasta->addMonths(1);
         // $fecha_hasta->lastOfMonth();
-        // $fecha_hasta->addDays(10);
-
+  
+        //$fecha_hasta->addDays(1);
+ 
         $dias = [];
         $months = [];
         $months_bandera = [];
@@ -397,5 +402,20 @@ class ReservaController extends Controller
             'fecha_desde',
             'fecha_hasta'
         ));
+    }
+
+    public function export($id,$mode)
+    {
+        $reserva = Reserva::find($id);
+        $cant = new Carbon($reserva->fecha_hasta);
+        
+        $reserva->cant_dias = $cant->diffInDays(new Carbon($reserva->fecha_desde)); 
+        $data = [ 'reserva' => $reserva      ];
+ 
+
+        $pdf = PDF::loadView('pdf/reserva', $data);
+
+
+        return $pdf->download( 'Reserva  ' .(isset($reserva->Cliente) ? $reserva->Cliente->nombre : '' ).'.pdf');  
     }
 }
