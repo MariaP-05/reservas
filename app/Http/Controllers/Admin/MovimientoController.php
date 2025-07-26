@@ -16,6 +16,12 @@ class MovimientoController extends Controller
 {
     public function index(Request $request)
     {
+       /* para impactar los pagos de las reservas
+        $reservas = Reserva::all();
+        foreach ($reservas as $reserva) {
+          $this->impactar_pago($reserva->id);
+        }  
+          */
         $movimientos = Movimiento::search($request)->get();
 
         //calculamos el saldo segun la busqueda
