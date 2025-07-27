@@ -384,6 +384,7 @@ class ReservaController extends Controller
             $dia_compartido = 0;
             foreach ($cabanias as $cabania) {
                 $reserva = Reserva::where('id_cabania', $cabania->id)
+                ->where('estado','!=', 'Cancelada')
                     ->where('fecha_desde', '<=', $fecha_desde->format('Y-m-d'))
                     ->where('fecha_hasta', '>=', $fech_hast->format('Y-m-d'))
                     ->first();

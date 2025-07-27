@@ -53,6 +53,15 @@
                         <input type="text" class="form-control estado_reserva" id="estado_reserva" disabled>
                     </div>
 
+                      <div class="form-group">
+                        <label for="moneda" class="col-form-label">Moneda</label>
+                        <input type="text" class="form-control moneda" id="moneda" disabled>
+                    </div>
+                      <div class="form-group">
+                        <label for="valor" class="col-form-label">Valor</label>
+                        <input type="text" class="form-control valor" id="valor" disabled>
+                    </div>
+
                     <div class="form-group">
                         <label for="senia" class="col-form-label">Seña</label>
                         <input type="text" class="form-control senia" id="senia" disabled>

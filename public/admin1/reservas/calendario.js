@@ -20,5 +20,7 @@
     modal.find('.hora_ingreso').val(recipient.hora_ingreso)
     modal.find('.hora_egreso').val(recipient.hora_egreso)
     modal.find('.observaciones').val(recipient.observaciones)
+    modal.find('.moneda').val(recipient.moneda)
+    modal.find('.valor').val(recipient.valor)
   });
    
