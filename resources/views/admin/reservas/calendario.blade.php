@@ -19,22 +19,22 @@
 
     @include('admin.reservas.partials.busqueda')
 
-        <div class="card-body">
+        <div class="card-body" >
             <div class="form-group col-sm-12">
-                <table id="reservas" class="table   col-sm-12"  >
+                <table id="reservas" class="table col-sm-12" style="width: 100%;">
                     <thead class="bg-secondary text-white">
                         <tr>
-                            <th>Día \ Cabaña</th>
+                            <th style="width:5%; background:lightgray;">Día\Cabaña</th>
                             @foreach ($cabanias as $cabania)
-                                <th>{{ $cabania->denominacion }}</th>
+                                <th style="width:19%; background:lightgray;">{{ $cabania->denominacion }}</th>
                             @endforeach
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($dias as $dia)
                             <tr>
-                                <th style="border-right: solid 2px; border-color:#999;  " rowspan="1">
-                                    {{ $dia->format('d-m') }} </th>
+                                <th style="border-right: solid 2px; border-color:lightgray; background:lightgray; text-align:center;" rowspan="1">
+                                    {{ $dia->format('d/m') }} </th>
                                 @foreach ($cabanias as $cabania)
                                     @if (isset($cab[$cabania->id][$dia->format('md')]->Cliente))
                                     @if($cab[$cabania->id][$dia->format('md')]->span > 0)
@@ -51,9 +51,9 @@
                                         $cab[$cabania->id][$dia->format('md')]->deno_est_reserva = isset($cab[$cabania->id][$dia->format('md')]->Estado_reserva)
                                         ? $cab[$cabania->id][$dia->format('md')]->Estado_reserva->denominacion : '';
                                     @endphp
-                                        <td style="border-right: solid 2px; border-color:#999;  " rowspan="{{ $cab[$cabania->id][$dia->format('md')]->span }}">
+                                        <td style="border-right: solid 2px; border-color:lightgray; background-color:rgba(229, 250, 212, 1); vertical-align:middle;" rowspan="{{ $cab[$cabania->id][$dia->format('md')]->span }}">
                                             <button type="button" class="btn btn-outline-success" title="Ver datos reserva"
-                                                data-toggle="modal" data-target="#VerModal" style="padding: 10 em; width: 100%;"
+                                                data-toggle="modal" data-target="#VerModal" style="width:100%"
                                                 data-whatever="{{ $cab[$cabania->id][$dia->format('md')] }}">
                                                 <i class="fa fa-eye">
                                                     {{ isset($cab[$cabania->id][$dia->format('md')]->Cliente) ? $cab[$cabania->id][$dia->format('md')]->Cliente->nombre   : '' }}
@@ -62,10 +62,9 @@
                                         </td>
                                         @endif
                                     @else
-                                        <td style="border-right: solid 2px; border-color:#999; background-color:rgb(224, 251, 236) "
-                                             >
+                                        <td style="border-right: solid 2px; border-color:lightgray;">
                                             <a href="{{ route('admin.reservas.create_fecha', ['id_cabania' => $cabania->id, 'fecha' => $dia->format('d-m-Y')]) }}" title="Crear Nueva Reserva" class="btn btn-outline-success">
-                                                <i class="fa fa-plus su"  ></i>
+                                                <i class="fa fa-plus success"  ></i>
                                             </a>
                                         </td>
                                     @endif
