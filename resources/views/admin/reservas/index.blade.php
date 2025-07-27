@@ -17,7 +17,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
             <i class="fa fa-plus" style="margin-top:16px"></i>
         </a>
 
-        <div class="cadr-body">
+        <div class="card-body">
             <div class="form-group col-sm-12">
                 <div class="row"> 
                 @include('flash-message')
@@ -45,7 +45,11 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                 <td>{{ $reserva->fecha_desde }}</td>
                                 <td>{{ $reserva->fecha_hasta }}</td>                               
                                 <td>{{ isset($reserva->Estado_reserva) ? $reserva->Estado_reserva->denominacion : '' }}</td>
-                                <td>{{ $reserva->valor }}</td>                 
+                               @if($reserva->moneda == 'Pesos')
+                                        <td>{{'$'. number_format($reserva->valor,0,',','.') }}</td>
+                                    @else
+                                        <td>{{'U$S'. number_format($reserva->valor,0,',','.') }}</td>            
+                                    @endif                 
                                 <td>
                                     <div class="row col-md-12">
                                         <div class="col-md-3 form-group">

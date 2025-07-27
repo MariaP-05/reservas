@@ -10,7 +10,7 @@
 
 @section('content')
 <div class="card">
-    <div class="cadr-body">
+    <div class="card-body">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
@@ -60,6 +60,15 @@
                         <div class="col-md-6 form-group has-feedback">
                             <label for="tipo_movimiento">Tipo de Movimiento</label>
                             {{ Form::select('tipo_movimiento',[ 'Egreso' => 'Egreso', 'Ingreso' => 'Ingreso'], null, array('id' => 'tipo_movimiento','class' => 'form-control') )}}
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                     <div class="row  col-md-12">
+                        
+
+                        <div class="col-md-6 form-group has-feedback">
+                            <label for="moneda">Moneda</label>
+                            {{ Form::select('moneda',[ 'Pesos' => 'Pesos', 'Dolares' => 'Dolares'], null, array('id' => 'moneda','class' => 'form-control') )}}
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         </div>
                     </div>

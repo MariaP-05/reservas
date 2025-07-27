@@ -24,6 +24,7 @@ class Movimiento extends Model
         'denominacion',
         'fecha',
         'importe',
+        'moneda',
         'tipo_movimiento',
         'id_usuario',
         'id_categoria',

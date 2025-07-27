@@ -18,27 +18,21 @@ class PrecioController extends Controller
     }
 
     public function create()
-    {
-        
+    {        
         $cabanias = Cabania::orderBy('denominacion')->pluck('denominacion', 'id')->all();
         $cabanias = array('' => trans('message.select')) + $cabanias;
 
-            return view('admin.precios.edit', compact('cabanias'));
+        return view('admin.precios.edit', compact('cabanias'));
     }
 
     public function store(Request $request)
     {
-
         try {
             $precio = new Precio($request->all());
-
-
             $precio->save();
-
            
             return redirect()->route('admin.precios.index')->with('success', trans('message.successaction'));
-        } catch (QueryException  $ex) {
-          
+        } catch (QueryException  $ex) {          
             return redirect()->route('admin.precios.index')->with('error', $ex->getMessage());
         }
     }
@@ -65,7 +59,6 @@ class PrecioController extends Controller
 
         $cabanias = Cabania::orderBy('denominacion')->pluck('denominacion', 'id')->all();
         $cabanias = array('' => trans('message.select')) + $cabanias;
-
         
         return view('admin.precios.edit', compact('precio','cabanias'));
     }
@@ -82,18 +75,15 @@ class PrecioController extends Controller
         try {
             $precio = Precio::findOrFail($id);
 
-
             $precio->id_cabania = $request->id_cabania;
             $precio->fecha_desde = $request->fecha_desde;
-            $precio->valor = $request->valor;
-            
+            $precio->valor = $request->valor;  
+            $precio->valor_dolar = $request->valor_dolar;            
 
             $precio->save();
-
               
             return redirect()->route('admin.precios.index')->with('success', trans('message.successaction'));
-        } catch (QueryException  $ex) {
-          
+        } catch (QueryException  $ex) {          
             return redirect()->route('admin.precios.index')->with('error', $ex->getMessage());
         }
     }
@@ -106,13 +96,11 @@ class PrecioController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        try {
-            
-                Precio::destroy($id);
+        try {            
+            Precio::destroy($id);
                    
             return redirect()->route('admin.precios.index')->with('success', trans('message.successaction'));
-        } catch (QueryException  $ex) {
-          
+        } catch (QueryException  $ex) {          
             return redirect()->route('admin.precios.index')->with('error', $ex->getMessage());
         }
     }

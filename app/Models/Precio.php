@@ -1,14 +1,11 @@
 <?php
 
 namespace App\Models;
-
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
  
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+ 
+use Carbon\Carbon; 
 use Illuminate\Database\Eloquent\Model; 
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\SoftDeletes; 
 
 class Precio extends Model
 {
@@ -21,7 +18,7 @@ class Precio extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [ 'id_cabania', 'fecha_desde', 'valor'  ];
+    protected $fillable = [ 'id_cabania', 'fecha_desde', 'valor','valor_dolar'  ];
 
     protected $table = 'precios';
 
@@ -30,7 +27,6 @@ class Precio extends Model
     {
         return $this->belongsTo('App\Models\Cabania', 'id_cabania');
     }
-
 
     public function setFechaDesdeAttribute($value)
     {

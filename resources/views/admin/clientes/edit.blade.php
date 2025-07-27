@@ -11,7 +11,7 @@
 
 @section('content')
     <div class="card">
-        <div class="cadr-body">
+        <div class="card-body">
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">

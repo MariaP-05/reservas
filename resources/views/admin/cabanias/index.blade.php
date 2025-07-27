@@ -16,7 +16,7 @@
             onMouseOut="this.style.color='#25d366'; this.style.background = '#fff'">
             <i class="fa fa-plus" style="margin-top:16px"></i>
         </a>
-        <div class="cadr-body">
+        <div class="card-body">
             <div class="form-group col-sm-12">
                 <div class="row"> 
 @include('flash-message')

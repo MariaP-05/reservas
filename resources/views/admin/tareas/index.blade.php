@@ -18,7 +18,7 @@
     </a>
 
       @include('admin.tareas.partials.busqueda')
-            <div class="cadr-body">
+            <div class="card-body">
                 <div class="form-group col-sm-12">
                     <div class="row"> 
                     @include('flash-message')
