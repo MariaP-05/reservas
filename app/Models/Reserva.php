@@ -91,20 +91,38 @@ class Reserva extends Model
     }
 
     
-    public static function search(Request $request) 
+    public static function search(Request $request, $fecha_desde, $fecha_hasta) 
     {
         $query = Reserva::query(); 
 
 
-        if (isset($request->id_cliente)){
+         if (isset($request->id_cliente)){
             $query= $query->where('id_cliente', '=' , $request->id_cliente); 
         }
 
 
         if (isset($request->id_estado_reserva)){
             $query= $query->where('id_estado_reserva', '=' , $request->id_estado_reserva); 
-        } 
+        }
+ 
+        // if (isset($request->fec_desde)) {
+            $query = $query ->where(function ($query) use ($request, $fecha_desde, $fecha_hasta) {
+                $query->where('fecha_desde', '>=',$fecha_desde)
 
+                ->orWhere('fecha_hasta','>=', $fecha_desde)
+                ->where('fecha_hasta', '<=', $fecha_hasta);
+            });         
+     //   }
+//if (isset($request->fec_hasta)) {
+            $query = $query ->where(function ($query) use ($request, $fecha_desde, $fecha_hasta) {
+                $query->where('fecha_hasta', '<=', $fecha_hasta)
+                
+                   ->orWhere('fecha_desde', '<=', $fecha_hasta) 
+                ->where('fecha_hasta','>=', $fecha_desde);
+            });
+          //  $query = $query->whereIn('pedidos_ioma.id_prestador', $request->prestador);
+       // }
+        
         return $query;
     } 
     public function isPagada( )

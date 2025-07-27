@@ -17,12 +17,14 @@
             <i class="fa fa-plus" style="margin-top:16px"></i>
         </a>
 
+    @include('admin.reservas.partials.busqueda')
+
         <div class="card-body">
             <div class="form-group col-sm-12">
                 <table id="reservas" class="table   col-sm-12"  >
                     <thead class="bg-secondary text-white">
                         <tr>
-                            <th>Día</th>
+                            <th>Día \ Cabaña</th>
                             @foreach ($cabanias as $cabania)
                                 <th>{{ $cabania->denominacion }}</th>
                             @endforeach
@@ -54,7 +56,7 @@
                                                 data-toggle="modal" data-target="#VerModal" style="padding: 10 em; width: 100%;"
                                                 data-whatever="{{ $cab[$cabania->id][$dia->format('md')] }}">
                                                 <i class="fa fa-eye">
-                                                    {{ isset($cab[$cabania->id][$dia->format('md')]->Cliente) ? $cab[$cabania->id][$dia->format('md')]->Cliente->nombre : '' }}
+                                                    {{ isset($cab[$cabania->id][$dia->format('md')]->Cliente) ? $cab[$cabania->id][$dia->format('md')]->Cliente->nombre . ' ' . $cab[$cabania->id][$dia->format('md')]->span : '' }}
                                                 </i>
                                             </button>
                                         </td>
@@ -87,4 +89,5 @@
 @section('js')
 
     <script src="{{ asset('admin1/reservas/calendario.js') }}"></script>
+    <script src="{{ asset('admin1/movimientos/index.js') }}"></script>
 @stop

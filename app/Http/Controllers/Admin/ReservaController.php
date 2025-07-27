@@ -117,10 +117,11 @@ class ReservaController extends Controller
 
             $reserva->descuento_porce = (100 * $reserva->descuento) / $reserva->importe_reserva;
             $reserva->total = $reserva->importe_reserva - $reserva->descuento;
-            if ($reserva->total > 0) { 
-                $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total; 
-            } 
-            else { $reserva->recargo_porce = 0; }
+            if ($reserva->total > 0) {
+                $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total;
+            } else {
+                $reserva->recargo_porce = 0;
+            }
             $reserva->total_deuda = $reserva->total + $reserva->recargo - $reserva->senia;
         }
 
@@ -304,25 +305,41 @@ class ReservaController extends Controller
 
     public function calendario(Request $request)
     {
-        $reservas = Reserva::all();
+
+        //  $fecha_desde = null;
+        $cab = [];
+        if (isset($request->fec_desde)) {
+            $fecha_desde = new Carbon($request->fec_desde);
+            $fecha_desde_filtro = new Carbon($request->fec_desde);
+        } else {
+            $fecha_desde = new Carbon();
+            $fecha_desde->addDays(-1);
+
+            $fecha_desde_filtro = new Carbon();
+            $fecha_desde_filtro->addDays(-1);
+        }
+
+        if (isset($request->fec_hasta)) {
+            $fecha_hasta = new Carbon($request->fec_hasta);
+            $fecha_hasta_filtro = new Carbon($request->fec_hasta);
+        } else {
+            $fecha_hasta = new Carbon();
+            $fecha_hasta->addMonths(1);
+
+            $fecha_hasta_filtro = new Carbon();
+            $fecha_hasta_filtro->addMonths(1);
+        }
+
+        // $reservas = Reserva::search($request,$fecha_desde,$fecha_hasta)->get();
         $cabanias = Cabania::all();
 
-        $fecha_desde = new Carbon();
-        $fecha_desde->addDays(-1);
-        // $fecha_desde->firstOfMonth();
-        $hoy = new Carbon();
-        $hoy->addDays(-1);
-        $fecha_hasta = new Carbon();
-        //$fecha_hasta->firstOfMonth();
-        $fecha_hasta->addMonths(1);
-        // $fecha_hasta->lastOfMonth();
-  
-        //$fecha_hasta->addDays(1);
- 
+        /*    $hoy = new Carbon();
+        $hoy->addDays(-1);*/
+
+
         $dias = [];
         $months = [];
         $months_bandera = [];
-        $k = 0;
         $num_mes = 0;
         $array = [];
         while ($fecha_desde <= $fecha_hasta) {
@@ -347,47 +364,40 @@ class ReservaController extends Controller
             foreach ($cabanias as $cabania) {
                 $reserva = Reserva::where('id_cabania', $cabania->id)
                     ->where('fecha_desde', '<=', $fecha_desde->format('Y-m-d'))
-                    ->where('fecha_hasta', '>=', $fech_hast->format('Y-m-d')) //->first();
+                    ->where('fecha_hasta', '>=', $fech_hast->format('Y-m-d'))
                     ->first();
 
                 if (isset($reserva)) { //si hay reserva entro aca
                     $comienzo = new Carbon($reserva->fecha_desde);
                     $fin = new Carbon($reserva->fecha_hasta);
-                    if ($comienzo < $hoy) {
-                        $comienzo = new Carbon();
-                        $comienzo->addDays(-2);
+                    if ($comienzo->format('Y-m-d') < $fecha_desde_filtro->format('Y-m-d')) {
+                        $comienzo->addDays($comienzo->diffInDays($fecha_desde_filtro));
+                    }
+                    if ($fin->format('Y-m-d')  > $fecha_hasta_filtro->format('Y-m-d')) {
+                        $fin->addDays(- ($fin->diffInDays($fecha_hasta_filtro) - 1));
                     }
 
-                    if ($comienzo->format('d-m-Y') ==  $fecha_desde->format('d-m-Y') && !in_array($reserva->id, $array)) {
-                        if ($fecha_hasta < $fin) {
-                            $fin = new Carbon($fecha_hasta);
-                            $fin->addDays(1);
-                        }
+                    if ($comienzo->format('Y-m-d') ==  $fecha_desde->format('Y-m-d') && !in_array($reserva->id, $array)) {
+
                         $reserva->span = $comienzo->diffInDays($fin);
                         $array[] = $reserva->id;
                     } else {
                         if (!in_array($reserva->id, $array)) {
-                            if ($fecha_hasta < $fin) {
-                                $fin = new Carbon($fecha_hasta);
-                                $fin->addDays(1);
-                            }
+
                             $reserva->span = $comienzo->diffInDays($fin);
                             $array[] = $reserva->id;
                         } else {
                             $reserva->span = 0;
                         }
-                        //  dd($comienzo, $fecha_desde);
-
-
                     }
                 } else {
                     $reserva = new Reserva();
                     $reserva->span = 1;
                 }
+
                 $cab[$cabania->id][$fecha_desde->format('md')] = $reserva;
             }
-            $fecha_desde->addDays(1);
-            $k++;
+            $fecha_desde->addDays(1);         
         }
 
         $t = 0;
@@ -398,24 +408,25 @@ class ReservaController extends Controller
             'months',
             'dias',
             'cabanias',
-            'reservas',
+            'fecha_desde_filtro',
+            'fecha_hasta_filtro',
             'fecha_desde',
             'fecha_hasta'
         ));
     }
 
-    public function export($id,$mode)
+    public function export($id, $mode)
     {
         $reserva = Reserva::find($id);
         $cant = new Carbon($reserva->fecha_hasta);
-        
-        $reserva->cant_dias = $cant->diffInDays(new Carbon($reserva->fecha_desde)); 
-        $data = [ 'reserva' => $reserva      ];
- 
+
+        $reserva->cant_dias = $cant->diffInDays(new Carbon($reserva->fecha_desde));
+        $data = ['reserva' => $reserva];
+
 
         $pdf = PDF::loadView('pdf/reserva', $data);
 
 
-        return $pdf->download( 'Reserva  ' .(isset($reserva->Cliente) ? $reserva->Cliente->nombre : '' ).'.pdf');  
+        return $pdf->download('Reserva  ' . (isset($reserva->Cliente) ? $reserva->Cliente->nombre : '') . '.pdf');
     }
 }
