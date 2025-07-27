@@ -62,7 +62,7 @@
                                         </td>
                                         @endif
                                     @else
-                                        <td style="border-right: solid 2px; border-color:#999; background-color:rgb(144, 243, 192) "
+                                        <td style="border-right: solid 2px; border-color:#999; background-color:rgb(224, 251, 236) "
                                              >
                                             <a href="{{ route('admin.reservas.create') }}" title="Crear Nueva Reserva" class="btn btn-outline-success">
                                                 <i class="fa fa-plus su"  ></i>
