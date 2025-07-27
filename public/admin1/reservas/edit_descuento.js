@@ -8,6 +8,7 @@ reservas = {
             $that = $(this),
             fecha_desde = $("#fecha_desde").val(),
             id_cabania = $("#id_cabania").val(),
+              moneda = $("#moneda").val(),
             fecha_hasta = $("#fecha_hasta").val(),
             descuento_porce = $(".descuento_porce").val(),
             descuento = $(".descuento").val(),
@@ -16,6 +17,7 @@ reservas = {
                 fecha_desde: fecha_desde,
                 fecha_hasta: fecha_hasta,
                 id_cabania: id_cabania,
+                moneda: moneda,
             },
             url = $that.data("url");
 
@@ -23,7 +25,7 @@ reservas = {
             val !== "" &&
             fecha_desde !== "" &&
             fecha_hasta !== "" &&
-            id_cabania !== ""
+            id_cabania !== "" 
         ) {
             $.ajax({
                 method: "GET",
@@ -144,7 +146,7 @@ reservas = {
     },
 
     init: function () {
-        $("#fecha_desde, #fecha_hasta, #id_cabania").on(
+        $("#fecha_desde, #fecha_hasta, #id_cabania, #moneda").on(
             "change",
             this.FechaChange
         );
@@ -153,8 +155,7 @@ reservas = {
         $(".descuento_porce").on("input", this.UpdatePorce);
         $(".descuento").on("input", this.UpdateDescuento);
         $(".recargo_porce").on("input", this.UpdateRecargoPorce);
-        $(".recargo").on("input", this.UpdateRecargo);
-        // $(".senia").on('change', this.UpdateDeuda);
+        $(".recargo").on("input", this.UpdateRecargo); 
         $(".senia").on("input", this.UpdateDeuda); 
         $(".cliente_section").hide();
     },

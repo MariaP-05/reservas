@@ -1,5 +1,4 @@
-
-<div class="cadr-body">
+<div class="card-body">
     <br>
     <div class="form-group col-sm-12" place-items= "center">
         <h4 class="box-title">Búsqueda</h4>

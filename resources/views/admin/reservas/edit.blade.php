@@ -10,7 +10,7 @@
 
 @section('content')
 <div class="card">
-    <div class="cadr-body">
+    <div class="card-body">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
@@ -132,6 +132,11 @@
 
                     <hr style="background-color:blue ; height: 3px">
                     </hr>
+                    <div class="col-md-6 form-group has-feedback">
+                            <label for="moneda">Moneda</label>
+                            {{ Form::select('moneda',[ 'Pesos' => 'Pesos', 'Dolares' => 'Dolares'], null, array('id' => 'moneda','class' => 'form-control', 'data-url'=> route('admin.reservas.get')) )}}
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
                     <div class="col-lg-4 col-md-4 col-xs-6 form-group pull-right">
                         <label for="importe_reserva">Importe Reserva</label>
                         {{ Form::text('importe_reserva',null , array('id' => 'importe_reserva','class' => 'form-control importe_reserva', 'readonly')) }}

@@ -18,7 +18,7 @@
     onMouseOut="this.style.color='#25d366'; this.style.background = '#fff'">
         <i class="fa fa-plus" style="margin-top:16px"></i>
     </a>
-    <div class="cadr-body">
+    <div class="card-body">
         <div class="form-group col-sm-12">
             <div class="row"> 
             @include('flash-message')
@@ -30,7 +30,8 @@
                 <th>Id</th>
                 <th>Cabaña</th>
                 <th>Fecha desde</th>
-                <th>Valor</th>                 
+                <th>Valor Pesos</th>
+                <th>Valor Dolares</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -40,7 +41,8 @@
                 <td>{{$precio->id}}</td>
                 <td>{{ isset($precio->Cabania) ? $precio->Cabania->denominacion : '' }}</td>
                 <td>{{$precio->fecha_desde}}</td>
-                <td>{{$precio->valor}}</td>                 
+                <td>{{'$ ' . number_format($precio->valor, 0, ',', '.') }}</td>
+                <td>{{'U$S ' . number_format($precio->valor_dolar, 0, ',', '.') }}</td>
                 <td>
                     <div class="row">
                         <div class="col-md-6 form-group">

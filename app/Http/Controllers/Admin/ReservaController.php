@@ -39,7 +39,6 @@ class ReservaController extends Controller
         $estado_reservas = Estado_reserva::orderBy('denominacion')->pluck('denominacion', 'id')->all();
         $estado_reservas = array('' => trans('message.select')) + $estado_reservas;
 
-
         return view('admin.reservas.edit', compact('clientes', 'cabanias', 'formas_pago', 'estado_reservas'));
     }
 
@@ -56,14 +55,19 @@ class ReservaController extends Controller
 
         $estado_reservas = Estado_reserva::orderBy('denominacion')->pluck('denominacion', 'id')->all();
         $estado_reservas = array('' => trans('message.select')) + $estado_reservas;
- 
-        return view('admin.reservas.edit', compact('clientes', 'cabanias', 'formas_pago', 'estado_reservas',
-            'id_cabania','fecha'));
+
+        return view('admin.reservas.edit', compact(
+            'clientes',
+            'cabanias',
+            'formas_pago',
+            'estado_reservas',
+            'id_cabania',
+            'fecha'
+        ));
     }
 
     public function store(Request $request)
     {
-
         try {
             $reserva = new Reserva($request->all());
             if ($request->nombre_cliente !== '' && $request->nombre_cliente !== null) {
@@ -79,14 +83,11 @@ class ReservaController extends Controller
                 $reserva->id_estado_reserva = 1;
             }
 
-
             $reserva->valor = $request->recargo +  $request->total;
             $reserva->save();
 
-
             return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-
             return redirect()->route('admin.reservas.index')->with('error', $ex->getMessage());
         }
     }
@@ -131,7 +132,12 @@ class ReservaController extends Controller
         $cant_dias = $fecha_desde->diffInDays($fecha_hasta);
 
         if (isset($precio_entrada)) {
-            $reserva->importe_reserva =  $precio_entrada->valor * $cant_dias;
+            if ($reserva->moneda == 'Pesos') {
+                $reserva->importe_reserva =  $precio_entrada->valor * $cant_dias;
+            } else {
+                $reserva->importe_reserva =  $precio_entrada->valor_dolar * $cant_dias;
+            }
+
 
             $reserva->descuento_porce = (100 * $reserva->descuento) / $reserva->importe_reserva;
             $reserva->total = $reserva->importe_reserva - $reserva->descuento;
@@ -142,7 +148,6 @@ class ReservaController extends Controller
             }
             $reserva->total_deuda = $reserva->total + $reserva->recargo - $reserva->senia;
         }
-
 
         return view('admin.reservas.edit', compact('reserva', 'clientes', 'cabanias', 'formas_pago',  'estado_reservas'));
     }
@@ -183,6 +188,7 @@ class ReservaController extends Controller
             $reserva->motivos_recargos = $request->motivos_recargos;
             $reserva->valor = $request->recargo +  $request->total;
             $reserva->observaciones = $request->observaciones;
+            $reserva->moneda = $request->moneda;
 
             $reserva->save();
 
@@ -206,15 +212,14 @@ class ReservaController extends Controller
 
             return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
-
             return redirect()->route('admin.reservas.index')->with('error', $ex->getMessage());
         }
     }
 
     public function get(Request $request)
     {
-
         $id_cabania = $request->id_cabania;
+        $moneda = $request->moneda;
         $precio = 0;
 
         if ($id_cabania >= 1 && isset($request->fecha_desde)  && isset($request->fecha_hasta)) {
@@ -230,7 +235,11 @@ class ReservaController extends Controller
                  ver como es cuando se tomauna fehca de entrada y una de salida con distintos valores*/
                 $cant_dias = $fecha_desde->diffInDays($fecha_hasta);
 
-                $precio =  $precio_entrada->valor * $cant_dias;
+                if ($moneda == 'Pesos') {
+                    $precio =  $precio_entrada->valor * $cant_dias;
+                } else {
+                    $precio =  $precio_entrada->valor_dolar * $cant_dias;
+                }
             }
         }
 
@@ -324,7 +333,6 @@ class ReservaController extends Controller
     public function calendario(Request $request)
     {
 
-        //  $fecha_desde = null;
         $cab = [];
         if (isset($request->fec_desde)) {
             $fecha_desde = new Carbon($request->fec_desde);
@@ -348,18 +356,13 @@ class ReservaController extends Controller
             $fecha_hasta_filtro->addMonths(1);
         }
 
-        // $reservas = Reserva::search($request,$fecha_desde,$fecha_hasta)->get();
         $cabanias = Cabania::all();
-
-        /*    $hoy = new Carbon();
-        $hoy->addDays(-1);*/
-
-
         $dias = [];
         $months = [];
         $months_bandera = [];
         $num_mes = 0;
         $array = [];
+
         while ($fecha_desde <= $fecha_hasta) {
             $mes = $fecha_desde->locale('es_Ar')->isoFormat('MMMM');
             if (in_array($mes, $months_bandera) == false) {
@@ -415,13 +418,12 @@ class ReservaController extends Controller
 
                 $cab[$cabania->id][$fecha_desde->format('md')] = $reserva;
             }
-            $fecha_desde->addDays(1);         
+            $fecha_desde->addDays(1);
         }
 
         $t = 0;
         return view('admin.reservas.calendario', compact(
             'cab',
-
             't',
             'months',
             'dias',
@@ -441,9 +443,7 @@ class ReservaController extends Controller
         $reserva->cant_dias = $cant->diffInDays(new Carbon($reserva->fecha_desde));
         $data = ['reserva' => $reserva];
 
-
         $pdf = PDF::loadView('pdf/reserva', $data);
-
 
         return $pdf->download('Reserva  ' . (isset($reserva->Cliente) ? $reserva->Cliente->nombre : '') . '.pdf');
     }

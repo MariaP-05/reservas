@@ -25,12 +25,23 @@ class MovimientoController extends Controller
         $movimientos = Movimiento::search($request)->get();
 
         //calculamos el saldo segun la busqueda
-        $movimientos_egreso = Movimiento::search($request)->where('tipo_movimiento','Egreso')->sum('importe');
-        $movimientos_ingreso = Movimiento::search($request)->where('tipo_movimiento','Ingreso')->sum('importe');
+        $movimientos_egreso = Movimiento::search($request)->where('tipo_movimiento','Egreso')
+        ->where('moneda','Pesos')->sum('importe');
+        $movimientos_ingreso = Movimiento::search($request)->where('tipo_movimiento','Ingreso')
+         ->where('moneda','Pesos')->sum('importe');
         $saldo = $movimientos_ingreso -  $movimientos_egreso;
         //number_format es la funcion para dar formato de numero a una variable: 
         //entonces se describe (variable,cantidad de decimales, separador de decimales, separador de miles)
         $saldo = '$ '. number_format($saldo, 2,',','.');
+
+         $movimientos_egreso_dolar = Movimiento::search($request)->where('tipo_movimiento','Egreso')
+        ->where('moneda','Dolares')->sum('importe');
+        $movimientos_ingreso_dolar = Movimiento::search($request)->where('tipo_movimiento','Ingreso')
+         ->where('moneda','Dolares')->sum('importe');
+        $saldo_dolar = $movimientos_ingreso_dolar -  $movimientos_egreso_dolar;
+        //number_format es la funcion para dar formato de numero a una variable: 
+        //entonces se describe (variable,cantidad de decimales, separador de decimales, separador de miles)
+        $saldo_dolar = '$ '. number_format($saldo_dolar, 2,',','.');
 
         //ponemos las fechas filtradas para que se muestren en el buscador
        $fecha_desde = null;
@@ -72,36 +83,29 @@ class MovimientoController extends Controller
             $estado = null;
         }
 
-        return view('admin.movimientos.index', compact('saldo','movimientos','fecha_desde',
+        return view('admin.movimientos.index', compact('saldo','saldo_dolar','movimientos','fecha_desde',
         'fecha_hasta','categorias','id_categoria', 'usuarios','id_usuario', 'estado'));
     }
 
     public function create()
-    {
-    
+    {    
         $usuarios = User::orderBy('name')->pluck('name', 'id')->all();
         $usuarios = array('' => trans('message.select')) + $usuarios;
 
         $categorias = Categoria::orderBy('denominacion')->pluck('denominacion', 'id')->all();
         $categorias = array('' => trans('message.select')) + $categorias;
 
-
         return view('admin.movimientos.edit', compact('usuarios','categorias'));
     }
 
     public function store(Request $request)
     {
-
         try {
-
             $movimientos = new Movimiento($request->all());
-
-            $movimientos->save();
- 
+            $movimientos->save(); 
             
             return redirect()->route('admin.movimientos.index')->with('success', trans('message.successaction'));
-        } catch (QueryException  $ex) {
-          
+        } catch (QueryException  $ex) {          
             return redirect()->route('admin.movimientos.index')->with('error', $ex->getMessage());
         }
     }
@@ -125,7 +129,6 @@ class MovimientoController extends Controller
     public function edit($id)
     {
         $movimiento = Movimiento::findOrFail($id);
-
 
         $usuarios = User::orderBy('name')->pluck('name', 'id')->all();
         $usuarios = array('' => trans('message.select')) + $usuarios;
@@ -154,20 +157,15 @@ class MovimientoController extends Controller
             $movimiento->tipo_movimiento =ucwords(strtolower($request->tipo_movimiento));
             $movimiento->id_usuario = $request->id_usuario;
             $movimiento->id_categoria = $request->id_categoria;
-             $movimiento->estado = $request->estado;
-            
+            $movimiento->estado = $request->estado;
+            $movimiento->moenda = $request->moenda;            
             $movimiento->forma_pago =ucwords(strtolower($request->forma_pago));
-            $movimiento->observaciones = $request->observaciones;
-         
-
+            $movimiento->observaciones = $request->observaciones;     
 
             $movimiento->save();
-
           
             return redirect()->route('admin.movimientos.index')->with ('success', trans('message.successaction'));
-        } catch (QueryException  $ex) {
-
-           
+        } catch (QueryException  $ex) {           
             return redirect()->route('admin.movimientos.index')->with('error', $ex->getMessage());
         }
     }
@@ -180,14 +178,10 @@ class MovimientoController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        try {
-        
-            Movimiento::destroy($id);
+        try {        
+            Movimiento::destroy($id);          
            
-           
-          return redirect()->route('admin.movimientos.index')->with('success', trans('message.successaction'));
-       
-        
+          return redirect()->route('admin.movimientos.index')->with('success', trans('message.successaction'));   
         } catch (QueryException  $ex) {
             //session()->flash('alert-danger', $ex->getMessage());
             return redirect()->route('admin.movimientos.index')->with('error', $ex->getMessage());
@@ -210,14 +204,13 @@ class MovimientoController extends Controller
             $movimiento->estado = 'Saldado';
             $movimiento->forma_pago = isset($reserva->Forma_pago) ? $reserva->Forma_pago->denominacion : 'Efectivo'; // Asignar una forma de pago por defecto
             $movimiento->observaciones = 'Pago de reserva N° '.$reserva->id;
+            $movimiento->moneda = $reserva->moneda;            
 
             $movimiento->save();
 
             // Actualizar el estado de la reserva a "Pagada"
             $reserva->id_estado_reserva = 2;
-            $reserva->save();
-
-           
+            $reserva->save();           
         }
          return redirect()->route('admin.reservas.index')->with('success');
     }

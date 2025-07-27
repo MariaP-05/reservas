@@ -12,7 +12,7 @@
 
 @section('content')
 <div class="card">
-    <div class="cadr-body">
+    <div class="card-body">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
@@ -55,9 +55,12 @@
 
                     <div class="row col-md-12">
                         <div class="col-md-6 form-group has-feedback">
-                            <label for="valor">Valor</label>
+                            <label for="valor">Valor Pesos</label>
                             {{ Form::number('valor', null, array('id' =>'valor', 'class' => 'form-control', 'step'=>'any')) }}
-
+                        </div>
+                        <div class="col-md-6 form-group has-feedback">
+                            <label for="valor_dolar">Valor Dolares</label>
+                            {{ Form::number('valor_dolar', null, array('id' =>'valor_dolar', 'class' => 'form-control', 'step'=>'any')) }}
                         </div>
                     </div>
                     
