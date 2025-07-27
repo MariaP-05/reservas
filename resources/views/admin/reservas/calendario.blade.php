@@ -56,7 +56,7 @@
                                                 data-toggle="modal" data-target="#VerModal" style="padding: 10 em; width: 100%;"
                                                 data-whatever="{{ $cab[$cabania->id][$dia->format('md')] }}">
                                                 <i class="fa fa-eye">
-                                                    {{ isset($cab[$cabania->id][$dia->format('md')]->Cliente) ? $cab[$cabania->id][$dia->format('md')]->Cliente->nombre . ' ' . $cab[$cabania->id][$dia->format('md')]->span : '' }}
+                                                    {{ isset($cab[$cabania->id][$dia->format('md')]->Cliente) ? $cab[$cabania->id][$dia->format('md')]->Cliente->nombre   }}
                                                 </i>
                                             </button>
                                         </td>
