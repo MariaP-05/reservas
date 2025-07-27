@@ -40,7 +40,7 @@
                     <div class="row col-md-12">
                         <div class="col-md-6 form-group has-feedback">
                             <label for="id_cabania">Cabaña</label>
-                            {{ Form::select('id_cabania', $cabanias, null, ['id' => 'id_cabania', 'class' => 'select2 form-control', 'data-url'=> route('admin.reservas.get')]) }}
+                            {{ Form::select('id_cabania', $cabanias, isset($id_cabania) ? $id_cabania : null, ['id' => 'id_cabania', 'class' => 'select2 form-control', 'data-url'=> route('admin.reservas.get')]) }}
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         </div>                        
                         <div class="col-md-6 form-group cliente-select has-feedback">
@@ -97,7 +97,7 @@
                         <div class="col-md-6 form-group has-feedback">
                             <label for="fecha_desde">Fecha desde</label>
                             <div class="input-group date">
-                                {{ Form::text('fecha_desde', isset($valor->fecha_desde) ? $valor->fecha_desde : null, ['id' => 'fecha_desde', 'class' => 'form-control', 'data-url'=> route('admin.reservas.get')]) }}
+                                {{ Form::text('fecha_desde', isset($fecha) ? $fecha : null, ['id' => 'fecha_desde', 'class' => 'form-control', 'data-url'=> route('admin.reservas.get')]) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
 
@@ -105,7 +105,7 @@
                         <div class="col-md-6 form-group has-feedback">
                             <label for="fecha_hasta">Fecha hasta</label>
                             <div class="input-group date">
-                                {{ Form::text('fecha_hasta', isset($valor->fecha_hasta) ? $valor->fecha_hasta : null, ['id' => 'fecha_hasta', 'class' => 'form-control', 'data-url'=> route('admin.reservas.get')]) }}
+                                {{ Form::text('fecha_hasta', null, ['id' => 'fecha_hasta', 'class' => 'form-control', 'data-url'=> route('admin.reservas.get')]) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                         </div>

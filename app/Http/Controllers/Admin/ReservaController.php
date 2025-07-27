@@ -43,6 +43,24 @@ class ReservaController extends Controller
         return view('admin.reservas.edit', compact('clientes', 'cabanias', 'formas_pago', 'estado_reservas'));
     }
 
+    public function create_fecha($id_cabania, $fecha)
+    {
+        $clientes = Cliente::orderBy('nombre')->pluck('nombre', 'id')->all();
+        $clientes = array('' => trans('message.select')) + $clientes;
+
+        $cabanias = Cabania::orderBy('denominacion')->pluck('denominacion', 'id')->all();
+        $cabanias = array('' => trans('message.select')) + $cabanias;
+
+        $formas_pago = Forma_pago::orderBy('denominacion')->pluck('denominacion', 'id')->all();
+        $formas_pago = array('' => trans('message.select')) + $formas_pago;
+
+        $estado_reservas = Estado_reserva::orderBy('denominacion')->pluck('denominacion', 'id')->all();
+        $estado_reservas = array('' => trans('message.select')) + $estado_reservas;
+ 
+        return view('admin.reservas.edit', compact('clientes', 'cabanias', 'formas_pago', 'estado_reservas',
+            'id_cabania','fecha'));
+    }
+
     public function store(Request $request)
     {
 

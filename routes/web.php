@@ -43,6 +43,8 @@ Route::get('admin/movimientos/impactar_pago/{id?}', [App\Http\Controllers\Admin\
 Route::get('admin/reservas/calendario', [App\Http\Controllers\Admin\ReservaController::class, 'calendario'] )->name('admin.reservas.calendario')->middleware('auth');
 Route::get('admin/tareas/delete_ho/{id}', [App\Http\Controllers\Admin\TareaController::class, 'delete_ho'] )->name('admin.tareas.delete_ho')->middleware('auth');
 
+Route::get('admin/reservas/create_fecha/{id_cabania}/{fecha}', [App\Http\Controllers\Admin\ReservaController::class, 'create_fecha'] )->name('admin.reservas.create_fecha')->middleware('auth');
+
 Route::resource('admin/reservas', App\Http\Controllers\Admin\ReservaController::class)->names('admin.reservas')->middleware('auth');
 Route::get('admin/clientes/archivos/{id}', [App\Http\Controllers\Admin\ClienteController::class, 'archivos'] )->name('admin.clientes.archivos')->middleware('auth');
 
