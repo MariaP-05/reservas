@@ -165,7 +165,6 @@ class ReservaController extends Controller
             $reserva = Reserva::findOrFail($id);
 
             $reserva->id_cabania = $request->id_cabania;
-            $reserva->id_cliente = $request->id_cliente;
 
             if ($request->nombre_cliente !== '' && $request->nombre_cliente !== null) {
                 $cliente = new Cliente();
@@ -173,6 +172,8 @@ class ReservaController extends Controller
                 $cliente->telefono = $request->telefono_cliente;
                 $cliente->save();
                 $reserva->id_cliente = $cliente->id;
+            } else {
+                $reserva->id_cliente = $request->id_cliente;
             }
             $reserva->id_forma_pago = $request->id_forma_pago;
             $reserva->ctabancaria = $request->ctabancaria;
@@ -384,7 +385,7 @@ class ReservaController extends Controller
             $dia_compartido = 0;
             foreach ($cabanias as $cabania) {
                 $reserva = Reserva::where('id_cabania', $cabania->id)
-                ->where('id_estado_reserva','!=', '4')
+                    ->where('id_estado_reserva', '!=', '4')
                     ->where('fecha_desde', '<=', $fecha_desde->format('Y-m-d'))
                     ->where('fecha_hasta', '>=', $fech_hast->format('Y-m-d'))
                     ->first();
