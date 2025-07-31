@@ -53,7 +53,7 @@
                     <div class="row  col-md-12">
                         <div class="col-md-6 form-group has-feedback">
                             <label for="importe">Importe</label>
-                            {{ Form::text('importe', null, ['id' => 'importe', 'class' => 'form-control']) }}
+                            {{ Form::number('importe', null, ['id' => 'importe', 'class' => 'form-control','step'=>'any']) }}
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         </div>
 

@@ -158,7 +158,7 @@ class MovimientoController extends Controller
             $movimiento->id_usuario = $request->id_usuario;
             $movimiento->id_categoria = $request->id_categoria;
             $movimiento->estado = $request->estado;
-            $movimiento->moenda = $request->moenda;            
+            $movimiento->moneda = $request->moneda;            
             $movimiento->forma_pago =ucwords(strtolower($request->forma_pago));
             $movimiento->observaciones = $request->observaciones;     
 
