@@ -46,6 +46,12 @@ class EventServiceProvider extends ServiceProvider
             'icon'        => 'fa fa-calendar-check',
 
         ],
+          [
+            'text'        => 'Calendario Nuevo',
+            'url'         => 'admin/reservas/calendario_io',            
+            'icon'        => 'fa fa-calendar-check',
+
+        ],
 
         [
             'text'        => 'Clientes',

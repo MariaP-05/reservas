@@ -21,8 +21,7 @@ class ReservaController extends Controller
     {
         $reservas = Reserva::all();
         
-        $this->migrarDatos();
-        dd($reservas);
+       
         return view('admin.reservas.index', compact('reservas'));
     }
 
