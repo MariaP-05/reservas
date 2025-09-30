@@ -105,6 +105,7 @@ class CabaniaController extends Controller
 
             $cabania->denominacion = ucwords(strtolower($request->denominacion));
             $cabania->capacidad = $request->capacidad;
+            $cabania->color = $request->color;
             $cabania->observaciones = $request->observaciones;
 
             $cabania->save();

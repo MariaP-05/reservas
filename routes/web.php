@@ -45,6 +45,11 @@ Route::get('admin/tareas/delete_ho/{id}', [App\Http\Controllers\Admin\TareaContr
 
 Route::get('admin/reservas/create_fecha/{id_cabania}/{fecha}', [App\Http\Controllers\Admin\ReservaController::class, 'create_fecha'] )->name('admin.reservas.create_fecha')->middleware('auth');
 
+Route::get('admin/reservas/calendario_io', [App\Http\Controllers\Admin\ReservaController::class, 'calendario_io'] )->name('admin.reservas.calendario_io')->middleware('auth');
+Route::get('admin/reservas/fullcalendarAjax', [App\Http\Controllers\Admin\ReservaController::class, 'fullcalendarAjax'] )->name('admin.reservas.fullcalendarAjax')->middleware('auth');
+
+Route::get('admin/reservas/fullcalendar', [App\Http\Controllers\Admin\ReservaController::class, 'fullcalendar'] )->name('admin.reservas.fullcalendar')->middleware('auth');
+
 Route::resource('admin/reservas', App\Http\Controllers\Admin\ReservaController::class)->names('admin.reservas')->middleware('auth');
 Route::get('admin/clientes/archivos/{id}', [App\Http\Controllers\Admin\ClienteController::class, 'archivos'] )->name('admin.clientes.archivos')->middleware('auth');
 

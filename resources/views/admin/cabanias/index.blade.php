@@ -28,7 +28,7 @@
                             <th>Id</th>
                             <th>Denominación</th>
                             <th>Capacidad</th>
-                            
+                             <th>Color</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -38,7 +38,9 @@
                                 <td>{{ $cabania->id }}</td>
                                 <td>{{ $cabania->denominacion }}</td>
                                 <td>{{ $cabania->capacidad }}</td>
-                                
+                                <td><input id="color" name="color" type="color"
+                                        value={{ isset($cabania->color) ? $cabania->color : '#ff0000' }}
+                                        @disabled(true) /></td>
                                 <td>
                                     <div class="row">
                                     <div class="col-md-4 form-group">

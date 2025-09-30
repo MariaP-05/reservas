@@ -20,7 +20,9 @@ class ReservaController extends Controller
     public function index(Request $request)
     {
         $reservas = Reserva::all();
-
+        
+        $this->migrarDatos();
+        dd($reservas);
         return view('admin.reservas.index', compact('reservas'));
     }
 
@@ -84,6 +86,14 @@ class ReservaController extends Controller
             }
 
             $reserva->valor = $request->recargo +  $request->total;
+
+                $fecha_desde= new Carbon($reserva->fecha_desde);
+             $fecha_hasta= new Carbon($reserva->fecha_hasta);
+             $hora_ingreso=  ($reserva->hora_ingreso == null  ||  $reserva->hora_ingreso == '') ? '12:00:00'  :  $reserva->hora_ingreso ;
+             $hora_egreso=  ($reserva->hora_egreso == null  ||  $reserva->hora_egreso == '') ? '10:00:00'  :  $reserva->hora_egreso ;
+          
+              $reserva->start = $fecha_desde->format('Y-m-d') .'T'. $hora_ingreso;
+            $reserva->end = $fecha_hasta->format('Y-m-d') .'T'. $hora_egreso;
             $reserva->save();
 
             return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
@@ -191,6 +201,15 @@ class ReservaController extends Controller
             $reserva->observaciones = $request->observaciones;
             $reserva->moneda = $request->moneda;
 
+            
+                $fecha_desde= new Carbon($reserva->fecha_desde);
+             $fecha_hasta= new Carbon($reserva->fecha_hasta);
+             $hora_ingreso=  ($reserva->hora_ingreso == null  ||  $reserva->hora_ingreso == '') ? '12:00:00'  :  $reserva->hora_ingreso ;
+             $hora_egreso=  ($reserva->hora_egreso == null  ||  $reserva->hora_egreso == '') ? '10:00:00'  :  $reserva->hora_egreso ;
+          
+              $reserva->start = $fecha_desde->format('Y-m-d') .'T'. $hora_ingreso;
+            $reserva->end = $fecha_hasta->format('Y-m-d') .'T'. $hora_egreso;
+         
             $reserva->save();
 
             return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
@@ -448,5 +467,58 @@ class ReservaController extends Controller
         $pdf = PDF::loadView('pdf/reserva', $data);
 
         return $pdf->download('Reserva  ' . (isset($reserva->Cliente) ? $reserva->Cliente->nombre : '') . '.pdf');
+    }
+
+    public function calendario_io()
+    { 
+        
+        $cabanias = Cabania::orderBy('denominacion') ->get();
+        return view('admin.reservas.calendario_io', compact('cabanias'));
+    }
+
+     public function fullcalendar(Request $request)
+    {
+        $evento = Reserva::all();
+       
+     
+      return  response()->json( $evento);
+    }
+
+      public function migrarDatos()
+    {
+         $evento = Reserva::all();
+        foreach($evento as $turno)
+        {          
+            $fecha_desde= new Carbon($turno->fecha_desde);
+             $fecha_hasta= new Carbon($turno->fecha_hasta);
+             $hora_ingreso=  ($turno->hora_ingreso == null  ||  $turno->hora_ingreso == '') ? '12:00:00'  :  $turno->hora_ingreso ;
+             $hora_egreso=  ($turno->hora_egreso == null  ||  $turno->hora_egreso == '') ? '10:00:00'  :  $turno->hora_egreso ;
+          //  $turno->start = $fecha_desde->format('Y-m-d') .'T12:00:00';
+          ///  $turno->end = $fecha_hasta->format('Y-m-d') .'T16:00:00' ;
+              $turno->start = $fecha_desde->format('Y-m-d') .'T'. $hora_ingreso;
+            $turno->end = $fecha_hasta->format('Y-m-d') .'T'. $hora_egreso;
+           // $turno->allDay  = 'false' ;
+           $turno->title = isset($turno->Cabania) ? $turno->Cabania->denominacion : 'Reserva ' . $turno->id;
+            
+            $turno->title = isset($turno->Cliente) ? $turno->title .' - '.$turno->Cliente->nombre : 'Reserva ' . $turno->title;
+             $turno->backgroundColor = '#ffffff';
+             $turno->borderColor =  isset($turno->Cabania) ? $turno->Cabania->color : '#5589cdff';
+            $turno->textColor = isset($turno->Cabania) ? $turno->Cabania->color : '#5589cdff';
+           $turno->save();
+        }
+        return redirect()->back();
+    }
+    public function fullcalendarAjax(Request $request)
+    {
+        if($request->id >= 1)
+        {
+         return $this->edit($request->id );
+        }
+        else
+        {  
+            $fecha = new Carbon($request->start);
+            
+            return $this->create_fecha(1,$fecha->format('d-m-Y'));
+        }          
     }
 }

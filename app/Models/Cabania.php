@@ -16,7 +16,7 @@ class Cabania extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [ 'denominacion' , 'capacidad' ];
+    protected $fillable = [ 'denominacion' , 'capacidad', 'color' ];
 
     protected $table = 'cabanias';
 

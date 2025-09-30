@@ -45,8 +45,15 @@
                             </div>
 
                         </div>
-
-
+                         <div class="row  col-md-12">
+ <div class="col-md-6 form-group has-feedback">
+                            <label for="color">Color</label>
+                            <div class="input-group">
+                                <input id="color" name="color" type="color" value=
+                                {{ isset($cabania->color) ? $cabania->color : "#ff0000" }} />
+                            </div>
+                        </div>
+ </div>
 
                         <hr style="background-color:blue ; height: 2px">
                         </hr>
