@@ -160,7 +160,7 @@ class ReservaController extends Controller
             }
             $reserva->recargo =  ($reserva->recargo != null && $reserva->recargo != '' )? $reserva->recargo : 0;
             $reserva->senia =  ($reserva->senia != null && $reserva->senia != '' )? $reserva->senia : 0;
-
+dd($reserva);
             $reserva->total_deuda = $reserva->total + $reserva->recargo - $reserva->senia;
         }
 
