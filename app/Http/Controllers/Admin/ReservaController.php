@@ -21,8 +21,8 @@ class ReservaController extends Controller
     {
         $reservas = Reserva::all();
         
-      /*  $this->migrarDatos();
-        dd($reservas);*/
+        $this->migrarDatos();
+        dd($reservas);
         return view('admin.reservas.index', compact('reservas'));
     }
 
@@ -155,7 +155,12 @@ class ReservaController extends Controller
                 $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total;
             } else {
                 $reserva->recargo_porce = 0;
+               $reserva->total =  ($reserva->total != null && $reserva->total != '' )? $reserva->total : 0;
+
             }
+            $reserva->recargo =  ($reserva->recargo != null && $reserva->recargo != '' )? $reserva->recargo : 0;
+            $reserva->senia =  ($reserva->senia != null && $reserva->senia != '' )? $reserva->senia : 0;
+
             $reserva->total_deuda = $reserva->total + $reserva->recargo - $reserva->senia;
         }
 
