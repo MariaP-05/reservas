@@ -215,13 +215,13 @@
                         @if(isset($reserva))
                             <div class="col-md-4 form-group has-feedback">
                                 <label for="senia">Seña</label>
-                                {{ Form::text('senia', null, ['id' => 'senia', 'class' => 'form-control senia',  'min'=>'0,00', 'step'=>'0,00', 'oninput'=>"validity.valid||(value='');"]) }}
+                                {{ Form::number('senia', null, ['id' => 'senia', 'class' => 'form-control senia',  'min'=>'0,00', 'step'=>'0,00', 'oninput'=>"validity.valid||(value='');"]) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                         @else
                         <div class="col-md-4 form-group has-feedback">
                                 <label for="senia">Seña</label>
-                                {{ Form::text('senia', 0, ['id' => 'senia', 'class' => 'form-control senia',  'min'=>'0,00', 'step'=>'0,00', 'oninput'=>"validity.valid||(value='');"]) }}
+                                {{ Form::number('senia', 0, ['id' => 'senia', 'class' => 'form-control senia',  'min'=>'0,00', 'step'=>'0,00', 'oninput'=>"validity.valid||(value='');"]) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                         @endif
