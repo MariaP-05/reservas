@@ -44,7 +44,7 @@ class ReservaController extends Controller
         return view('admin.reservas.edit', compact('clientes', 'cabanias', 'formas_pago', 'estado_reservas'));
     }
 
-    public function create_fecha($id_cabania, $fecha)
+    public function create_fecha($id_cabania, $fecha,$fecha_hasta)
     {
         $clientes = Cliente::orderBy('nombre')->pluck('nombre', 'id')->all();
         $clientes = array('' => trans('message.select')) + $clientes;
@@ -64,7 +64,7 @@ class ReservaController extends Controller
             'formas_pago',
             'estado_reservas',
             'id_cabania',
-            'fecha'
+            'fecha','fecha_hasta'
         ));
     }
 
@@ -517,8 +517,9 @@ class ReservaController extends Controller
         else
         {  
             $fecha = new Carbon($request->start);
-            
-            return $this->create_fecha(1,$fecha->format('d-m-Y'));
+            $fecha_hasta = new Carbon($request->end);
+
+            return $this->create_fecha(1,$fecha->format('d-m-Y'),$fecha_hasta->format('d-m-Y'));
         }          
     }
 }

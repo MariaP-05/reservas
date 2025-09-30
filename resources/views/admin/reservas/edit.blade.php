@@ -105,7 +105,7 @@
                         <div class="col-md-6 form-group has-feedback">
                             <label for="fecha_hasta">Fecha hasta</label>
                             <div class="input-group date">
-                                {{ Form::text('fecha_hasta', null, ['id' => 'fecha_hasta', 'class' => 'form-control', 'data-url'=> route('admin.reservas.get')]) }}
+                                {{ Form::text('fecha_hasta', isset($fecha_hasta) ? $fecha_hasta : null, ['id' => 'fecha_hasta', 'class' => 'form-control', 'data-url'=> route('admin.reservas.get')]) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
                         </div>

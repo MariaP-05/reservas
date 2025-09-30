@@ -63,7 +63,7 @@
                                         @endif
                                     @else
                                         <td style="border-right: solid 2px; border-color:lightgray;">
-                                            <a href="{{ route('admin.reservas.create_fecha', ['id_cabania' => $cabania->id, 'fecha' => $dia->format('d-m-Y')]) }}" title="Crear Nueva Reserva" class="btn btn-outline-success">
+                                            <a href="{{ route('admin.reservas.create_fecha', ['id_cabania' => $cabania->id, 'fecha' => $dia->format('d-m-Y'), 'fecha_hasta' => $dia->format('d-m-Y')]) }}" title="Crear Nueva Reserva" class="btn btn-outline-success">
                                                 <i class="fa fa-plus success"  ></i>
                                             </a>
                                         </td>
