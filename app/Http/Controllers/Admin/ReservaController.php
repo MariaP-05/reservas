@@ -158,9 +158,13 @@ class ReservaController extends Controller
                $reserva->total =  ($reserva->total != null && $reserva->total != '' )? $reserva->total : 0;
 
             }
-            $reserva->recargo =  ($reserva->recargo != null && $reserva->recargo != '' )? $reserva->recargo : 0;
-            $reserva->senia =  ($reserva->senia != null && $reserva->senia != '' )? $reserva->senia : 0;
-dd($reserva);
+            $caracter_a_buscar = ',';
+$caracter_de_reemplazo = '.';
+
+$reserva->recargo = str_replace($caracter_a_buscar, $caracter_de_reemplazo, $reserva->recargo );
+$reserva->senia = str_replace($caracter_a_buscar, $caracter_de_reemplazo, $reserva->senia );
+
+              
             $reserva->total_deuda = $reserva->total + $reserva->recargo - $reserva->senia;
         }
 
