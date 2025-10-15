@@ -93,6 +93,14 @@ class ReservaController extends Controller
           
               $reserva->start = $fecha_desde->format('Y-m-d') .'T'. $hora_ingreso;
             $reserva->end = $fecha_hasta->format('Y-m-d') .'T'. $hora_egreso;
+
+              $reserva->title = isset($reserva->Cabania) ? $reserva->Cabania->denominacion : 'Reserva ' . $reserva->id;
+            
+            $reserva->title = isset($reserva->Cliente) ? $reserva->title .' - '.$reserva->Cliente->nombre : 'Reserva ' . $reserva->title;
+             $reserva->backgroundColor = '#ffffff';
+             $reserva->borderColor =  isset($reserva->Cabania) ? $reserva->Cabania->color : '#5589cdff';
+            $reserva->textColor = isset($reserva->Cabania) ? $reserva->Cabania->color : '#5589cdff';
+       
             $reserva->save();
 
             return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
@@ -218,6 +226,13 @@ $reserva->senia = str_replace($caracter_a_buscar, $caracter_de_reemplazo, $reser
               $reserva->start = $fecha_desde->format('Y-m-d') .'T'. $hora_ingreso;
             $reserva->end = $fecha_hasta->format('Y-m-d') .'T'. $hora_egreso;
          
+            $reserva->title = isset($reserva->Cabania) ? $reserva->Cabania->denominacion : 'Reserva ' . $reserva->id;
+            
+            $reserva->title = isset($reserva->Cliente) ? $reserva->title .' - '.$reserva->Cliente->nombre : 'Reserva ' . $reserva->title;
+             $reserva->backgroundColor = '#ffffff';
+             $reserva->borderColor =  isset($reserva->Cabania) ? $reserva->Cabania->color : '#5589cdff';
+            $reserva->textColor = isset($reserva->Cabania) ? $reserva->Cabania->color : '#5589cdff';
+       
             $reserva->save();
 
             return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
