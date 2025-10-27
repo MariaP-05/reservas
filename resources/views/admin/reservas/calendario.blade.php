@@ -18,7 +18,7 @@
         </a>
 
     @include('admin.reservas.partials.busqueda')
-
+   
         <div class="card-body" >
             <div class="form-group col-sm-12">
                 <table id="reservas" class="table col-sm-12" style="width: 100%;">

@@ -385,9 +385,10 @@ class ReservaController extends Controller
 
     public function calendario(Request $request)
     {
-
+       
+        
         $cab = [];
-        if (isset($request->fec_desde)) {
+        if (isset($request->fec_desde) ) {
             $fecha_desde = new Carbon($request->fec_desde);
             $fecha_desde_filtro = new Carbon($request->fec_desde);
         } else {
@@ -398,7 +399,7 @@ class ReservaController extends Controller
             $fecha_desde_filtro->addDays(-1);
         }
 
-        if (isset($request->fec_hasta)) {
+        if (isset($request->fec_hasta) ) {
             $fecha_hasta = new Carbon($request->fec_hasta);
             $fecha_hasta_filtro = new Carbon($request->fec_hasta);
         } else {
@@ -416,7 +417,28 @@ class ReservaController extends Controller
         $num_mes = 0;
         $array = [];
 
+           if(isset($request->mes))
+        {
+            switch($request->mes)
+            {
+                case 'proximo':
+$fecha_desde->addMonth(1);
+$fecha_hasta-> addMonth(1);
+ $fecha_hasta_filtro->addMonths(1);
+  $fecha_desde_filtro->addMonths(1);
+                    break;
+
+                case 'previo':
+$fecha_desde->addMonth(-1);
+$fecha_hasta-> addMonth(-1);
+
+ $fecha_hasta_filtro->addMonths(-1);
+  $fecha_desde_filtro->addMonths(-1);
+                    break;
+            }
+        }
         while ($fecha_desde <= $fecha_hasta) {
+          
             $mes = $fecha_desde->locale('es_Ar')->isoFormat('MMMM');
             if (in_array($mes, $months_bandera) == false) {
                 $months_bandera[] = $fecha_desde->locale('es_Ar')->isoFormat('MMMM');

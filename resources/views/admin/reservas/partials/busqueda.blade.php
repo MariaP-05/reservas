@@ -29,8 +29,15 @@
             <button type="submit" class="btn btn-outline-primary">Buscar</button>
         </div>
     </div>
+      <a href="{{ route('admin.reservas.calendario', ['mes' => 'previo', 'fec_desde' => $fecha_desde_filtro->format('d-m-Y'), 'fec_hasta' => $fecha_hasta_filtro->format('d-m-Y')]) }}"
+     title="Mes Previo" class="btn btn-outline-success">
+    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+  </a>
+ <a href="{{ route('admin.reservas.calendario', ['mes' => 'proximo', 'fec_desde' => $fecha_desde_filtro->format('d-m-Y'), 'fec_hasta' => $fecha_hasta_filtro->format('d-m-Y')]) }}"
+     title="Mes Proximo" class="btn btn-outline-success">
+    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+  </a>
     {{ Form::close() }}
 </div> 
 {{ Form::hidden('fec_desde') }}
-{{ Form::hidden('fec_hasta') }}
-{{ Form::hidden('id_categoria') }}
+{{ Form::hidden('fec_hasta') }} 
