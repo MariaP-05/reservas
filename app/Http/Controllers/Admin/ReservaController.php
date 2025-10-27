@@ -18,7 +18,7 @@ class ReservaController extends Controller
 {
     public function index(Request $request)
     {
-        $this->migrarDatos();
+        //$this->migrarDatos();
         $reservas = Reserva::all();
 
 
