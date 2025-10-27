@@ -13,15 +13,15 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use PDF;
-use JeroenNoten\LaravelAdminLte\View\Components\Widget\Card;
-
+ 
 class ReservaController extends Controller
 {
     public function index(Request $request)
     {
+        $this->migrarDatos();
         $reservas = Reserva::all();
-        
-       
+
+
         return view('admin.reservas.index', compact('reservas'));
     }
 
@@ -43,7 +43,7 @@ class ReservaController extends Controller
         return view('admin.reservas.edit', compact('clientes', 'cabanias', 'formas_pago', 'estado_reservas'));
     }
 
-    public function create_fecha($id_cabania, $fecha,$fecha_hasta)
+    public function create_fecha($id_cabania, $fecha, $fecha_hasta)
     {
         $clientes = Cliente::orderBy('nombre')->pluck('nombre', 'id')->all();
         $clientes = array('' => trans('message.select')) + $clientes;
@@ -63,7 +63,8 @@ class ReservaController extends Controller
             'formas_pago',
             'estado_reservas',
             'id_cabania',
-            'fecha','fecha_hasta'
+            'fecha',
+            'fecha_hasta'
         ));
     }
 
@@ -86,21 +87,26 @@ class ReservaController extends Controller
 
             $reserva->valor = $request->recargo +  $request->total;
 
-                $fecha_desde= new Carbon($reserva->fecha_desde);
-             $fecha_hasta= new Carbon($reserva->fecha_hasta);
-             $hora_ingreso=  ($reserva->hora_ingreso == null  ||  $reserva->hora_ingreso == '') ? '12:00:00'  :  $reserva->hora_ingreso ;
-             $hora_egreso=  ($reserva->hora_egreso == null  ||  $reserva->hora_egreso == '') ? '10:00:00'  :  $reserva->hora_egreso ;
-          
-              $reserva->start = $fecha_desde->format('Y-m-d') .'T'. $hora_ingreso;
-            $reserva->end = $fecha_hasta->format('Y-m-d') .'T'. $hora_egreso;
+            $fecha_desde = new Carbon($reserva->fecha_desde);
+            $fecha_hasta = new Carbon($reserva->fecha_hasta);
+            $hora_ingreso =  ($reserva->hora_ingreso == null  ||  $reserva->hora_ingreso == '') ? '12:00:00'  :  $reserva->hora_ingreso;
+            $hora_egreso =  ($reserva->hora_egreso == null  ||  $reserva->hora_egreso == '') ? '10:00:00'  :  $reserva->hora_egreso;
 
-              $reserva->title = isset($reserva->Cabania) ? $reserva->Cabania->denominacion : 'Reserva ' . $reserva->id;
-            
-            $reserva->title = isset($reserva->Cliente) ? $reserva->title .' - '.$reserva->Cliente->nombre : 'Reserva ' . $reserva->title;
-             $reserva->backgroundColor = '#ffffff';
-             $reserva->borderColor =  isset($reserva->Cabania) ? $reserva->Cabania->color : '#5589cdff';
+            $reserva->start = $fecha_desde->format('Y-m-d') . 'T' . $hora_ingreso;
+           //se cambia la fehca end para que el calendario muestre noches ocupadas
+           // $reserva->end = $fecha_hasta->format('Y-m-d') . 'T' . $hora_egreso;
+
+            $reserva->end = new Carbon($fecha_hasta);
+            $reserva->end->addDay(-1);
+            $reserva->end = $reserva->end->format('Y-m-d') . 'T23:59:59';
+
+            $reserva->title = isset($reserva->Cabania) ? $reserva->Cabania->denominacion : 'Reserva ' . $reserva->id;
+
+            $reserva->title = isset($reserva->Cliente) ? $reserva->title . ' - ' . $reserva->Cliente->nombre : 'Reserva ' . $reserva->title;
+            $reserva->backgroundColor = '#ffffff';
+            $reserva->borderColor =  isset($reserva->Cabania) ? $reserva->Cabania->color : '#5589cdff';
             $reserva->textColor = isset($reserva->Cabania) ? $reserva->Cabania->color : '#5589cdff';
-       
+
             $reserva->save();
 
             return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
@@ -162,16 +168,15 @@ class ReservaController extends Controller
                 $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total;
             } else {
                 $reserva->recargo_porce = 0;
-               $reserva->total =  ($reserva->total != null && $reserva->total != '' )? $reserva->total : 0;
-
+                $reserva->total =  ($reserva->total != null && $reserva->total != '') ? $reserva->total : 0;
             }
             $caracter_a_buscar = ',';
-$caracter_de_reemplazo = '.';
+            $caracter_de_reemplazo = '.';
 
-$reserva->recargo = str_replace($caracter_a_buscar, $caracter_de_reemplazo, $reserva->recargo );
-$reserva->senia = str_replace($caracter_a_buscar, $caracter_de_reemplazo, $reserva->senia );
+            $reserva->recargo = str_replace($caracter_a_buscar, $caracter_de_reemplazo, $reserva->recargo);
+            $reserva->senia = str_replace($caracter_a_buscar, $caracter_de_reemplazo, $reserva->senia);
 
-              
+
             $reserva->total_deuda = $reserva->total + $reserva->recargo - $reserva->senia;
         }
 
@@ -217,22 +222,27 @@ $reserva->senia = str_replace($caracter_a_buscar, $caracter_de_reemplazo, $reser
             $reserva->observaciones = $request->observaciones;
             $reserva->moneda = $request->moneda;
 
-            
-                $fecha_desde= new Carbon($reserva->fecha_desde);
-             $fecha_hasta= new Carbon($reserva->fecha_hasta);
-             $hora_ingreso=  ($reserva->hora_ingreso == null  ||  $reserva->hora_ingreso == '') ? '12:00:00'  :  $reserva->hora_ingreso ;
-             $hora_egreso=  ($reserva->hora_egreso == null  ||  $reserva->hora_egreso == '') ? '10:00:00'  :  $reserva->hora_egreso ;
-          
-              $reserva->start = $fecha_desde->format('Y-m-d') .'T'. $hora_ingreso;
-            $reserva->end = $fecha_hasta->format('Y-m-d') .'T'. $hora_egreso;
-         
+
+            $fecha_desde = new Carbon($reserva->fecha_desde);
+            $fecha_hasta = new Carbon($reserva->fecha_hasta);
+            $hora_ingreso =  ($reserva->hora_ingreso == null  ||  $reserva->hora_ingreso == '') ? '12:00:00'  :  $reserva->hora_ingreso;
+            $hora_egreso =  ($reserva->hora_egreso == null  ||  $reserva->hora_egreso == '') ? '10:00:00'  :  $reserva->hora_egreso;
+
+            $reserva->start = $fecha_desde->format('Y-m-d') . 'T' . $hora_ingreso;
+           //se cambia la fehca end para que el calendario muestre noches ocupadas
+           // $reserva->end = $fecha_hasta->format('Y-m-d') . 'T' . $hora_egreso;
+
+            $reserva->end = new Carbon($fecha_hasta);
+            $reserva->end->addDay(-1);
+            $reserva->end = $reserva->end->format('Y-m-d') . 'T23:59:59';
+
             $reserva->title = isset($reserva->Cabania) ? $reserva->Cabania->denominacion : 'Reserva ' . $reserva->id;
-            
-            $reserva->title = isset($reserva->Cliente) ? $reserva->title .' - '.$reserva->Cliente->nombre : 'Reserva ' . $reserva->title;
-             $reserva->backgroundColor = '#ffffff';
-             $reserva->borderColor =  isset($reserva->Cabania) ? $reserva->Cabania->color : '#5589cdff';
+
+            $reserva->title = isset($reserva->Cliente) ? $reserva->title . ' - ' . $reserva->Cliente->nombre : 'Reserva ' . $reserva->title;
+            $reserva->backgroundColor = '#ffffff';
+            $reserva->borderColor =  isset($reserva->Cabania) ? $reserva->Cabania->color : '#5589cdff';
             $reserva->textColor = isset($reserva->Cabania) ? $reserva->Cabania->color : '#5589cdff';
-       
+
             $reserva->save();
 
             return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
@@ -493,56 +503,57 @@ $reserva->senia = str_replace($caracter_a_buscar, $caracter_de_reemplazo, $reser
     }
 
     public function calendario_io()
-    { 
-        
-        $cabanias = Cabania::orderBy('denominacion') ->get();
+    {
+
+        $cabanias = Cabania::orderBy('denominacion')->get();
         return view('admin.reservas.calendario_io', compact('cabanias'));
     }
 
-     public function fullcalendar(Request $request)
+    public function fullcalendar(Request $request)
     {
         $evento = Reserva::all();
-       
-     
-      return  response()->json( $evento);
+
+
+        return  response()->json($evento);
     }
 
-      public function migrarDatos()
+    public function migrarDatos()
     {
-         $evento = Reserva::all();
-        foreach($evento as $turno)
-        {          
-            $fecha_desde= new Carbon($turno->fecha_desde);
-             $fecha_hasta= new Carbon($turno->fecha_hasta);
-             $hora_ingreso=  ($turno->hora_ingreso == null  ||  $turno->hora_ingreso == '') ? '12:00:00'  :  $turno->hora_ingreso ;
-             $hora_egreso=  ($turno->hora_egreso == null  ||  $turno->hora_egreso == '') ? '10:00:00'  :  $turno->hora_egreso ;
-          //  $turno->start = $fecha_desde->format('Y-m-d') .'T12:00:00';
-          ///  $turno->end = $fecha_hasta->format('Y-m-d') .'T16:00:00' ;
-              $turno->start = $fecha_desde->format('Y-m-d') .'T'. $hora_ingreso;
-            $turno->end = $fecha_hasta->format('Y-m-d') .'T'. $hora_egreso;
-           // $turno->allDay  = 'false' ;
-           $turno->title = isset($turno->Cabania) ? $turno->Cabania->denominacion : 'Reserva ' . $turno->id;
-            
-            $turno->title = isset($turno->Cliente) ? $turno->title .' - '.$turno->Cliente->nombre : 'Reserva ' . $turno->title;
-             $turno->backgroundColor = '#ffffff';
-             $turno->borderColor =  isset($turno->Cabania) ? $turno->Cabania->color : '#5589cdff';
+        $evento = Reserva::all();
+        foreach ($evento as $turno) {
+            $fecha_desde = new Carbon($turno->fecha_desde);
+            $fecha_hasta = new Carbon($turno->fecha_hasta);
+            $hora_ingreso =  ($turno->hora_ingreso == null  ||  $turno->hora_ingreso == '') ? '12:00:00'  :  $turno->hora_ingreso;
+            $hora_egreso =  ($turno->hora_egreso == null  ||  $turno->hora_egreso == '') ? '10:00:00'  :  $turno->hora_egreso;
+            //  $turno->start = $fecha_desde->format('Y-m-d') .'T12:00:00';
+            ///  $turno->end = $fecha_hasta->format('Y-m-d') .'T16:00:00' ;
+            $turno->start = $fecha_desde->format('Y-m-d') . 'T' . $hora_ingreso;
+             //se cambia la fehca end para que el calendario muestre noches ocupadas
+           // $reserva->end = $fecha_hasta->format('Y-m-d') . 'T' . $hora_egreso;
+
+            $turno->end = new Carbon($fecha_hasta);
+            $turno->end->addDay(-1);
+            $turno->end = $turno->end->format('Y-m-d') . 'T23:59:59';
+            // $turno->allDay  = 'false' ;
+            $turno->title = isset($turno->Cabania) ? $turno->Cabania->denominacion : 'Reserva ' . $turno->id;
+
+            $turno->title = isset($turno->Cliente) ? $turno->title . ' - ' . $turno->Cliente->nombre : 'Reserva ' . $turno->title;
+            $turno->backgroundColor = '#ffffff';
+            $turno->borderColor =  isset($turno->Cabania) ? $turno->Cabania->color : '#5589cdff';
             $turno->textColor = isset($turno->Cabania) ? $turno->Cabania->color : '#5589cdff';
-           $turno->save();
+            $turno->save();
         }
         return redirect()->back();
     }
     public function fullcalendarAjax(Request $request)
     {
-        if($request->id >= 1)
-        {
-         return $this->edit($request->id );
-        }
-        else
-        {  
+        if ($request->id >= 1) {
+            return $this->edit($request->id);
+        } else {
             $fecha = new Carbon($request->start);
             $fecha_hasta = new Carbon($request->end);
 
-            return $this->create_fecha(1,$fecha->format('d-m-Y'),$fecha_hasta->format('d-m-Y'));
-        }          
+            return $this->create_fecha(1, $fecha->format('d-m-Y'), $fecha_hasta->format('d-m-Y'));
+        }
     }
 }
