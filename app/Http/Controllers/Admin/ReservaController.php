@@ -18,7 +18,7 @@ class ReservaController extends Controller
 {
     public function index(Request $request)
     {
-        $this->migrarDatos();
+      //  $this->migrarDatos();
         $reservas = Reserva::all();
 
 
@@ -546,7 +546,7 @@ $fecha_hasta-> addMonth(-1);
     {
         $evento = Reserva::all();
         foreach ($evento as $turno) {
-            $turno->fecha_reserva = $turno->created_at;
+          //  $turno->fecha_reserva = $turno->created_at;
             $fecha_desde = new Carbon($turno->fecha_desde);
             $fecha_hasta = new Carbon($turno->fecha_hasta);
             $hora_ingreso =  ($turno->hora_ingreso == null  ||  $turno->hora_ingreso == '') ? '12:00:00'  :  $turno->hora_ingreso;
