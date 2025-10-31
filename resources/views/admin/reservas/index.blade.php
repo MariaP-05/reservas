@@ -27,6 +27,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                     <thead class="bg-secondary text-white">
                         <tr>
                             <th>Id</th>
+                            <th>Fecha reserva</th>
                             <th>Cabaña</th>
                             <th>Cliente</th>
                             <th>Fecha desde</th>
@@ -40,6 +41,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                         @foreach ($reservas as $reserva)
                             <tr>
                                 <td>{{ $reserva->id }}</td>
+                                <td>{{ $reserva->fecha_reserva }}</td>
                                 <td>{{ isset($reserva->Cabania) ? $reserva->Cabania->denominacion : '' }}</td>
                                 <td>{{ isset($reserva->Cliente) ? $reserva->Cliente->nombre : '' }}</td>
                                 <td>{{ $reserva->fecha_desde }}</td>

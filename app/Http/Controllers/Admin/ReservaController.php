@@ -18,7 +18,7 @@ class ReservaController extends Controller
 {
     public function index(Request $request)
     {
-        //$this->migrarDatos();
+        $this->migrarDatos();
         $reservas = Reserva::all();
 
 
@@ -149,6 +149,7 @@ class ReservaController extends Controller
 
         $fecha_desde = new Carbon($reserva->fecha_desde);
         $fecha_hasta =  new Carbon($reserva->fecha_hasta);
+        $fecha_reserva =  new Carbon($reserva->fecha_reserva);
 
         $precio_entrada = Precio::where('id_cabania', $reserva->id_cabania)->where('fecha_desde', '<=', $fecha_desde)
             ->orderby('fecha_desde', 'desc')->first();
@@ -180,7 +181,8 @@ class ReservaController extends Controller
             $reserva->total_deuda = $reserva->total + $reserva->recargo - $reserva->senia;
         }
 
-        return view('admin.reservas.edit', compact('reserva', 'clientes', 'cabanias', 'formas_pago',  'estado_reservas'));
+        return view('admin.reservas.edit', compact('reserva', 'clientes', 'cabanias', 
+        'formas_pago',  'estado_reservas'));
     }
 
     /**
@@ -211,6 +213,7 @@ class ReservaController extends Controller
             $reserva->id_estado_reserva = $request->id_estado_reserva;
             $reserva->fecha_desde = $request->fecha_desde;
             $reserva->fecha_hasta = $request->fecha_hasta;
+            $reserva->fecha_reserva = $request->fecha_reserva;
             $reserva->hora_ingreso = $request->hora_ingreso;
             $reserva->hora_egreso = $request->hora_egreso;
             $reserva->cantidad_personas = $request->cantidad_personas;
@@ -543,6 +546,7 @@ $fecha_hasta-> addMonth(-1);
     {
         $evento = Reserva::all();
         foreach ($evento as $turno) {
+            $turno->fecha_reserva = $turno->created_at;
             $fecha_desde = new Carbon($turno->fecha_desde);
             $fecha_hasta = new Carbon($turno->fecha_hasta);
             $hora_ingreso =  ($turno->hora_ingreso == null  ||  $turno->hora_ingreso == '') ? '12:00:00'  :  $turno->hora_ingreso;

@@ -98,7 +98,7 @@
                     <td style="font-family:Verdana, Geneva, Tahoma, sans-serif; font-size:medium; padding-left: 5em; ">Recibido al reservar: <b>${{number_format(($reserva->senia) , 2, ',', '.')}}</b></td>
                 </tr>
                 <tr>
-                    <td style="font-family:Verdana, Geneva, Tahoma, sans-serif; font-size:medium; padding-left: 5em; ">Fecha de pago: <b> {{$reserva->created_at->format('d-m-Y')}}</b></td>
+                    <td style="font-family:Verdana, Geneva, Tahoma, sans-serif; font-size:medium; padding-left: 5em; ">Fecha de pago: <b> {{$reserva->fecha_reserva}}</b></td>
                 </tr>
                 <tr>
                     <td style="font-family:Verdana, Geneva, Tahoma, sans-serif; font-size:medium; padding-left: 5em; ">Saldo a pagar al ingresar: <b>${{number_format(($reserva->valor - $reserva->senia) , 2, ',', '.')}}</b></td>

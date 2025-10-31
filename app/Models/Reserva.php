@@ -21,7 +21,7 @@ class Reserva extends Model
      * @var array<int, string>
      */
     protected $fillable = [ 'id_cabania', 'id_cliente', 'id_forma_pago','ctabancaria', 'id_estado_reserva',
-    'fecha_desde' , 'fecha_hasta' , 'hora_ingreso', 'hora_egreso' ,'moneda',
+    'fecha_desde' , 'fecha_hasta' , 'hora_ingreso', 'hora_egreso' ,'moneda','fecha_reserva',
       'cantidad_personas', 'senia',  'descuento', 'observaciones' , 'valor','recargo', 'motivos_recargos' ];
       
     protected $table = 'reservas';
@@ -90,6 +90,27 @@ class Reserva extends Model
         return $value;
     }
 
+     public function setFechaReservaAttribute($value)
+    {
+        if(trim($value) !== '')
+        {
+            $p = new Carbon($value);
+            $p = $p->format('Y-m-d');
+        }
+        else
+        {
+            $p = null;
+        }
+        $this->attributes['fecha_reserva']=$p;
+    }
+
+    public function getFechaReservaAttribute($value)
+    {
+        $value = $value !== null ? new Carbon($value) : null;
+        $value = $value !== null ? $value->format('d-m-Y') : null;
+      
+        return $value;
+    }
     
     public static function search(Request $request, $fecha_desde, $fecha_hasta) 
     {
