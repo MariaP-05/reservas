@@ -81,6 +81,10 @@ reservas = {
             descuento_porce = 0;
 
         if (descuento > 0) {
+            if(importe_reserva == 0)
+            {
+importe_reserva = 1;
+            }
             descuento_porce = (100 * descuento) / parseFloat(importe_reserva);
             descuento_porce = descuento_porce.toFixed(0);
 
