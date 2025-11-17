@@ -164,6 +164,7 @@ class ReservaController extends Controller
 
 
             $reserva->descuento_porce = (100 * $reserva->descuento) / $reserva->importe_reserva;
+            
             $reserva->total = $reserva->importe_reserva - $reserva->descuento;
             if ($reserva->total > 0) {
                 $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total;
@@ -178,7 +179,7 @@ class ReservaController extends Controller
             $reserva->senia = str_replace($caracter_a_buscar, $caracter_de_reemplazo, $reserva->senia);
 
 
-            $reserva->total_deuda = $reserva->total + $reserva->recargo - $reserva->senia;
+            $reserva->total_deuda = floatval($reserva->total) + floatval($reserva->recargo)  - floatval($reserva->senia);
         }
 
         return view('admin.reservas.edit', compact('reserva', 'clientes', 'cabanias', 
