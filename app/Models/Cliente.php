@@ -28,7 +28,9 @@ class Cliente extends Model
         'mail',
         'direccion',
         'id_localidad',
-        'observaciones'
+        'observaciones',
+        'cuit',
+        'razon_social'
         
     ];
     protected $table = 'clientes';

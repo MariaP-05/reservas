@@ -9,6 +9,10 @@
     modal.find('.modal-title').text('Vizualizando reserva de: ' + recipient.nom_cliente)
     modal.find('.cabania').val(recipient.deno_cabania)
     modal.find('.cliente').val(recipient.nom_cliente)
+
+    modal.find('.razon_social').val(recipient.razon_social)
+    modal.find('.cuit').val(recipient.cuit)
+
     modal.find('.forma_pago').val(recipient.deno_pago)
     modal.find('.ctabancaria').val(recipient.ctabancaria)
     modal.find('.estado_reserva').val(recipient.deno_est_reserva)

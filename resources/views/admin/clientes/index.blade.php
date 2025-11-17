@@ -30,7 +30,8 @@
                             <th>Id</th>
                             <th>Nombre y Apellido</th>
                             <th>DNI</th>
-                            <th>Fecha de Nacimiento</th>
+                            <th>Razón Social</th>
+                            <th>CUIT</th>
                             <th>Teléfono</th>
                             <th>Teléfono Aux</th>
                             <th>Mail</th>
@@ -44,8 +45,15 @@
                                 <td>{{ $cliente->id }}</td>
                                 <td>{{ $cliente->nombre }}</td>
                                 <td>{{ $cliente->dni }}</td>
-                                <td>{{ $cliente->fecha_nacimiento }}</td>
-                                <td>{{ $cliente->telefono }}</td>
+                                <td>{{ $cliente->razon_social }}</td>
+                                <td>{{ $cliente->cuit }}</td>
+                                <td>{{ $cliente->telefono }}
+                                     <a href="https://api.whatsapp.com/send?phone=549{{ $cliente->telefono }}"
+                                            title="Enviar Mensaje">
+                                            <img src="{{ asset('img/whatsapp.png') }}"
+                                                style=" width:20px;	height:20px;  " />
+                                     </a>
+                                </td>
                                 <td>{{ $cliente->telefono_aux }}</td>
                                 <td>{{ $cliente->mail }}</td>
                                 

@@ -37,6 +37,7 @@ class ClienteController extends Controller
             $cliente = new Cliente($request->all());
 
             $cliente->nombre = ucwords (strtolower( $request->nombre));
+            $cliente->razon_social = ucwords (strtolower( $request->razon_social));
             
             $cliente->direccion =  (ucfirst($request->direccion));
             
@@ -97,7 +98,9 @@ class ClienteController extends Controller
             $cliente = Cliente::findOrFail($id);
            
             $cliente->nombre = ucwords (strtolower( $request->nombre));
+             $cliente->razon_social = ucwords (strtolower( $request->razon_social));
             $cliente->dni = $request->dni;
+            $cliente->cuit = $request->cuit;
             $cliente->fecha_nacimiento =$request->fecha_nacimiento;
             $cliente->direccion =  (ucfirst($request->direccion));
             $cliente->id_localidad = $request->id_localidad;

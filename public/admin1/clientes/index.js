@@ -8,6 +8,8 @@
     modal.find('.modal-title').text('Vizualizando cliente ' + recipient.nombre)
     modal.find('.nombre').val(recipient.nombre)
     modal.find('.dni').val(recipient.dni)
+     modal.find('.razon_social').val(recipient.razon_social)
+    modal.find('.cuit').val(recipient.cuit)
     modal.find('.fecha_nacimiento').val(recipient.fecha_nacimiento)
     modal.find('.mail').val(recipient.mail)
     modal.find('.telefono').val(recipient.telefono)
@@ -15,6 +17,7 @@
     modal.find('.direccion').val(recipient.direccion)
     modal.find('.localidad').val(recipient.deno_localidad)
     modal.find('.observaciones').val(recipient.observaciones)
+
     
   });
 

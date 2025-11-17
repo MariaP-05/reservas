@@ -49,6 +49,19 @@
                             </div>
                         </div>
 
+                         <div class="row  col-md-12">
+                            <div class="col-md-6 form-group has-feedback">
+                                <label for="razon_social">Nombre de Facturación</label>
+                                {{ Form::text('razon_social', null, ['id' => 'razon_social', 'class' => 'form-control', 'placeholder' => trans('nombre')]) }}
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="col-md-6 form-group has-feedback">
+                                <label for="cuit">CUIT</label>
+                                {{ Form::text('cuit', null, ['id' => 'cuit', 'class' => 'form-control', 'placeholder' => 'CUIT']) }}
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        </div>
+
                         <div class="row  col-md-12">
 
                             <div class="col-md-6 form-group has-feedback">

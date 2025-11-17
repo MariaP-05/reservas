@@ -19,6 +19,14 @@
                         <label for="cliente" class="col-form-label">Cliente</label>
                         <input type="text" class="form-control cliente" id="cliente" disabled>
                     </div>
+                     <div class="form-group">
+                        <label for="razon_social" class="col-form-label">Razón Social</label>
+                        <input type="text" class="form-control razon_social" id="razon_social" disabled>
+                    </div>
+                     <div class="form-group">
+                        <label for="cuit" class="col-form-label">CUIT</label>
+                        <input type="text" class="form-control cuit" id="cuit" disabled>
+                    </div>
 
                     <div class="form-group">
                         <label for="cantidad_personas" class="col-form-label">Cantidad de personas</label>

@@ -19,7 +19,16 @@
                         <label for="dni" class="col-form-label">DNI</label>
                         <input type="text" class="form-control dni" id="dni" disabled>
                     </div>
+   <div class="form-group">
+                        <label for="razon_social" class="col-form-label">Razón Social</label>
+                        <input type="text" class="form-control razon_social" id="razon_social" disabled>
+                    </div>
 
+
+                    <div class="form-group">
+                        <label for="cuit" class="col-form-label">CUIT</label>
+                        <input type="text" class="form-control cuit" id="cuit" disabled>
+                    </div>
 
                     <div class="form-group">
                         <label for="fecha_nacimiento" class="col-form-label">Fecha de Nacimiento</label>
