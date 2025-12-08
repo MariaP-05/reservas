@@ -17,7 +17,7 @@ class MovimientoController extends Controller
     public function index(Request $request)
     {
        /* para impactar los pagos de las reservas /*/
-       $reservas1 = Reserva::where('fecha_desde','<=','2025-09-30' ) ->get();
+     /*  $reservas1 = Reserva::where('fecha_desde','<=','2025-09-30' ) ->get();
         //dd($reservas);
         foreach ($reservas1 as $reserva1) {
           $this->impactar_pago($reserva1->id);
@@ -28,7 +28,7 @@ class MovimientoController extends Controller
         //dd($reservas);
         foreach ($reservas as $reserva) {
           $this->impactar_pago($reserva->id);
-        }   
+        }   */
           
         $movimientos = Movimiento::search($request)->get();
 
