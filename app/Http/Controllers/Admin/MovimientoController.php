@@ -16,12 +16,20 @@ class MovimientoController extends Controller
 {
     public function index(Request $request)
     {
-       /* para impactar los pagos de las reservas
-        $reservas = Reserva::all();
+       /* para impactar los pagos de las reservas /*/
+       $reservas1 = Reserva::where('fecha_desde','<=','2025-09-30' ) ->get();
+        //dd($reservas);
+        foreach ($reservas1 as $reserva1) {
+          $this->impactar_pago($reserva1->id);
+        } 
+
+       $reservas = Reserva::where('fecha_desde','<=','2025-12-08' )
+       ->where('fecha_desde','>','2025-09-30' )->get();
+        //dd($reservas);
         foreach ($reservas as $reserva) {
           $this->impactar_pago($reserva->id);
-        }  
-          */
+        }   
+          
         $movimientos = Movimiento::search($request)->get();
 
         //calculamos el saldo segun la busqueda
@@ -196,7 +204,7 @@ class MovimientoController extends Controller
         {
             $movimiento = new Movimiento();
             $movimiento->denominacion = 'Pago de reserva N° '.$reserva->id;
-            $movimiento->fecha = date('Y-m-d');
+            $movimiento->fecha =  $reserva->fecha_desde;
             $movimiento->importe = $reserva->valor;
             $movimiento->tipo_movimiento = 'Ingreso';
             $movimiento->id_usuario = auth()->user()->id;
@@ -211,6 +219,10 @@ class MovimientoController extends Controller
             // Actualizar el estado de la reserva a "Pagada"
             $reserva->id_estado_reserva = 2;
             $reserva->save();           
+        }
+        else
+        {
+
         }
          return redirect()->route('admin.reservas.index')->with('success');
     }
