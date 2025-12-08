@@ -18,7 +18,7 @@ class ReservaController extends Controller
 {
     public function index(Request $request)
     {
-      //  $this->migrarDatos();
+      //  $this->migrarDatos(); +18% / 1400
         $reservas = Reserva::all();
 
 
@@ -155,16 +155,25 @@ class ReservaController extends Controller
             ->orderby('fecha_desde', 'desc')->first();
         $cant_dias = $fecha_desde->diffInDays($fecha_hasta);
 
+       // dd($precio_entrada, $cant_dias);
         if (isset($precio_entrada)) {
             if ($reserva->moneda == 'Pesos') {
                 $reserva->importe_reserva =  $precio_entrada->valor * $cant_dias;
             } else {
-                $reserva->importe_reserva =  $precio_entrada->valor_dolar * $cant_dias;
+               
+                $reserva->importe_reserva = (isset($precio_entrada->valor_dolar) ? $precio_entrada->valor_dolar : 0) * $cant_dias;
             }
-
-
-            $reserva->descuento_porce = (100 * $reserva->descuento) / $reserva->importe_reserva;
-            
+ 
+if($reserva->importe_reserva == 0)
+{
+$reserva->descuento_porce = (100 * $reserva->descuento) / 1;
+}
+else
+{
+ $reserva->descuento_porce = (100 * $reserva->descuento) / $reserva->importe_reserva;
+          
+}
+             
             $reserva->total = $reserva->importe_reserva - $reserva->descuento;
             if ($reserva->total > 0) {
                 $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total;

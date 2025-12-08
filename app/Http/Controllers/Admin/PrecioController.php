@@ -12,6 +12,7 @@ class PrecioController extends Controller
 {
     public function index()
     {        
+        $this->fix_precios();
         $precios = Precio::all();
 
         return view('admin.precios.index', compact('precios'));
@@ -104,5 +105,25 @@ class PrecioController extends Controller
             return redirect()->route('admin.precios.index')->with('error', $ex->getMessage());
         }
     }
+
+
+    public function fix_precios( )
+    {
+        $precios = Precio::whereNull('valor_dolar')->get();
+        foreach ($precios as $precio) {
+            $valor = ($precio->valor * 1.18 ) / 1400;
+            $precio->valor_dolar =$valor;
+            $precio->save();   
+        }
+              $precios2 = Precio::where('valor_dolar',0)->get();
+        foreach ($precios2 as $precio) {
+            $valor = ($precio->valor * 1.18 ) / 1400;
+            $precio->valor_dolar =$valor;
+            $precio->save();   
+        } 
+                   
+           
+    }
+    
    
 }
