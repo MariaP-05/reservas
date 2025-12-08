@@ -12,7 +12,7 @@ class PrecioController extends Controller
 {
     public function index()
     {        
-        $this->fix_precios();
+      //  $this->fix_precios();
         $precios = Precio::all();
 
         return view('admin.precios.index', compact('precios'));
