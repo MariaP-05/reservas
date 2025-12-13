@@ -27,22 +27,24 @@
                         @else
                             {{ Form::open(['route' => 'admin.reservas.store', 'method' => 'POST', 'role' => 'form', 'data-toggle' => 'validator']) }}
                         @endif
-
+ <div class="row  col-md-12">
                         @if (isset($reserva->id))
-                            <div class="row  col-md-12">
+                           
                                 <div class="form-group col-md-6">
                                     <label for="id">{{ trans('message.code') }}</label>
                                     {{ Form::text('id', null, ['id' => 'id', 'class' => 'form-control', 'placeholder' => 'id', 'readonly']) }}
                                 </div>
 
-                                   <div class="col-md-6 form-group has-feedback">
+                            
+                           
+                        @endif
+                               <div class="col-md-6 form-group has-feedback">
                             <label for="fecha_reserva">Fecha reserva</label>
                             <div class="input-group date">
                                 {{ Form::text('fecha_reserva', isset($fecha_reserva) ? $fecha_reserva : null, ['id' => 'fecha_reserva', 'class' => 'form-control', 'data-url'=> route('admin.reservas.get')]) }}
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
-                            </div>
-                        @endif
+                             </div>
  
                     <div class="row col-md-12">
                         <div class="col-md-6 form-group has-feedback">
