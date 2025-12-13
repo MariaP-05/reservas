@@ -120,24 +120,48 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 <i class="fa fa-eye"></i>
                                             </button>
                                         </div>
-                                        <div class="col-md-3 form-group">
-                                            <form method="get"
-                                                action="{{ route('admin.movimientos.impactar_pago', $reserva->id) }}">
-
-                                                <button type="submit" class="btn btn-outline-success"
-                                                    {{ $reserva->isPagada() ? '' : 'disabled' }}
-                                                    title="Impactar Pago de Reserva">
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                        <div class="col-md-3 form-group">
+                                          <div class="col-md-3 form-group">
                                             <form method="get"
                                                 action="{{ route('admin.reservas.export', [$reserva->id, 'pdf']) }}">
 
                                                 <button type="submit" class="btn btn-outline-secondary"
                                                     title="Imprimir Comprobante">
                                                     <i class="fa fa-file"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                         </div>
+                                         <div class="row col-md-12">
+                                           
+                                        <div class="col-md-4 form-group">
+                                             <form method="get"
+                                                action="{{ route('admin.movimientos.impactar_seña', $reserva->id) }}">
+
+                                                <button type="submit" class="btn btn-outline-success"
+                                                    {{ $reserva->isSeñada() ? '' : 'disabled' }}
+                                                    title="Impactar Seña">
+                                                    <i class="fas fa-dollar-sign"> Seña</i>
+                                                </button>
+                                            </form>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                            <form method="get"
+                                                action="{{ route('admin.movimientos.impactar_pago', $reserva->id) }}">
+
+                                                <button type="submit" class="btn btn-outline-success"
+                                                    {{ $reserva->isPagada() ? '' : 'disabled' }}
+                                                    title="Impactar Pago de Reserva">
+                                                    <i class="fas fa-dollar-sign"> Total</i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                         <div class="col-md-4 form-group">
+                                            <form method="get"
+                                                action="{{ route('admin.reservas.CambiarEstado', [$reserva->id, '6']) }}">
+
+                                                <button type="submit" class="btn btn-outline-secondary"
+                                                    title="Facturada">
+                                                    <i class="fa fa-receipt"></i>
                                                 </button>
                                             </form>
                                         </div>

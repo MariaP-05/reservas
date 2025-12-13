@@ -156,4 +156,15 @@ class Reserva extends Model
         return true; 
    
     }
+
+     public function isSeñada( )
+     {
+       $movimiento = Movimiento::where('denominacion', 'Pago de reserva N° ' . $this->id)->orWhere('denominacion', 'Seña de reserva N° ' . $this->id)->first();
+           
+        if (!isset($movimiento->estado) && $this->senia > 0) { // 2 es el id del estado "Pagada"
+            return true;
+        }
+        return false; 
+   
+    }
 }

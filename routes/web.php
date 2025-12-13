@@ -36,6 +36,7 @@ Route::resource('admin/categorias', App\Http\Controllers\Admin\CategoriaControll
  
 Route::get('admin/reservas/get/{id?}', [App\Http\Controllers\Admin\ReservaController::class, 'get'] )->name('admin.reservas.get')->middleware('auth');
 Route::get('admin/movimientos/impactar_pago/{id?}', [App\Http\Controllers\Admin\MovimientoController::class, 'impactar_pago'] )->name('admin.movimientos.impactar_pago')->middleware('auth');
+Route::get('admin/movimientos/impactar_seña/{id?}', [App\Http\Controllers\Admin\MovimientoController::class, 'impactar_seña'] )->name('admin.movimientos.impactar_seña')->middleware('auth');
 
  Route::get('admin/reservas/calendario_old', [App\Http\Controllers\Admin\ReservaController::class, 'calendario_old'] )->name('admin.reservas.calendario_old')->middleware('auth');
  Route::get('admin/reservas/export/{id}/{mode}', [App\Http\Controllers\Admin\ReservaController::class, 'export'] )->name('admin.reservas.export')->middleware('auth');
@@ -47,6 +48,8 @@ Route::get('admin/reservas/create_fecha/{id_cabania}/{fecha}/{fecha_hasta}', [Ap
 
 Route::get('admin/reservas/calendario_io', [App\Http\Controllers\Admin\ReservaController::class, 'calendario_io'] )->name('admin.reservas.calendario_io')->middleware('auth');
 Route::get('admin/reservas/fullcalendarAjax', [App\Http\Controllers\Admin\ReservaController::class, 'fullcalendarAjax'] )->name('admin.reservas.fullcalendarAjax')->middleware('auth');
+
+Route::get('admin/reservas/CambiarEstado/{id}/{estado}', [App\Http\Controllers\Admin\ReservaController::class, 'CambiarEstado'] )->name('admin.reservas.CambiarEstado')->middleware('auth');
 
 Route::get('admin/reservas/fullcalendar', [App\Http\Controllers\Admin\ReservaController::class, 'fullcalendar'] )->name('admin.reservas.fullcalendar')->middleware('auth');
 

@@ -16,7 +16,7 @@ class Estado_reservasSeeder extends Seeder
     public function run()
     {
 
-        Estado_reserva::create([
+   /*     Estado_reserva::create([
             'denominacion' => 'Pendiente',
             'icono' => 'bi bi-house-slash-fill',
             'color' => 'gray'
@@ -40,6 +40,20 @@ class Estado_reservasSeeder extends Seeder
             'denominacion' => 'Cancelada',
             'icono' => 'bi bi-house-x-fill',
             'color' => 'red'
+
+        ]);*/
+
+          Estado_reserva::create([
+            'denominacion' => 'Pago Parcial',
+            'icono' => 'bi bi-house-x-fill',
+            'color' => 'yellow'
+
+        ]);
+
+          Estado_reserva::create([
+            'denominacion' => 'Facturada',
+            'icono' => 'bi bi-house-x-fill',
+            'color' => 'gray'
 
         ]);
     }

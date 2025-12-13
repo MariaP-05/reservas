@@ -592,4 +592,19 @@ $fecha_hasta-> addMonth(-1);
             return $this->create_fecha(1, $fecha->format('d-m-Y'), $fecha_hasta->format('d-m-Y'));
         }
     }
+
+      public function CambiarEstado($id,$estado)
+    {
+        try {
+            $reserva = Reserva::findOrFail($id);
+
+            $reserva->id_estado_reserva = $estado;
+
+            $reserva->save();
+
+            return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));              
+        } catch (QueryException  $ex) {
+            return redirect()->route('admin.reservas.index')->with('error', $ex->getMessage());
+        }
+    }
 }
