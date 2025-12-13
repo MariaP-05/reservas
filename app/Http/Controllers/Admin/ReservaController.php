@@ -75,10 +75,12 @@ class ReservaController extends Controller
             if ($request->nombre_cliente !== '' && $request->nombre_cliente !== null) {
                 $cliente = new Cliente();
                 $cliente->nombre = $request->nombre_cliente;
-                $cliente->telefono = $request->telefono_cliente;
+                $cliente->telefono = $request->telefono_cliente; 
+                $cliente->dni = $request->dni_cliente;
+                $cliente->cuit = $request->cuit_cliente;
+                $cliente->razon_social = $request->razon_social_cliente;
 
                 $cliente->save();
-
                 $reserva->id_cliente = $cliente->id;
             }
             if ($reserva->id_estado_reserva == '') {
@@ -213,6 +215,10 @@ else
                 $cliente = new Cliente();
                 $cliente->nombre = $request->nombre_cliente;
                 $cliente->telefono = $request->telefono_cliente;
+                    $cliente->dni = $request->dni_cliente;
+                $cliente->cuit = $request->cuit_cliente;
+                $cliente->razon_social = $request->razon_social_cliente;
+                
                 $cliente->save();
                 $reserva->id_cliente = $cliente->id;
             } else {

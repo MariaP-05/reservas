@@ -78,6 +78,19 @@
                             <label for="telefono_cliente">Telefono</label>
                             {{ Form::text('telefono_cliente', null, array('id' => 'telefono_cliente','class' => 'form-control','placeholder'=>"Telefono del Cliente")) }}
                         </div>
+
+                        <div class="col-md-6 form-group">
+                            <label for="dni_cliente">DNI</label>
+                            {{ Form::text('dni_cliente', null, array('id' => 'dni_cliente','class' => 'form-control','placeholder'=>"DNI del Cliente")) }}
+                        </div>
+                         <div class="col-md-6 form-group">
+                            <label for="cuit_cliente">CUIT</label>
+                            {{ Form::text('cuit_cliente', null, array('id' => 'cuit_cliente','class' => 'form-control','placeholder'=>"CUIT del Cliente")) }}
+                        </div>
+                        <div class=" col-md-6 form-group">
+                            <label for="razon_social_cliente">Razón Social</label>
+                            {{ Form::text('razon_social_cliente', null, array('id' => 'razon_social_cliente','class' => 'form-control','placeholder'=>"Razón Social del Cliente")) }}
+                        </div>
                        
                     </div>
                     <hr style="background-color:blue ; height: 1px">
