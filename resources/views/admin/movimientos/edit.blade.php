@@ -33,6 +33,7 @@
                             {{ Form::text('id', null, ['id' => 'id', 'class' => 'form-control', 'placeholder' => 'id', 'readonly']) }}
                         </div>
                     </div>
+                   
                     @endif
 
                     <div class="row  col-md-12">
@@ -56,16 +57,23 @@
                             {{ Form::number('importe', null, ['id' => 'importe', 'class' => 'form-control','step'=>'any']) }}
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         </div>
-
-                        <div class="col-md-6 form-group has-feedback">
+  @if (!isset($movimiento->id))
+                   
+                     <div class="col-md-6 form-group has-feedback">
+                            <label for="cuotas">Cuotas</label>
+                            {{ Form::number('cuotas', 1, ['id' => 'cuotas', 'class' => 'form-control','step'=>'any']) }}
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    @endif
+                    
+                    </div>
+                     <div class="row  col-md-12">
+                        
+    <div class="col-md-6 form-group has-feedback">
                             <label for="tipo_movimiento">Tipo de Movimiento</label>
                             {{ Form::select('tipo_movimiento',[ 'Egreso' => 'Egreso', 'Ingreso' => 'Ingreso'], null, array('id' => 'tipo_movimiento','class' => 'form-control') )}}
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         </div>
-                    </div>
-                     <div class="row  col-md-12">
-                        
-
                         <div class="col-md-6 form-group has-feedback">
                             <label for="moneda">Moneda</label>
                             {{ Form::select('moneda',[ 'Pesos' => 'Pesos', 'Dolares' => 'Dolares'], null, array('id' => 'moneda','class' => 'form-control') )}}

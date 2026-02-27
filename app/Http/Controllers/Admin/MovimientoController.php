@@ -120,9 +120,19 @@ class MovimientoController extends Controller
     public function store(Request $request)
     {
         try {
-            $movimientos = new Movimiento($request->all());
-            $movimientos->save();
-
+            if ($request->cuotas > 1) {
+                $valor_cuota = $request->importe / $request->cuotas;
+                for ($i = 0; $i < $request->cuotas; $i++) {
+                    $movimientos = new Movimiento($request->all());
+                    $movimientos->denominacion = $request->denominacion . ' - Cuota ' . ($i + 1) . '/' . $request->cuotas;
+                    $movimientos->fecha = Carbon::parse($request->fecha)->addMonths($i)->format('Y-m-d');
+                    $movimientos->importe = $valor_cuota;
+                    $movimientos->save();
+                }
+            } else {
+                $movimientos = new Movimiento($request->all());
+                $movimientos->save();
+            }
             return redirect()->route('admin.movimientos.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
             return redirect()->route('admin.movimientos.index')->with('error', $ex->getMessage());
