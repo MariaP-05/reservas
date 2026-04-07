@@ -16,7 +16,7 @@ class FormasPagoSeeder extends Seeder
     public function run()
     {
         //
-      /*  Forma_pago::create([
+        Forma_pago::create([
             'denominacion' => 'Transferencias'
         ] );
 
@@ -34,7 +34,7 @@ class FormasPagoSeeder extends Seeder
 
         Forma_pago::create([
             'denominacion' => 'Crédito Tarjeta'
-        ] );*/
+        ] );
          Forma_pago::create([
             'denominacion' => 'AIRBNB'
         ] );
