@@ -42,6 +42,8 @@ class MovimientoController extends Controller
         //number_format es la funcion para dar formato de numero a una variable: 
         //entonces se describe (variable,cantidad de decimales, separador de decimales, separador de miles)
         $saldo = '$ ' . number_format($saldo, 2, ',', '.');
+        $movimientos_ingreso = '$ ' . number_format($movimientos_ingreso, 2, ',', '.');
+        $movimientos_egreso = '$ ' . number_format($movimientos_egreso, 2, ',', '.');
 
         $movimientos_egreso_dolar = Movimiento::search($request)->where('tipo_movimiento', 'Egreso')
             ->where('moneda', 'Dolares')->sum('importe');
@@ -51,6 +53,9 @@ class MovimientoController extends Controller
         //number_format es la funcion para dar formato de numero a una variable: 
         //entonces se describe (variable,cantidad de decimales, separador de decimales, separador de miles)
         $saldo_dolar = '$ ' . number_format($saldo_dolar, 2, ',', '.');
+        $movimientos_ingreso_dolar = '$ ' . number_format($movimientos_ingreso_dolar, 2, ',', '.');
+        $movimientos_egreso_dolar = '$ ' . number_format($movimientos_egreso_dolar, 2, ',', '.');
+
 
         //ponemos las fechas filtradas para que se muestren en el buscador
         $fecha_desde = null;
@@ -94,7 +99,9 @@ class MovimientoController extends Controller
 
         return view('admin.movimientos.index', compact(
             'saldo',
-            'saldo_dolar',
+            'saldo_dolar','movimientos_ingreso',
+            'movimientos_egreso','movimientos_ingreso_dolar',
+            'movimientos_egreso_dolar',
             'movimientos',
             'fecha_desde',
             'fecha_hasta',

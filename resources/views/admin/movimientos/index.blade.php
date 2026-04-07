@@ -20,14 +20,32 @@
         @include('admin.movimientos.partials.busqueda')
 
         <div class="card-body">
-            <div class="row">
-                <div class="form-group col-sm-6">
+            <div class="row" align="center" >
+                <div class="form-group col-sm-6" style="background-color: #25c4d3 " >
                     <label for="saldo">Saldo cuenta en Pesos</label>
                     {{ Form::text('saldo', $saldo, ['saldo' => 'saldo', 'class' => 'form-control', 'readonly']) }}
                 </div>
-                <div class="form-group col-sm-6">
+                <div class="form-group col-sm-6" style="background-color: #59fd9a">
                     <label for="saldo_dolar">Saldo cuenta en Dolares</label>
                     {{ Form::text('saldo_dolar', $saldo_dolar, ['saldo_dolar' => 'saldo_dolar', 'class' => 'form-control', 'readonly']) }}
+                </div>
+            </div>
+            <div class="row" align="center">
+                <div class="form-group col-sm-3" style="background-color: #25c4d3">
+                    <label for="movimientos_ingreso">Ingresos</label>
+                    {{ Form::text('movimientos_ingreso', $movimientos_ingreso, ['movimientos_ingreso' => 'movimientos_ingreso', 'class' => 'form-control', 'readonly']) }}
+                </div>
+                 <div class="form-group col-sm-3" style="background-color: #25c4d3">
+                    <label for="movimientos_egreso">Egresos</label>
+                    {{ Form::text('movimientos_egreso', $movimientos_egreso, ['movimientos_egreso' => 'movimientos_egreso', 'class' => 'form-control', 'readonly']) }}
+                </div>
+                    <div class="form-group col-sm-3" style="background-color: #40f689">
+                        <label for="movimientos_ingreso_dolar">Ingresos</label>
+                        {{ Form::text('movimientos_ingreso_dolar', $movimientos_ingreso_dolar, ['movimientos_ingreso_dolar' => 'movimientos_ingreso_dolar', 'class' => 'form-control', 'readonly']) }}
+                </div>
+                <div class="form-group col-sm-3" style="background-color: #40f689">
+                        <label for="movimientos_egreso_dolar">Egresos</label>
+                        {{ Form::text('movimientos_egreso_dolar', $movimientos_egreso_dolar, ['movimientos_egreso_dolar' => 'movimientos_egreso_dolar', 'class' => 'form-control', 'readonly']) }}
                 </div>
             </div>
             <div class="card-body">
