@@ -165,6 +165,25 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 </button>
                                             </form>
                                         </div>
+                                        <div class="col-md-4 form-group">
+                                             <form method="get" action="{{ route('admin.reservas.create_factura', $reserva->id) }}">
+
+                                                <button type="submit" class="btn btn-outline-primary"
+                                                    title="Crear Factura">
+                                                    <i class="fa fa-barcode"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        @if(count($reserva->Comprobante) > 0)
+                                        @foreach($reserva->Comprobante as $comprobante)
+                                        <div class="col-md-4 form-group">
+                                            <a href="{{ asset($comprobante->archivo_pdf) }}" class="btn btn-outline-danger" target="_blank" title="Ver Factura">
+                                                <i class="fa fa-download"></i>
+                                            </a>
+                                        </div>
+                                        @endforeach
+                                         
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

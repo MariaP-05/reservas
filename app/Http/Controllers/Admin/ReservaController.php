@@ -9,19 +9,22 @@ use App\Models\Cabania;
 use App\Models\Forma_pago;
 use App\Models\Precio;
 use App\Models\Reserva;
+use Afip;
+use App\Models\Comprobante;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use PDF;
- 
+
 class ReservaController extends Controller
 {
     public function index(Request $request)
     {
-      //  $this->migrarDatos(); +18% / 1400
+        //  $this->migrarDatos(); +18% / 1400
         $reservas = Reserva::all();
 
-
+//$this->export_comprobante(102);
         return view('admin.reservas.index', compact('reservas'));
     }
 
@@ -75,7 +78,7 @@ class ReservaController extends Controller
             if ($request->nombre_cliente !== '' && $request->nombre_cliente !== null) {
                 $cliente = new Cliente();
                 $cliente->nombre = $request->nombre_cliente;
-                $cliente->telefono = $request->telefono_cliente; 
+                $cliente->telefono = $request->telefono_cliente;
                 $cliente->dni = $request->dni_cliente;
                 $cliente->cuit = $request->cuit_cliente;
                 $cliente->razon_social = $request->razon_social_cliente;
@@ -95,8 +98,8 @@ class ReservaController extends Controller
             $hora_egreso =  ($reserva->hora_egreso == null  ||  $reserva->hora_egreso == '') ? '10:00:00'  :  $reserva->hora_egreso;
 
             $reserva->start = $fecha_desde->format('Y-m-d') . 'T' . $hora_ingreso;
-           //se cambia la fehca end para que el calendario muestre noches ocupadas
-           // $reserva->end = $fecha_hasta->format('Y-m-d') . 'T' . $hora_egreso;
+            //se cambia la fehca end para que el calendario muestre noches ocupadas
+            // $reserva->end = $fecha_hasta->format('Y-m-d') . 'T' . $hora_egreso;
 
             $reserva->end = new Carbon($fecha_hasta);
             $reserva->end->addDay(-1);
@@ -157,25 +160,21 @@ class ReservaController extends Controller
             ->orderby('fecha_desde', 'desc')->first();
         $cant_dias = $fecha_desde->diffInDays($fecha_hasta);
 
-       // dd($precio_entrada, $cant_dias);
+        
         if (isset($precio_entrada)) {
             if ($reserva->moneda == 'Pesos') {
                 $reserva->importe_reserva =  $precio_entrada->valor * $cant_dias;
             } else {
-               
+
                 $reserva->importe_reserva = (isset($precio_entrada->valor_dolar) ? $precio_entrada->valor_dolar : 0) * $cant_dias;
             }
- 
-if($reserva->importe_reserva == 0)
-{
-$reserva->descuento_porce = (100 * $reserva->descuento) / 1;
-}
-else
-{
- $reserva->descuento_porce = (100 * $reserva->descuento) / $reserva->importe_reserva;
-          
-}
-             
+
+            if ($reserva->importe_reserva == 0) {
+                $reserva->descuento_porce = (100 * $reserva->descuento) / 1;
+            } else {
+                $reserva->descuento_porce = (100 * $reserva->descuento) / $reserva->importe_reserva;
+            }
+
             $reserva->total = $reserva->importe_reserva - $reserva->descuento;
             if ($reserva->total > 0) {
                 $reserva->recargo_porce = (100 * $reserva->recargo) / $reserva->total;
@@ -193,8 +192,13 @@ else
             $reserva->total_deuda = floatval($reserva->total) + floatval($reserva->recargo)  - floatval($reserva->senia);
         }
 
-        return view('admin.reservas.edit', compact('reserva', 'clientes', 'cabanias', 
-        'formas_pago',  'estado_reservas'));
+        return view('admin.reservas.edit', compact(
+            'reserva',
+            'clientes',
+            'cabanias',
+            'formas_pago',
+            'estado_reservas'
+        ));
     }
 
     /**
@@ -215,10 +219,10 @@ else
                 $cliente = new Cliente();
                 $cliente->nombre = $request->nombre_cliente;
                 $cliente->telefono = $request->telefono_cliente;
-                    $cliente->dni = $request->dni_cliente;
+                $cliente->dni = $request->dni_cliente;
                 $cliente->cuit = $request->cuit_cliente;
                 $cliente->razon_social = $request->razon_social_cliente;
-                
+
                 $cliente->save();
                 $reserva->id_cliente = $cliente->id;
             } else {
@@ -248,8 +252,8 @@ else
             $hora_egreso =  ($reserva->hora_egreso == null  ||  $reserva->hora_egreso == '') ? '10:00:00'  :  $reserva->hora_egreso;
 
             $reserva->start = $fecha_desde->format('Y-m-d') . 'T' . $hora_ingreso;
-           //se cambia la fehca end para que el calendario muestre noches ocupadas
-           // $reserva->end = $fecha_hasta->format('Y-m-d') . 'T' . $hora_egreso;
+            //se cambia la fehca end para que el calendario muestre noches ocupadas
+            // $reserva->end = $fecha_hasta->format('Y-m-d') . 'T' . $hora_egreso;
 
             $reserva->end = new Carbon($fecha_hasta);
             $reserva->end->addDay(-1);
@@ -404,10 +408,10 @@ else
 
     public function calendario(Request $request)
     {
-       
-        
+
+
         $cab = [];
-        if (isset($request->fec_desde) ) {
+        if (isset($request->fec_desde)) {
             $fecha_desde = new Carbon($request->fec_desde);
             $fecha_desde_filtro = new Carbon($request->fec_desde);
         } else {
@@ -418,7 +422,7 @@ else
             $fecha_desde_filtro->addDays(-1);
         }
 
-        if (isset($request->fec_hasta) ) {
+        if (isset($request->fec_hasta)) {
             $fecha_hasta = new Carbon($request->fec_hasta);
             $fecha_hasta_filtro = new Carbon($request->fec_hasta);
         } else {
@@ -436,28 +440,26 @@ else
         $num_mes = 0;
         $array = [];
 
-           if(isset($request->mes))
-        {
-            switch($request->mes)
-            {
+        if (isset($request->mes)) {
+            switch ($request->mes) {
                 case 'proximo':
-$fecha_desde->addMonth(1);
-$fecha_hasta-> addMonth(1);
- $fecha_hasta_filtro->addMonths(1);
-  $fecha_desde_filtro->addMonths(1);
+                    $fecha_desde->addMonth(1);
+                    $fecha_hasta->addMonth(1);
+                    $fecha_hasta_filtro->addMonths(1);
+                    $fecha_desde_filtro->addMonths(1);
                     break;
 
                 case 'previo':
-$fecha_desde->addMonth(-1);
-$fecha_hasta-> addMonth(-1);
+                    $fecha_desde->addMonth(-1);
+                    $fecha_hasta->addMonth(-1);
 
- $fecha_hasta_filtro->addMonths(-1);
-  $fecha_desde_filtro->addMonths(-1);
+                    $fecha_hasta_filtro->addMonths(-1);
+                    $fecha_desde_filtro->addMonths(-1);
                     break;
             }
         }
         while ($fecha_desde <= $fecha_hasta) {
-          
+
             $mes = $fecha_desde->locale('es_Ar')->isoFormat('MMMM');
             if (in_array($mes, $months_bandera) == false) {
                 $months_bandera[] = $fecha_desde->locale('es_Ar')->isoFormat('MMMM');
@@ -543,6 +545,79 @@ $fecha_hasta-> addMonth(-1);
         return $pdf->download('Reserva  ' . (isset($reserva->Cliente) ? $reserva->Cliente->nombre : '') . '.pdf');
     }
 
+       public function export_comprobante($id)
+    {
+         $afip = new Afip([
+                'production' => 'false', //true para produccion, false para testing
+                'CUIT' => '27382923427',
+                'cert' => file_get_contents(storage_path('app/public/afip/certtest')),
+                'key' => file_get_contents(storage_path('app/public/afip/keytest')),
+                'access_token' => 'WwUZ9RsPtwVWLj402lIy8GggVTkah4khTmfWbGjnLGEYjxSxiTOqREbR4ocTRWCi',
+            ]);
+//$reserva = Reserva::find($id);
+       // Aqui deben cambiar los datos por los que correspondan. 
+       $comprobante = Comprobante::where('id_reserva', $id)->first();
+       $fecha_desde = new Carbon($comprobante->reserva->fecha_desde);
+       $fecha_hasta = new Carbon($comprobante->reserva->fecha_hasta);
+$data = [
+    "file_name" => $comprobante->id ." - ".$comprobante->id_reserva . ".pdf",
+ //   "send_to" => "cliente@empresa.com",
+    "template" => [
+        "name" => "invoice-b",
+        "params" => [
+            "voucher_number" =>  $comprobante->numero,
+            "sales_point" => $comprobante->punto_venta,
+            "issue_date" => $comprobante->fecha,
+            "cae_due_date" => $comprobante->fecha_vencimiento_cae,
+            "issuer_cuit" => 27382923427,
+            "cae" => $comprobante->numero_cae,
+            "issuer_business_name" => "Guadalupe Fernandez",
+            "issuer_address" => "J.B JUSTO 59",
+            "issuer_iva_condition" => "Monotributo",
+            "issuer_gross_income" => "CUIT 27-38292342-7",
+            "issuer_activity_start_date" => "01/01/2020",
+            "receiver_name" => $comprobante->Reserva->Cliente->nombre,
+            "receiver_address" => isset($comprobante->Reserva->Cliente->direccion) ? $comprobante->Reserva->Cliente->direccion : 'J.B JUSTO 590',
+            "receiver_document_type" => 99,
+            "receiver_document_number" =>isset($comprobante->Reserva->Cliente->dni) ? $comprobante->Reserva->Cliente->dni : 35222935,
+            "receiver_iva_condition" => "Consumidor Final",
+            "sale_condition" => "Contado",
+            "currency_id" => "ARS",
+            "currency_rate" => 1,
+            "concept" => 2,
+            "items" => [
+                [
+                    "code" => "001",
+                    "description" => "Servicio de Hoteleria",
+                    "quantity" => 1,
+                    "unit_price" => number_format($comprobante->valor  , 2, '.', ''),
+                    "subtotal" => number_format($comprobante->valor , 2, '.', '')
+                ]
+            ],
+            "vat_amount" =>number_format($comprobante->valor - ($comprobante->valor / 1.21), 2, '.', ''),// 21,//
+            "tributes_amount" => 0,
+            "total_amount" => number_format($comprobante->valor - ($comprobante->valor / 1.21), 2, '.', ''),
+            "billing_from" =>  $fecha_desde->format('d/m/Y'),// "01/02/2026",
+            "billing_to" => $fecha_hasta->format('d/m/Y'),// "28/02/2026",
+            "payment_due_date" => $comprobante->fecha_vencimiento_cae
+        ]
+    ]
+];
+
+try {
+    // Realizamos la llamada
+    $response = $afip->ElectronicBilling->CreatePDF($data);
+$comprobante->archivo_pdf = $response['file'];
+$comprobante->save();
+return redirect($comprobante->archivo_pdf);
+//echo file_get_contents($comprobante->archivo_pdf); 
+    // Mostramos la respuesta por pantalla
+   // var_dump($response);
+} catch (\Throwable $error) {
+    // En caso de error lo mostramos por pantalla
+	var_dump($error);
+}}
+
     public function calendario_io()
     {
 
@@ -562,7 +637,7 @@ $fecha_hasta-> addMonth(-1);
     {
         $evento = Reserva::all();
         foreach ($evento as $turno) {
-          //  $turno->fecha_reserva = $turno->created_at;
+            //  $turno->fecha_reserva = $turno->created_at;
             $fecha_desde = new Carbon($turno->fecha_desde);
             $fecha_hasta = new Carbon($turno->fecha_hasta);
             $hora_ingreso =  ($turno->hora_ingreso == null  ||  $turno->hora_ingreso == '') ? '12:00:00'  :  $turno->hora_ingreso;
@@ -570,8 +645,8 @@ $fecha_hasta-> addMonth(-1);
             //  $turno->start = $fecha_desde->format('Y-m-d') .'T12:00:00';
             ///  $turno->end = $fecha_hasta->format('Y-m-d') .'T16:00:00' ;
             $turno->start = $fecha_desde->format('Y-m-d') . 'T' . $hora_ingreso;
-             //se cambia la fehca end para que el calendario muestre noches ocupadas
-           // $reserva->end = $fecha_hasta->format('Y-m-d') . 'T' . $hora_egreso;
+            //se cambia la fehca end para que el calendario muestre noches ocupadas
+            // $reserva->end = $fecha_hasta->format('Y-m-d') . 'T' . $hora_egreso;
 
             $turno->end = new Carbon($fecha_hasta);
             $turno->end->addDay(-1);
@@ -599,7 +674,7 @@ $fecha_hasta-> addMonth(-1);
         }
     }
 
-      public function CambiarEstado($id,$estado)
+    public function CambiarEstado($id, $estado)
     {
         try {
             $reserva = Reserva::findOrFail($id);
@@ -608,9 +683,161 @@ $fecha_hasta-> addMonth(-1);
 
             $reserva->save();
 
-            return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));              
+            return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
         } catch (QueryException  $ex) {
             return redirect()->route('admin.reservas.index')->with('error', $ex->getMessage());
+        }
+    }
+
+    public function create_factura($id)
+    {
+        try {
+            $reserva = Reserva::findOrFail($id);
+
+            $afip = new Afip([
+                'production' => 'false', //true para produccion, false para testing
+                'CUIT' => '27382923427',
+                'cert' => file_get_contents(storage_path('app/public/afip/certtest')),
+                'key' => file_get_contents(storage_path('app/public/afip/keytest')),
+                'access_token' => 'WwUZ9RsPtwVWLj402lIy8GggVTkah4khTmfWbGjnLGEYjxSxiTOqREbR4ocTRWCi',
+            ]);
+
+            $last_voucher = $afip->ElectronicBilling->GetLastVoucher(1, 6);
+         
+            $numero_comprobante = $last_voucher + 1;
+           
+            $fecha_desde = new Carbon ($reserva->fecha_desde);
+            $fecha_hasta = new Carbon ($reserva->fecha_hasta);
+
+            // Info del comprobante
+            $data = array(
+                'CantReg'     => 1,  // Cantidad de comprobantes a registrar
+                'PtoVta'     => 1,  // Punto de venta
+                'CbteTipo'     => 6,  // Tipo de comprobante (ver tipos disponibles) 
+                'Concepto'     => 2,  // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
+                'DocTipo'     => 99, // Tipo de documento del comprador (99 consumidor final, ver tipos disponibles)
+                'DocNro'     => 0,  // Número de documento del comprador (0 consumidor final)
+                'CbteDesde'     => $numero_comprobante,  // Número de comprobante o numero del primer comprobante en caso de ser mas de uno
+                'CbteHasta'     => $numero_comprobante,  // Número de comprobante o numero del último comprobante en caso de ser mas de uno
+                'CbteFch'     => intval(date('Ymd')), // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
+                'ImpTotal'     => number_format($reserva->valor, 2, '.', ''), // Importe total del comprobante
+                'ImpTotConc'     => 0,   // Importe neto no gravado
+                'ImpNeto'     => number_format($reserva->valor / 1.21, 2, '.', ''), // Importe neto gravado
+                'ImpOpEx'     => 0,   // Importe exento de IVA
+                'FchServDesde' =>  intval($fecha_desde->format('Ymd')), //'20080725', // (Opcional) Fecha de inicio del servicio (yyyymmdd), obligatorio para Concepto 2 y 3
+                'FchServHasta' =>  intval($fecha_hasta->format('Ymd')), //'30080725', // (Opcional) Fecha de fin del servicio (yyyymmdd), obligatorio para Concepto 2 y 3
+                'FchVtoPago'     =>  30080725,//intval($fecha_hasta->format('Ymd')), //'30080725', // (Opcional) Fecha de vencimiento del servicio (yyyymmdd), obligatorio para Concepto 2 y 3
+                'ImpIVA'     => number_format($reserva->valor - ($reserva->valor / 1.21), 2, '.', ''),  //Importe total de IVA
+                'ImpTrib'     => 0,   //Importe total de tributos
+                'MonId'     => 'PES', //Tipo de moneda usada en el comprobante (ver tipos disponibles)('PES' para pesos argentinos) 
+                'MonCotiz'     => 1,     // Cotización de la moneda usada (1 para pesos argentinos)  
+                'CondicionIVAReceptorId' => 5, // Condición frente al IVA del receptor  
+                'Iva'         => array( // (Opcional) Alícuotas asociadas al comprobante
+                    array(
+                        'Id'         => 5, // Id del tipo de IVA (5 para 21%)(ver tipos disponibles) 
+                        'BaseImp'     => number_format($reserva->valor / 1.21, 2, '.', ''), // Base imponible
+                        'Importe'     => number_format($reserva->valor - ($reserva->valor / 1.21), 2, '.', ''), // Importe 
+                    )
+                ),
+            );
+         
+            $res = $afip->ElectronicBilling->CreateNextVoucher($data);
+           // dd($res);
+            $comprobante = new Comprobante();
+            $comprobante->id_reserva = $reserva->id;
+            $comprobante->id_tipo_comprobante = 6;
+            $comprobante->id_estado_comprobante = 2;
+            $comprobante->valor = $reserva->valor;
+            $comprobante->fecha = Carbon::now();
+             $comprobante->numero = $res['voucher_number'];
+              $comprobante->numero_cae = $res['CAE'];
+                 $comprobante->fecha_vencimiento_cae = $res['CAEFchVto']; 
+                     $comprobante->punto_venta = '00001';
+                       $comprobante->observaciones = 'Comprobante generado por' . ' ' . Auth::user()->name ;
+            $comprobante->save();
+           
+         
+            $this->export_comprobante(102);
+
+            return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
+        } catch (QueryException  $ex) {
+            return redirect()->route('admin.reservas.index')->with('error', $ex->getMessage());
+        }
+    }
+
+    //probando
+
+    public function factura_afip_prueba_archivos($id)
+    {
+        $certPath = storage_path('app/public/afip/certtest');
+        $keyPath  = storage_path('app/public/afip/keytest');
+
+        $cert = file_get_contents($certPath);
+        $key  = file_get_contents($keyPath);
+
+        $certRes = openssl_x509_read($cert);
+        $keyRes  = openssl_pkey_get_private($key); // si tiene passphrase, agrégala aquí
+
+        if (!$certRes) {
+            dd('No pude leer el certificado');
+        }
+
+        if (!$keyRes) {
+            dd('No pude leer la clave privada');
+        }
+
+        $certData = openssl_x509_parse($certRes);
+        $keyData   = openssl_pkey_get_details($keyRes);
+
+        $certModulus = $certData['subject']['serialNumber'] ?? null; // solo referencia
+        $keyModulus   = $keyData['rsa']['n'] ?? null;
+
+        /*  dd([
+            'pair_match' => openssl_x509_check_private_key($certRes, $keyRes),
+            'cert_subject' => $certData['subject'] ?? null,
+            'key_type' => $keyData['type'] ?? null,
+            'cert_modulus_sha256' => $certModulus ? hash('sha256', $certModulus) : null,
+            'key_modulus_sha256'  => $keyModulus ? hash('sha256', $keyModulus) : null,
+        ]);*/
+
+
+        $certInfo = openssl_x509_read($cert);
+        $keyInfo  = openssl_pkey_get_private($key); // si tiene passphrase, aquí fallará
+
+        dd([
+            'cert_ok' => (bool) $certInfo,
+            'key_ok'  => (bool) $keyInfo,
+            'cert_error' => openssl_error_string(),
+            'key_error'  => openssl_error_string(),
+        ]);
+        try {
+            $afip = new Afip([
+                'production' => true,
+                'CUIT' => 30666810364,
+                'res_folder' => storage_path('app/public/afip/'),
+                'ta_folder'  => storage_path('app/public/afip/'),
+                'cert'       => 'cert',
+                'key'        => 'key',
+            ]);
+            try {
+                $voucher_info = $afip->ElectronicBilling->GetVoucherInfo($id, 3, 211);
+                dd($voucher_info);
+            } catch (Throwable $e) {
+                dd([
+                    'message' => $e->getMessage(),
+                    'file'    => $e->getFile(),
+                    'line'    => $e->getLine(),
+                    'trace'   => $e->getTraceAsString(),
+                ]);
+            }
+            echo "AFIP cargado OK\n";
+        } catch (Throwable $e) {
+            dd([
+                'message' => $e->getMessage(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+                'trace'   => $e->getTraceAsString(),
+            ]);
         }
     }
 }

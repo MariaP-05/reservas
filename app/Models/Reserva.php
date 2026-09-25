@@ -47,6 +47,11 @@ class Reserva extends Model
         return $this->belongsTo('App\Models\Estado_reserva', 'id_estado_reserva');
     }
 
+    public function Comprobante()
+    {
+        return $this->hasMany('App\Models\Comprobante', 'id_reserva');
+    }
+
     public function setFechaDesdeAttribute($value)
     {
         if(trim($value) !== '')
