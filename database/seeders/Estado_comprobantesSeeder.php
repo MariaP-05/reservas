@@ -16,7 +16,7 @@ class Estado_comprobantesSeeder extends Seeder
      */
     public function run()
     {
-
+/*
         Estado_comprobante::create([
             'denominacion' => 'Pendiente',
             'icono' => 'bi bi-house-slash-fill',
@@ -95,6 +95,33 @@ class Estado_comprobantesSeeder extends Seeder
          Tipo_comprobante::create([
             'denominacion' => 'Nota de venta al contado B',
             'codigo' => '10' 
+
+        ] 
+        );*/
+
+         Tipo_comprobante::create([
+            'denominacion' => 'Factura C',
+            'codigo' => '11' 
+
+        ]);
+         Tipo_comprobante::create([
+            'denominacion' => 'Nota de débito C',
+            'codigo' => '12' 
+
+        ]);
+         Tipo_comprobante::create([
+            'denominacion' => 'Nota de crédito C',
+            'codigo' => '13' 
+
+        ]);
+         Tipo_comprobante::create([
+            'denominacion' => 'Recibo C',
+            'codigo' => '14' 
+
+        ]);
+         Tipo_comprobante::create([
+            'denominacion' => 'Nota de venta al contado C',
+            'codigo' => '15' 
 
         ] 
         );
