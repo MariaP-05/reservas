@@ -16,7 +16,7 @@ class Estado_comprobantesSeeder extends Seeder
      */
     public function run()
     {
-/*
+
         Estado_comprobante::create([
             'denominacion' => 'Pendiente',
             'icono' => 'bi bi-house-slash-fill',
@@ -97,7 +97,7 @@ class Estado_comprobantesSeeder extends Seeder
             'codigo' => '10' 
 
         ] 
-        );*/
+        );
 
          Tipo_comprobante::create([
             'denominacion' => 'Factura C',

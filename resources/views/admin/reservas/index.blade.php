@@ -175,13 +175,12 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                             </form>
                                         </div>
                                         @if(count($reserva->Comprobante) > 0)
-                                        @foreach($reserva->Comprobante as $comprobante)
-                                        <div class="col-md-4 form-group">
-                                            <a href="{{ asset($comprobante->archivo_pdf) }}" class="btn btn-outline-danger" target="_blank" title="Ver Factura">
-                                                <i class="fa fa-download"></i>
+                                         <a href="{{ route('admin.reservas.archivos', $reserva->id) }}"
+                                                class="btn btn-outline-success" title="Archivos Cliente"
+                                                 role="button"
+                                                target="_blank" style="width:44px;	height:39px; top:40px;	right:20px;">
+                                                <i class="fa fa-folder-open"><?php echo \App\Models\Reserva::countFiles($reserva->id); ?> </i>
                                             </a>
-                                        </div>
-                                        @endforeach
                                          
                                         @endif
                                     </div>

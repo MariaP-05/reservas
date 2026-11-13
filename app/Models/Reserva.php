@@ -172,4 +172,12 @@ class Reserva extends Model
         return false; 
    
     }
+
+     public static function countFiles($id)
+    {
+        $reserva = Reserva::find($id);
+        $i = count($reserva->Comprobante);
+        return $i;
+        
+    }
 }

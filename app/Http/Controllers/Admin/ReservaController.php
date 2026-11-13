@@ -15,6 +15,7 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\File;
 use PDF;
 
 use Illuminate\Support\Facades\Http;
@@ -769,9 +770,8 @@ $comprobante->save();
          
             $this->export_comprobante($comprobante->id);
 
-            $comprobante2 = Comprobante::find(  $comprobante->id);
-          //  dd($comprobante2);
-$this->storeFile(  $comprobante2->archivo_pdf );
+            $comprobante2 = Comprobante::find(  $comprobante->id); 
+$this->storeFile(  $comprobante2->archivo_pdf, $reserva->id );
             
 
             return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
@@ -781,7 +781,7 @@ $this->storeFile(  $comprobante2->archivo_pdf );
     }
 
     //probando
-  public function storeFile(string $url): string
+  public function storeFile(string $url, $id): string
     {
         // Limita el origen si la URL viene de datos externos.
         if (parse_url($url, PHP_URL_HOST) !== 'afip-sdk-pdf-storage.s3.amazonaws.com') {
@@ -798,7 +798,7 @@ $this->storeFile(  $comprobante2->archivo_pdf );
             throw new RuntimeException('La respuesta no parece ser un PDF válido.');
         }
 
-        $path = 'pdfs/'.Str::uuid().'.pdf';
+        $path = 'reservas/' . $id . '/Seña.pdf';
 
         Storage::disk('local')->put($path, $content);
 
@@ -878,4 +878,63 @@ $this->storeFile(  $comprobante2->archivo_pdf );
             ]);
         }
     }
+
+    public function archivos($id)
+{
+    $i = 1;
+    $eva = $this->cantidad_archivos($id, 's', 15);
+   
+    $reserva = Reserva::find($id);
+    $puede_eliminar = true;
+    $puede_modificar = false;        
+     
+     
+    return view('admin.reservas.archivos', compact('reserva','eva','i','puede_eliminar','id',
+    'puede_modificar' ));
+}
+
+public function mostrarArchivo($id, string $filename)
+{
+    $reserva = Reserva::findOrFail($id);
+
+    if ($filename !== basename($filename)) {
+        abort(404);
+    }
+
+    $path = 'reservas/' . $reserva->id . '/' . $filename;
+    $disk = Storage::disk('local');
+
+    if (! $disk->exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($disk->path($path), [
+        'Content-Type' => $disk->mimeType($path) ?: 'application/octet-stream',
+        'X-Content-Type-Options' => 'nosniff',
+    ]);
+}
+
+public function cantidad_archivos($id, $nombre, $largo)
+{
+    $path = storage_path('app/reservas/' . $id . '/'); //Declaramos un  variable con la ruta donde guardaremos los archivos
+ 
+    $archivos = array();
+    $i = 1;
+
+    if (file_exists($path)) {
+        $files = File::allFiles($path);
+
+        foreach ($files as $file) {
+            $var = explode(".", $file->getFilename());
+            $tipo =  substr($var[0], -$largo);
+          //  if ($tipo == $nombre) {
+                $archivos[$i]['nombre'] = $file->getFilename();
+                $archivos[$i]['tamaño'] = $file->getSize();
+                $archivos[$i]['extension'] = $file->getExtension();
+                $i++;
+           // }
+        }
+    }
+    return $archivos;
+}
 }
