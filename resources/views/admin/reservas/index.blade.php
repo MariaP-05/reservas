@@ -160,6 +160,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 action="{{ route('admin.reservas.CambiarEstado', [$reserva->id, '6']) }}">
 
                                                 <button type="submit" class="btn btn-outline-secondary"
+                                                {{ $reserva->canFacturarOld() ? '' : 'disabled' }}
                                                     title="Facturada">
                                                     <i class="fa fa-receipt"></i>
                                                 </button>
@@ -169,6 +170,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                              <form method="get" action="{{ route('admin.reservas.create_factura', $reserva->id) }}">
 
                                                 <button type="submit" class="btn btn-outline-primary"
+                                                 {{ $reserva->canFacturar() ? '' : 'disabled' }}
                                                     title="Crear Factura">
                                                     <i class="fa fa-barcode"></i>
                                                 </button>

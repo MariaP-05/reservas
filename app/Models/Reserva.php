@@ -180,4 +180,32 @@ class Reserva extends Model
         return $i;
         
     }
+
+     public function canFacturar()
+     {
+        if(($this->id_estado_reserva == 2 || ($this->id_estado_reserva == 5 && $this->senia > 0)) && $this->valor > 0)
+            {
+                
+                return true; 
+            }
+            else
+            {
+                return false; 
+            }          
+   
+    }
+
+    public function canFacturarOld()
+     {
+        if($this->id_estado_reserva !== 6 && $this->id_estado_reserva !== 3)
+            {
+                
+                return true; 
+            }
+            else
+            {
+                return false; 
+            }          
+   
+    }
 }

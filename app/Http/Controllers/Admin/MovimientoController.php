@@ -17,20 +17,7 @@ class MovimientoController extends Controller
 {
     public function index(Request $request)
     {
-        /* para impactar los pagos de las reservas /*/
-        /*  $reservas1 = Reserva::where('fecha_desde','<=','2025-09-30' ) ->get();
-        //dd($reservas);
-        foreach ($reservas1 as $reserva1) {
-          $this->impactar_pago($reserva1->id);
-        } 
-
-       $reservas = Reserva::where('fecha_desde','<=','2025-12-08' )
-       ->where('fecha_desde','>','2025-09-30' )->get();
-        //dd($reservas);
-        foreach ($reservas as $reserva) {
-          $this->impactar_pago($reserva->id);
-        }   */
-
+      
         $movimientos = Movimiento::search($request)->get();
 
         //calculamos el saldo segun la busqueda
@@ -249,8 +236,12 @@ class MovimientoController extends Controller
 
                 $movimiento->save();
 
-                // Actualizar el estado de la reserva a "Pagada"
-                $reserva->id_estado_reserva = 2;
+                // Actualizar el estado de la reserva a "Pagada" si no esta facturada
+                if($reserva->id_estado_reserva != 6)
+                    {
+                        $reserva->id_estado_reserva = 2;
+                    }
+              
                 $reserva->save();
             }
         }
