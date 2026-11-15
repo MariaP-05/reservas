@@ -12,6 +12,7 @@ use App\Models\Reserva;
 use App\Models\Prestador;
 use Afip;
 use App\Models\Comprobante;
+use App\Models\CotizacionMoneda;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,18 +29,16 @@ class ReservaController extends Controller
 {
     public function index(Request $request)
     {
-        //  $this->migrarDatos(); +18% / 1400
         $reservas = Reserva::all();
 
-   //   $this->export_comprobante(23);
-    /*  $this->storeFile(  'https://afip-sdk-pdf-storage.s3.amazonaws.com/01a1da75-8939-72db-a06b-9495a0342a1f.pdf',
+        //   $this->export_comprobante(23);
+        /*  $this->storeFile(  'https://afip-sdk-pdf-storage.s3.amazonaws.com/01a1da75-8939-72db-a06b-9495a0342a1f.pdf',
       111 , 'Comprobante Seña Reserva 111');*/
         return view('admin.reservas.index', compact('reservas'));
     }
 
     public function create()
     {
-
         $clientes = Cliente::orderBy('nombre')->pluck('nombre', 'id')->all();
         $clientes = array('' => trans('message.select')) + $clientes;
 
@@ -169,7 +168,7 @@ class ReservaController extends Controller
             ->orderby('fecha_desde', 'desc')->first();
         $cant_dias = $fecha_desde->diffInDays($fecha_hasta);
 
-        
+
         if (isset($precio_entrada)) {
             if ($reserva->moneda == 'Pesos') {
                 $reserva->importe_reserva =  $precio_entrada->valor * $cant_dias;
@@ -554,99 +553,96 @@ class ReservaController extends Controller
         return $pdf->download('Reserva  ' . (isset($reserva->Cliente) ? $reserva->Cliente->nombre : '') . '.pdf');
     }
 
-       public function export_comprobante($id, $prestador)
+    public function export_comprobante($id, $prestador)
     {
-         $afip = new Afip([
-                'production' => 'false', //true para produccion, false para testing
-                'CUIT' => $prestador->cuit,
-                'cert' => file_get_contents(storage_path('app/public/afip/'.$prestador->cert)),
-                'key' => file_get_contents(storage_path('app/public/afip/'.$prestador->key)),
-                'access_token' => $prestador->token,
-            ]);
-//$reserva = Reserva::find($id);
-       // Aqui deben cambiar los datos por los que correspondan. 
-       $comprobante = Comprobante::find($id);
-       
-       $fecha_desde = new Carbon($comprobante->reserva->fecha_desde);
-       $fecha_hasta = new Carbon($comprobante->reserva->fecha_hasta);
-       if(isset($comprobante->reserva->Cliente))
-        {
-            if($comprobante->Reserva->Cliente->nombre == '')
-                {
-                    $comprobante->Reserva->Cliente->nombre = 'Consumidor Final';
-                }
-                if($comprobante->Reserva->Cliente->direccion == '')
-                {
-                    $comprobante->Reserva->Cliente->direccion = 'J.B JUSTO 590';
-                }
-                if($comprobante->Reserva->Cliente->dni == '')
-                {
-                    $comprobante->Reserva->Cliente->dni = '00000000';
-                }
+        $afip = new Afip([
+            'production' => 'false', //true para produccion, false para testing
+            'CUIT' => $prestador->cuit,
+            'cert' => file_get_contents(storage_path('app/public/afip/' . $prestador->cert)),
+            'key' => file_get_contents(storage_path('app/public/afip/' . $prestador->key)),
+            'access_token' => $prestador->token,
+        ]);
+        //$reserva = Reserva::find($id);
+        // Aqui deben cambiar los datos por los que correspondan. 
+        $comprobante = Comprobante::find($id);
+
+        $fecha_desde = new Carbon($comprobante->reserva->fecha_desde);
+        $fecha_hasta = new Carbon($comprobante->reserva->fecha_hasta);
+        if (isset($comprobante->reserva->Cliente)) {
+            if ($comprobante->Reserva->Cliente->nombre == '') {
+                $comprobante->Reserva->Cliente->nombre = 'Consumidor Final';
+            }
+            if ($comprobante->Reserva->Cliente->direccion == '') {
+                $comprobante->Reserva->Cliente->direccion = 'J.B JUSTO 590';
+            }
+            if ($comprobante->Reserva->Cliente->dni == '') {
+                $comprobante->Reserva->Cliente->dni = '00000000';
+            }
         }
         $fecha_inicio_actividad = new Carbon($prestador->fecha_inicio_actividad);
-$data = [
-    "file_name" => $comprobante->id ." - ".$comprobante->id_reserva . ".pdf",
- //   "send_to" => "cliente@empresa.com",
-    "template" => [
-        "name" => "invoice-c",
-        "params" => [
-            "voucher_number" =>  $comprobante->numero,
-            "sales_point" => $comprobante->punto_venta,
-            "issue_date" => $comprobante->fecha,
-            "cae_due_date" => $comprobante->fecha_vencimiento_cae,
-            "issuer_cuit" => $prestador->cuit,
-            "cae" => $comprobante->numero_cae,
-            "issuer_business_name" => "Alto de las Pampas",          
-            "issuer_address" => $prestador->domicilio,
-            "issuer_iva_condition" => $prestador->iva_denominacion,
-            "issuer_gross_income" => "CUIT ". substr($prestador->cuit, 0, 2)."-".substr($prestador->cuit, 2, 8)."-".substr($prestador->cuit, 10, 1)     ,//"CUIT 27-38292342-7",
-            "issuer_activity_start_date" => $fecha_inicio_actividad->format('d/m/Y'),//"01/02/2026",
-            "receiver_name" => isset($comprobante->Reserva->Cliente->nombre) ? $comprobante->Reserva->Cliente->nombre : 'Consumidor Final',
-            "receiver_address" => isset($comprobante->Reserva->Cliente->direccion) ? $comprobante->Reserva->Cliente->direccion : 'J.B JUSTO 590',
-            "receiver_document_type" => 99,
-            "receiver_document_number" =>isset($comprobante->Reserva->Cliente->dni) ? $comprobante->Reserva->Cliente->dni : '00000000',
-            "receiver_iva_condition" => "Consumidor Final",
-            "sale_condition" => "Contado",
-            "currency_id" => "ARS",
-            "currency_rate" => 1,
-            "concept" => 2,
-            "items" => [
-                [
-                    "code" => "001",
-                    "description" => "Servicio de Hoteleria",
-                    "quantity" => 1,
-                    "unit_price" => number_format($comprobante->valor  , 2, '.', ''),
-                    "subtotal" => number_format($comprobante->valor , 2, '.', '')
+        $data = [
+            "file_name" => $comprobante->id . " - " . $comprobante->id_reserva . ".pdf",
+            //   "send_to" => "cliente@empresa.com",
+            "template" => [
+                "name" => "invoice-c",
+                "params" => [
+                    "voucher_number" =>  $comprobante->numero,
+                    "sales_point" => $comprobante->punto_venta,
+                    "issue_date" => $comprobante->fecha,
+                    "cae_due_date" => $comprobante->fecha_vencimiento_cae,
+                    "issuer_cuit" => $prestador->cuit,
+                    "cae" => $comprobante->numero_cae,
+                    "issuer_business_name" => "Alto de las Pampas",
+                    "issuer_address" => $prestador->domicilio,
+                    "issuer_iva_condition" => $prestador->iva_denominacion,
+                    "issuer_gross_income" => "CUIT " . substr($prestador->cuit, 0, 2) . "-" . substr($prestador->cuit, 2, 8) . "-" . substr($prestador->cuit, 10, 1), //"CUIT 27-38292342-7",
+                    "issuer_activity_start_date" => $fecha_inicio_actividad->format('d/m/Y'), //"01/02/2026",
+                    "receiver_name" => isset($comprobante->Reserva->Cliente->nombre) ? $comprobante->Reserva->Cliente->nombre : 'Consumidor Final',
+                    "receiver_address" => isset($comprobante->Reserva->Cliente->direccion) ? $comprobante->Reserva->Cliente->direccion : 'J.B JUSTO 590',
+                    "receiver_document_type" => 99,
+                    "receiver_document_number" => isset($comprobante->Reserva->Cliente->dni) ? $comprobante->Reserva->Cliente->dni : '00000000',
+                    "receiver_iva_condition" => "Consumidor Final",
+                    "sale_condition" => "Contado",
+                    "currency_id" => "ARS",
+                    "currency_rate" => 1,
+                    "concept" => 2,
+                    "items" => [
+                        [
+                            "code" => "001",
+                            "description" => "Servicio de Hoteleria",
+                            "quantity" => 1,
+                            "unit_price" => number_format($comprobante->valor, 2, '.', ''),
+                            "subtotal" => number_format($comprobante->valor, 2, '.', '')
+                        ]
+                    ],
+                    "vat_amount" => 0, //number_format($comprobante->valor - ($comprobante->valor / 1.21), 2, '.', ''),// 21,//
+                    "tributes_amount" => 0,
+                    "total_amount" => number_format($comprobante->valor, 2, '.', ''),
+                    "billing_from" =>  $fecha_desde->format('d/m/Y'), // "01/02/2026",
+                    "billing_to" => $fecha_hasta->format('d/m/Y'), // "28/02/2026",
+                    "payment_due_date" => $comprobante->fecha_vencimiento_cae,
+                    "net_amount_taxed" => 0,
+                    "net_amount_untaxed" => 0,
+                    "exempt_amount" => 0
                 ]
-            ],
-            "vat_amount" =>0,//number_format($comprobante->valor - ($comprobante->valor / 1.21), 2, '.', ''),// 21,//
-            "tributes_amount" => 0,
-            "total_amount" => number_format($comprobante->valor, 2, '.', ''),
-            "billing_from" =>  $fecha_desde->format('d/m/Y'),// "01/02/2026",
-            "billing_to" => $fecha_hasta->format('d/m/Y'),// "28/02/2026",
-            "payment_due_date" => $comprobante->fecha_vencimiento_cae,
-             "net_amount_taxed" => 0,
-            "net_amount_untaxed" => 0,
-            "exempt_amount" => 0
-        ]
-    ]
-];
-//dd($data);
-try {
-    // Realizamos la llamada
-    $response = $afip->ElectronicBilling->CreatePDF($data);
-$comprobante->archivo_pdf = $response['file'];
- 
-$comprobante->save(); 
-return $comprobante->archivo_pdf;
-//echo file_get_contents($comprobante->archivo_pdf); 
-    // Mostramos la respuesta por pantalla
-   // var_dump($response);
-} catch (\Throwable $error) {
-    // En caso de error lo mostramos por pantalla
-	var_dump($error);
-}}
+            ]
+        ];
+        //dd($data);
+        try {
+            // Realizamos la llamada
+            $response = $afip->ElectronicBilling->CreatePDF($data);
+            $comprobante->archivo_pdf = $response['file'];
+
+            $comprobante->save();
+            return $comprobante->archivo_pdf;
+            //echo file_get_contents($comprobante->archivo_pdf); 
+            // Mostramos la respuesta por pantalla
+            // var_dump($response);
+        } catch (\Throwable $error) {
+            // En caso de error lo mostramos por pantalla
+            var_dump($error);
+        }
+    }
 
     public function calendario_io()
     {
@@ -728,46 +724,60 @@ return $comprobante->archivo_pdf;
             $afip = new Afip([
                 'production' => 'false', //true para produccion, false para testing
                 'CUIT' => $prestador->cuit,
-                'cert' => file_get_contents(storage_path('app/public/afip/'.$prestador->cert)),
-                'key' => file_get_contents(storage_path('app/public/afip/'.$prestador->key)),
+                'cert' => file_get_contents(storage_path('app/public/afip/' . $prestador->cert)),
+                'key' => file_get_contents(storage_path('app/public/afip/' . $prestador->key)),
                 'access_token' => $prestador->token,
             ]);
 
             $last_voucher = $afip->ElectronicBilling->GetLastVoucher(1, 11);
-           
-            $numero_comprobante = $last_voucher + 1;
-           
-            $fecha_desde = new Carbon ($reserva->fecha_desde);
-            $fecha_hasta = new Carbon ($reserva->fecha_hasta);
 
-            $total_facturado =0;
-            $total_facturar = $reserva->valor;
-            if(count($reserva->Comprobante) > 0)
-            {
-                foreach($reserva->Comprobante as $comprobante_existente)
-                {
-                    $total_facturado += $comprobante_existente->valor;
-                }    
-                if($reserva->id_estado_reserva == 5)
-                    {
-                        $movimientoController = new MovimientoController();
-                        $movimientoController->impactar_pago($reserva->id);
+            $numero_comprobante = $last_voucher + 1;
+
+            $fecha_desde = new Carbon($reserva->fecha_desde);
+            $fecha_hasta = new Carbon($reserva->fecha_hasta);
+
+$valor_reserva= $reserva->valor;
+$valor_seña = $reserva->senia;
+
+            if ($reserva->moneda == 'Dolares') {
+                if (count($reserva->Comprobante) > 0) {
+                    if (isset($reserva->Comprobante[0]->id_cotizacion_moneda)) {
+                        $cotizacion = CotizacionMoneda::find($reserva->Comprobante[0]->id_cotizacion_moneda);
+                    } else {
+                        $hoy = new Carbon();
+                        $cotizacion = CotizacionMoneda::where('fecha', '<=', $hoy->format('Y-m-d'))->orderby('fecha', 'desc')->first();
                     }
-                $reserva->id_estado_reserva = 6;          
-                $nombre = 'Comprobante Reserva ' . $reserva->id ;   
+                } else {
+                    $hoy = new Carbon();
+                    $cotizacion = CotizacionMoneda::where('fecha', '<=', $hoy->format('Y-m-d'))->orderby('fecha', 'desc')->first();
+                }                 
+                 
+                $valor_reserva = $reserva->valor * $cotizacion->usd;
+                $valor_seña = $reserva->senia * $cotizacion->usd;
             }
-            else
-                {
-                   if($reserva->id_estado_reserva == 5)
-                    {
-                        $total_facturar = $reserva->senia;
-                        $nombre = 'Comprobante Seña Reserva ' . $reserva->id ;   
-                    }
-                    else{
-                        $nombre = 'Comprobante Total Reserva ' . $reserva->id ;   
-                    }
+            $total_facturado = 0;
+            $total_facturar = $valor_reserva;
+            if (count($reserva->Comprobante) > 0) {
+                foreach ($reserva->Comprobante as $comprobante_existente) {
+                    $total_facturado += $comprobante_existente->valor;
                 }
-               
+                if ($reserva->id_estado_reserva == 5) {
+                    $movimientoController = new MovimientoController();
+                    $movimientoController->impactar_pago($reserva->id);
+                }
+                $reserva->id_estado_reserva = 6;
+                $nombre = 'Comprobante Reserva ' . $reserva->id;
+            } else {
+                if ($reserva->id_estado_reserva == 5) {
+                    $total_facturar = $valor_seña;
+                    $nombre = 'Comprobante Seña Reserva ' . $reserva->id;
+                } else {
+                    $nombre = 'Comprobante Total Reserva ' . $reserva->id;
+                       $reserva->id_estado_reserva = 6;
+                }
+            }
+
+             
             // Info del comprobante
             $data = array(
                 'CantReg'     => 1,  // Cantidad de comprobantes a registrar
@@ -781,12 +791,12 @@ return $comprobante->archivo_pdf;
                 'CbteFch'     => intval(date('Ymd')), // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
                 'ImpTotal'     => number_format($total_facturar - $total_facturado, 2, '.', ''), // Importe total del comprobante
                 'ImpTotConc'     => 0,   // Importe neto no gravado
-                'ImpNeto'     => number_format($total_facturar - $total_facturado, 2, '.', ''),//number_format($reserva->valor / 1.21, 2, '.', ''), // Importe neto gravado
+                'ImpNeto'     => number_format($total_facturar - $total_facturado, 2, '.', ''), //number_format($reserva->valor / 1.21, 2, '.', ''), // Importe neto gravado
                 'ImpOpEx'     => 0,   // Importe exento de IVA
                 'FchServDesde' =>  intval($fecha_desde->format('Ymd')), //'20080725', // (Opcional) Fecha de inicio del servicio (yyyymmdd), obligatorio para Concepto 2 y 3
                 'FchServHasta' =>  intval($fecha_hasta->format('Ymd')), //'30080725', // (Opcional) Fecha de fin del servicio (yyyymmdd), obligatorio para Concepto 2 y 3
-                'FchVtoPago'     =>  30080725,//intval($fecha_hasta->format('Ymd')), //'30080725', // (Opcional) Fecha de vencimiento del servicio (yyyymmdd), obligatorio para Concepto 2 y 3
-                'ImpIVA'     => 0,//number_format($reserva->valor - ($reserva->valor / 1.21), 2, '.', ''),  //Importe total de IVA
+                'FchVtoPago'     =>  30080725, //intval($fecha_hasta->format('Ymd')), //'30080725', // (Opcional) Fecha de vencimiento del servicio (yyyymmdd), obligatorio para Concepto 2 y 3
+                'ImpIVA'     => 0, //number_format($reserva->valor - ($reserva->valor / 1.21), 2, '.', ''),  //Importe total de IVA
                 'ImpTrib'     => 0,   //Importe total de tributos
                 'MonId'     => 'PES', //Tipo de moneda usada en el comprobante (ver tipos disponibles)('PES' para pesos argentinos) 
                 'MonCotiz'     => 1,     // Cotización de la moneda usada (1 para pesos argentinos)  
@@ -799,30 +809,31 @@ return $comprobante->archivo_pdf;
                     )
                 ),*/
             );
-         
+
             $res = $afip->ElectronicBilling->CreateNextVoucher($data);
-           
+
 
             $comprobante = new Comprobante();
             $comprobante->id_reserva = $reserva->id;
             $comprobante->id_prestador = $prestador->id;
+            $comprobante->id_cotizacion_moneda = isset($cotizacion) ? $cotizacion->id : null;
             $comprobante->id_tipo_comprobante = 11;
             $comprobante->id_estado_comprobante = 2;
             $comprobante->valor = $total_facturar - $total_facturado;
             $comprobante->fecha = Carbon::now();
-             $comprobante->numero = $res['voucher_number'];
-              $comprobante->numero_cae = $res['CAE'];
-                 $comprobante->fecha_vencimiento_cae = $res['CAEFchVto']; 
-                     $comprobante->punto_venta = '00001';
-                       $comprobante->observaciones = 'Comprobante generado por' . ' ' . Auth::user()->name ;
+            $comprobante->numero = $res['voucher_number'];
+            $comprobante->numero_cae = $res['CAE'];
+            $comprobante->fecha_vencimiento_cae = $res['CAEFchVto'];
+            $comprobante->punto_venta = '00001';
+            $comprobante->observaciones = 'Comprobante generado por' . ' ' . Auth::user()->name;
             $comprobante->save();
-           
-         
-          $comprobante->archivo_pdf=  $this->export_comprobante($comprobante->id, $prestador);
 
-           // $comprobante2 = Comprobante::find(  $comprobante->id); 
-            $this->storeFile(  $comprobante->archivo_pdf, $reserva->id , $nombre);
-           $reserva->id_prestador= $prestador->id;
+
+            $comprobante->archivo_pdf =  $this->export_comprobante($comprobante->id, $prestador);
+
+            // $comprobante2 = Comprobante::find(  $comprobante->id); 
+            $this->storeFile($comprobante->archivo_pdf, $reserva->id, $nombre);
+            $reserva->id_prestador = $prestador->id;
             $reserva->save();
 
             return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));
@@ -832,7 +843,7 @@ return $comprobante->archivo_pdf;
     }
 
     //probando
-  public function storeFile(string $url, $id, string $nombre): string
+    public function storeFile(string $url, $id, string $nombre): string
     {
         // Limita el origen si la URL viene de datos externos.
         if (parse_url($url, PHP_URL_HOST) !== 'afip-sdk-pdf-storage.s3.amazonaws.com') {
@@ -931,61 +942,67 @@ return $comprobante->archivo_pdf;
     }
 
     public function archivos($id)
-{
-    $i = 1;
-    $eva = $this->cantidad_archivos($id, 's', 15);
-   
-    $reserva = Reserva::find($id);
-    $puede_eliminar = true;
-    $puede_modificar = false;        
-     
-     
-    return view('admin.reservas.archivos', compact('reserva','eva','i','puede_eliminar','id',
-    'puede_modificar' ));
-}
+    {
+        $i = 1;
+        $eva = $this->cantidad_archivos($id, 's', 15);
 
-public function mostrarArchivo($id, string $filename)
-{
-    $reserva = Reserva::findOrFail($id);
+        $reserva = Reserva::find($id);
+        $puede_eliminar = true;
+        $puede_modificar = false;
 
-    if ($filename !== basename($filename)) {
-        abort(404);
+
+        return view('admin.reservas.archivos', compact(
+            'reserva',
+            'eva',
+            'i',
+            'puede_eliminar',
+            'id',
+            'puede_modificar'
+        ));
     }
 
-    $path = 'reservas/' . $reserva->id . '/' . $filename;
-    $disk = Storage::disk('local');
+    public function mostrarArchivo($id, string $filename)
+    {
+        $reserva = Reserva::findOrFail($id);
 
-    if (! $disk->exists($path)) {
-        abort(404);
+        if ($filename !== basename($filename)) {
+            abort(404);
+        }
+
+        $path = 'reservas/' . $reserva->id . '/' . $filename;
+        $disk = Storage::disk('local');
+
+        if (! $disk->exists($path)) {
+            abort(404);
+        }
+
+        return response()->file($disk->path($path), [
+            'Content-Type' => $disk->mimeType($path) ?: 'application/octet-stream',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
     }
 
-    return response()->file($disk->path($path), [
-        'Content-Type' => $disk->mimeType($path) ?: 'application/octet-stream',
-        'X-Content-Type-Options' => 'nosniff',
-    ]);
-}
+    public function cantidad_archivos($id, $nombre, $largo)
+    {
+        $path = storage_path('app/reservas/' . $id . '/'); //Declaramos un  variable con la ruta donde guardaremos los archivos
 
-public function cantidad_archivos($id, $nombre, $largo)
-{
-    $path = storage_path('app/reservas/' . $id . '/'); //Declaramos un  variable con la ruta donde guardaremos los archivos
- 
-    $archivos = array();
-    $i = 1;
+        $archivos = array();
+        $i = 1;
 
-    if (file_exists($path)) {
-        $files = File::allFiles($path);
+        if (file_exists($path)) {
+            $files = File::allFiles($path);
 
-        foreach ($files as $file) {
-            $var = explode(".", $file->getFilename());
-            $tipo =  substr($var[0], -$largo);
-          //  if ($tipo == $nombre) {
+            foreach ($files as $file) {
+                $var = explode(".", $file->getFilename());
+                $tipo =  substr($var[0], -$largo);
+                //  if ($tipo == $nombre) {
                 $archivos[$i]['nombre'] = $file->getFilename();
                 $archivos[$i]['tamaño'] = $file->getSize();
                 $archivos[$i]['extension'] = $file->getExtension();
                 $i++;
-           // }
+                // }
+            }
         }
+        return $archivos;
     }
-    return $archivos;
-}
 }
