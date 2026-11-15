@@ -30,16 +30,24 @@ class Comprobante extends Model
         'id_tipo_comprobante',
         'id_estado_comprobante',
         'valor',
-         'archivo_pdf'
+         'archivo_pdf','id_prestador','id_cotizacion_moneda'
     ];
     protected $table = 'comprobantes';
 
+    public function CotizacionMoneda()
+    {
+        return $this->belongsTo('App\Models\CotizacionMoneda', 'id_cotizacion_moneda');
+    }
     
     public function Reserva()
     {
         return $this->belongsTo('App\Models\Reserva', 'id_reserva');
     }
 
+     public function Prestador()
+    {
+        return $this->belongsTo('App\Models\Prestador', 'id_prestador');
+    }
      public function TipoComprobante()
     {
         return $this->belongsTo('App\Models\Tipo_comprobante', 'id_tipo_comprobante');

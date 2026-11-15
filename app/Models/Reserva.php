@@ -22,7 +22,8 @@ class Reserva extends Model
      */
     protected $fillable = [ 'id_cabania', 'id_cliente', 'id_forma_pago','ctabancaria', 'id_estado_reserva',
     'fecha_desde' , 'fecha_hasta' , 'hora_ingreso', 'hora_egreso' ,'moneda','fecha_reserva',
-      'cantidad_personas', 'senia',  'descuento', 'observaciones' , 'valor','recargo', 'motivos_recargos' ];
+      'cantidad_personas', 'senia',  'descuento', 'observaciones' , 'valor','recargo', 'motivos_recargos' ,
+      'id_prestador'];
       
     protected $table = 'reservas';
 
@@ -32,6 +33,10 @@ class Reserva extends Model
         return $this->belongsTo('App\Models\Forma_pago', 'id_forma_pago');
     }
 
+     public function Prestador()
+    {
+        return $this->belongsTo('App\Models\Prestador', 'id_prestador');
+    }
     public function Cliente()
     {
         return $this->belongsTo('App\Models\Cliente', 'id_cliente');

@@ -9,6 +9,7 @@ use App\Models\Cabania;
 use App\Models\Forma_pago;
 use App\Models\Precio;
 use App\Models\Reserva;
+use App\Models\Prestador;
 use Afip;
 use App\Models\Comprobante;
 use Auth;
@@ -553,14 +554,14 @@ class ReservaController extends Controller
         return $pdf->download('Reserva  ' . (isset($reserva->Cliente) ? $reserva->Cliente->nombre : '') . '.pdf');
     }
 
-       public function export_comprobante($id)
+       public function export_comprobante($id, $prestador)
     {
          $afip = new Afip([
                 'production' => 'false', //true para produccion, false para testing
-                'CUIT' => '27382923427',
-                'cert' => file_get_contents(storage_path('app/public/afip/certtest')),
-                'key' => file_get_contents(storage_path('app/public/afip/keytest')),
-                'access_token' => 'WwUZ9RsPtwVWLj402lIy8GggVTkah4khTmfWbGjnLGEYjxSxiTOqREbR4ocTRWCi',
+                'CUIT' => $prestador->cuit,
+                'cert' => file_get_contents(storage_path('app/public/afip/'.$prestador->cert)),
+                'key' => file_get_contents(storage_path('app/public/afip/'.$prestador->key)),
+                'access_token' => $prestador->token,
             ]);
 //$reserva = Reserva::find($id);
        // Aqui deben cambiar los datos por los que correspondan. 
@@ -583,6 +584,7 @@ class ReservaController extends Controller
                     $comprobante->Reserva->Cliente->dni = '00000000';
                 }
         }
+        $fecha_inicio_actividad = new Carbon($prestador->fecha_inicio_actividad);
 $data = [
     "file_name" => $comprobante->id ." - ".$comprobante->id_reserva . ".pdf",
  //   "send_to" => "cliente@empresa.com",
@@ -593,13 +595,13 @@ $data = [
             "sales_point" => $comprobante->punto_venta,
             "issue_date" => $comprobante->fecha,
             "cae_due_date" => $comprobante->fecha_vencimiento_cae,
-            "issuer_cuit" => 27382923427,
+            "issuer_cuit" => $prestador->cuit,
             "cae" => $comprobante->numero_cae,
             "issuer_business_name" => "Alto de las Pampas",          
-            "issuer_address" => "J.B JUSTO 59 - San Nicolas - Buenos Aires",
-            "issuer_iva_condition" => "Responsable Monotributo",
-            "issuer_gross_income" => "CUIT 27-38292342-7",
-            "issuer_activity_start_date" => "14/10/2021",
+            "issuer_address" => $prestador->domicilio,
+            "issuer_iva_condition" => $prestador->iva_denominacion,
+            "issuer_gross_income" => "CUIT ". substr($prestador->cuit, 0, 2)."-".substr($prestador->cuit, 2, 8)."-".substr($prestador->cuit, 10, 1)     ,//"CUIT 27-38292342-7",
+            "issuer_activity_start_date" => $fecha_inicio_actividad->format('d/m/Y'),//"01/02/2026",
             "receiver_name" => isset($comprobante->Reserva->Cliente->nombre) ? $comprobante->Reserva->Cliente->nombre : 'Consumidor Final',
             "receiver_address" => isset($comprobante->Reserva->Cliente->direccion) ? $comprobante->Reserva->Cliente->direccion : 'J.B JUSTO 590',
             "receiver_document_type" => 99,
@@ -722,12 +724,13 @@ return $comprobante->archivo_pdf;
         try {
             $reserva = Reserva::findOrFail($id);
 
+            $prestador = Prestador::first();
             $afip = new Afip([
                 'production' => 'false', //true para produccion, false para testing
-                'CUIT' => '27382923427',
-                'cert' => file_get_contents(storage_path('app/public/afip/certtest')),
-                'key' => file_get_contents(storage_path('app/public/afip/keytest')),
-                'access_token' => 'WwUZ9RsPtwVWLj402lIy8GggVTkah4khTmfWbGjnLGEYjxSxiTOqREbR4ocTRWCi',
+                'CUIT' => $prestador->cuit,
+                'cert' => file_get_contents(storage_path('app/public/afip/'.$prestador->cert)),
+                'key' => file_get_contents(storage_path('app/public/afip/'.$prestador->key)),
+                'access_token' => $prestador->token,
             ]);
 
             $last_voucher = $afip->ElectronicBilling->GetLastVoucher(1, 11);
@@ -787,7 +790,7 @@ return $comprobante->archivo_pdf;
                 'ImpTrib'     => 0,   //Importe total de tributos
                 'MonId'     => 'PES', //Tipo de moneda usada en el comprobante (ver tipos disponibles)('PES' para pesos argentinos) 
                 'MonCotiz'     => 1,     // Cotización de la moneda usada (1 para pesos argentinos)  
-                'CondicionIVAReceptorId' => 6, // Condición frente al IVA del receptor  
+                'CondicionIVAReceptorId' => $prestador->iva, // Condición frente al IVA del receptor  
                 /*'Iva'         => array( // (Opcional) Alícuotas asociadas al comprobante
                     array(
                         'Id'         => 5, // Id del tipo de IVA (5 para 21%)(ver tipos disponibles) 
@@ -802,6 +805,7 @@ return $comprobante->archivo_pdf;
 
             $comprobante = new Comprobante();
             $comprobante->id_reserva = $reserva->id;
+            $comprobante->id_prestador = $prestador->id;
             $comprobante->id_tipo_comprobante = 11;
             $comprobante->id_estado_comprobante = 2;
             $comprobante->valor = $total_facturar - $total_facturado;
@@ -814,11 +818,11 @@ return $comprobante->archivo_pdf;
             $comprobante->save();
            
          
-          $comprobante->archivo_pdf=  $this->export_comprobante($comprobante->id);
+          $comprobante->archivo_pdf=  $this->export_comprobante($comprobante->id, $prestador);
 
            // $comprobante2 = Comprobante::find(  $comprobante->id); 
             $this->storeFile(  $comprobante->archivo_pdf, $reserva->id , $nombre);
-           
+           $reserva->id_prestador= $prestador->id;
             $reserva->save();
 
             return redirect()->route('admin.reservas.index')->with('success', trans('message.successaction'));

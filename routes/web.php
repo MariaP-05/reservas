@@ -58,6 +58,7 @@ Route::resource('admin/reservas', App\Http\Controllers\Admin\ReservaController::
 Route::get('admin/clientes/archivos/{id}', [App\Http\Controllers\Admin\ClienteController::class, 'archivos'] )->name('admin.clientes.archivos')->middleware('auth');
 Route::get('admin/reservas/archivos/{id}/archivo/{filename}', [App\Http\Controllers\Admin\ReservaController::class, 'mostrarArchivo'])->name('admin.reservas.archivo')->middleware('auth');
 Route::get('admin/reservas/archivos/{id}', [App\Http\Controllers\Admin\ReservaController::class, 'archivos'] )->name('admin.reservas.archivos')->middleware('auth');
+Route::resource('admin/cotizaciones_monedas', App\Http\Controllers\Admin\CotizacionMonedaController::class)->names('admin.cotizaciones_monedas')->middleware('auth');
 
 /*
 Route::post('admin/pacientes/store_files_contenedor_files/{id}/{i}', [App\Http\Controllers\Admin\PacienteController::class],'store_files_contenedor_files')->name('admin.pacientes.store_files_contenedor_files');

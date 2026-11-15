@@ -70,7 +70,7 @@ class EventServiceProvider extends ServiceProvider
         [
             'text'        => 'Movimientos',
             'url'         => 'admin/movimientos',
-            'icon'        => 'fa fa-archive',
+            'icon'        => 'fas fa-balance-scale',
 
         ],
 
@@ -84,7 +84,13 @@ class EventServiceProvider extends ServiceProvider
         [
             'text'        => 'Precio',
             'url'         => 'admin/precios',
-            'icon'        => 'fa fa-envelope',
+            'icon'        => 'far fa-money-bill-alt',
+
+        ],
+          [
+            'text'        => 'Cotizaciones USD',
+            'url'         => 'admin/cotizaciones_monedas',
+            'icon'        => 'fas fa-dollar-sign',
 
         ],
 
