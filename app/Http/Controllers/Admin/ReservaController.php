@@ -810,7 +810,7 @@ class ReservaController extends Controller
             // Info del comprobante
             $data = array(
                 'CantReg'     => 1,  // Cantidad de comprobantes a registrar
-                'PtoVta'     => 1,  // Punto de venta
+                'PtoVta'     => 2,  // Punto de venta
                 'CbteTipo'     => 11,  // Tipo de comprobante (ver tipos disponibles) factura c
                 'Concepto'     => 2,  // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
                 'DocTipo'     => 99, // Tipo de documento del comprador (99 consumidor final, ver tipos disponibles) casi siempre 99 sino es 
@@ -853,7 +853,7 @@ class ReservaController extends Controller
             $comprobante->numero = $res['voucher_number'];
             $comprobante->numero_cae = $res['CAE'];
             $comprobante->fecha_vencimiento_cae = $res['CAEFchVto'];
-            $comprobante->punto_venta = '00001';
+            $comprobante->punto_venta = '00002';
             $comprobante->observaciones = 'Comprobante generado por' . ' ' . Auth::user()->name;
             $comprobante->save();
 
