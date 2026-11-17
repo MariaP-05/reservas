@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CotizacionMoneda;
 use App\Models\Estado_reserva;
 use App\Models\Prestador;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -28,6 +29,11 @@ class PrestadoresSeeder extends Seeder
             'iva' => 6,
             'iva_denominacion' => 'Responsable Monotributo',
             'fecha_inicio_actividad' => '2021-10-14',
+        ]);
+
+        CotizacionMoneda::create([
+            'fecha' => '2026-01-01',
+            'usd' => 1300,
         ]);
          
           
