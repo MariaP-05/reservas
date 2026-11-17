@@ -31,7 +31,7 @@ class ReservaController extends Controller
     {
         $reservas = Reserva::all();
 
-         /*  $prestador = Prestador::first();
+         /* $prestador = Prestador::first();
          $afip = new Afip([
                 'production' => true,
                 'CUIT' => $prestador->cuit,
@@ -40,7 +40,7 @@ class ReservaController extends Controller
                 'access_token' => $prestador->token
             ]);
 
-             $last_voucher = $afip->ElectronicBilling->GetLastVoucher(2, 11);
+             $last_voucher = $afip->ElectronicBilling->GetLastVoucher(3, 11);
              dd($last_voucher); */
         //   $this->export_comprobante(23);
         /*  $this->storeFile(  'https://afip-sdk-pdf-storage.s3.amazonaws.com/01a1da75-8939-72db-a06b-9495a0342a1f.pdf',
@@ -758,7 +758,7 @@ class ReservaController extends Controller
                 'access_token' => $prestador->token
             ]);
 
-            $last_voucher = $afip->ElectronicBilling->GetLastVoucher(2, 11);
+            $last_voucher = $afip->ElectronicBilling->GetLastVoucher(3, 11);
 
             $numero_comprobante = $last_voucher + 1;
 
@@ -810,7 +810,7 @@ class ReservaController extends Controller
             // Info del comprobante
             $data = array(
                 'CantReg'     => 1,  // Cantidad de comprobantes a registrar
-                'PtoVta'     => 2,  // Punto de venta
+                'PtoVta'     => 3,  // Punto de venta
                 'CbteTipo'     => 11,  // Tipo de comprobante (ver tipos disponibles) factura c
                 'Concepto'     => 2,  // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
                 'DocTipo'     => 99, // Tipo de documento del comprador (99 consumidor final, ver tipos disponibles) casi siempre 99 sino es 
@@ -853,7 +853,7 @@ class ReservaController extends Controller
             $comprobante->numero = $res['voucher_number'];
             $comprobante->numero_cae = $res['CAE'];
             $comprobante->fecha_vencimiento_cae = $res['CAEFchVto'];
-            $comprobante->punto_venta = '00002';
+            $comprobante->punto_venta = '00003';
             $comprobante->observaciones = 'Comprobante generado por' . ' ' . Auth::user()->name;
             $comprobante->save();
 
