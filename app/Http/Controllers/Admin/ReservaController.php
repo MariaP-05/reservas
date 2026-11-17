@@ -795,13 +795,13 @@ class ReservaController extends Controller
                     $movimientoController->impactar_pago($reserva->id);
                 }
                 $reserva->id_estado_reserva = 6;
-                $nombre = 'Comprobante Reserva ' . $reserva->id;
+                $nombre = 'Factura Reserva ' . $reserva->id;
             } else {
                 if ($reserva->id_estado_reserva == 5) {
                     $total_facturar = $valor_seña;
-                    $nombre = 'Comprobante Seña Reserva ' . $reserva->id;
+                    $nombre = 'Factura Seña Reserva ' . $reserva->id;
                 } else {
-                    $nombre = 'Comprobante Total Reserva ' . $reserva->id;
+                    $nombre = 'Factura Total Reserva ' . $reserva->id;
                     $reserva->id_estado_reserva = 6;
                 }
             }
