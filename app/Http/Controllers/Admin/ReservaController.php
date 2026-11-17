@@ -561,7 +561,7 @@ class ReservaController extends Controller
 
         $pdf = PDF::loadView('pdf/reserva', $data);
 
-        return $pdf->download('Reserva  ' . (isset($reserva->Cliente) ? $reserva->Cliente->nombre : '') . '.pdf');
+        return $pdf->download((isset($reserva->Cliente) ? $reserva->Cliente->nombre : 'Reserva  ' . $reserva->id) . '.pdf');
     }
 
     public function export_comprobante($id, $prestador)
