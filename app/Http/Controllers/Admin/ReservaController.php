@@ -567,12 +567,13 @@ class ReservaController extends Controller
     public function export_comprobante($id, $prestador)
     {
         $afip = new Afip([
-            'production' => 'true', //true para produccion, false para testing
+            'production' => true, //true para produccion, false para testing
             'CUIT' => $prestador->cuit,
             'cert' => file_get_contents(storage_path('app/public/afip/' . $prestador->cert)),
             'key' => file_get_contents(storage_path('app/public/afip/' . $prestador->key)),
             'access_token' => $prestador->token
         ]);
+        
         //$reserva = Reserva::find($id);
         // Aqui deben cambiar los datos por los que correspondan. 
         $comprobante = Comprobante::find($id);
@@ -750,7 +751,7 @@ class ReservaController extends Controller
 
             $prestador = Prestador::first();
             $afip = new Afip([
-                'production' => 'true', //true para produccion, false para testing
+                'production' => true, //true para produccion, false para testing
                 'CUIT' => $prestador->cuit,
                 'cert' => file_get_contents(storage_path('app/public/afip/' . $prestador->cert)),
                 'key' => file_get_contents(storage_path('app/public/afip/' . $prestador->key)),
