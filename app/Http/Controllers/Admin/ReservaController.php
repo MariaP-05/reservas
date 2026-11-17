@@ -31,17 +31,17 @@ class ReservaController extends Controller
     {
         $reservas = Reserva::all();
 
-         /* $prestador = Prestador::first();
+           $prestador = Prestador::find(2);
          $afip = new Afip([
                 'production' => true,
                 'CUIT' => $prestador->cuit,
-                'cert' => file_get_contents(storage_path('app/public/afip/certprd' )),
+                'cert' => file_get_contents(storage_path('app/public/afip/certprdrodri' )),
                 'key' => file_get_contents(storage_path('app/public/afip/keyprd' )),
                 'access_token' => $prestador->token
             ]);
 
              $last_voucher = $afip->ElectronicBilling->GetLastVoucher(3, 11);
-             dd($last_voucher); */
+             dd($last_voucher); 
         //   $this->export_comprobante(23);
         /*  $this->storeFile(  'https://afip-sdk-pdf-storage.s3.amazonaws.com/01a1da75-8939-72db-a06b-9495a0342a1f.pdf',
       111 , 'Comprobante Seña Reserva 111');*/

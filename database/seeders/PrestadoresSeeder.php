@@ -22,7 +22,7 @@ class PrestadoresSeeder extends Seeder
        /*  Prestador::create([
             'nombre' => 'Guadalupe Fernandez Arroyo',
             'razon_social' => 'Alto de Las Pampas',
-            'domicilio' => 'J.B JUSTO 590 - San Nicolas - Buenos Aires',
+            'domicilio' => 'J.B JUSTO 59 - San Nicolas - Buenos Aires',
             'cuit' => '27382923427',
             'cert' => 'certtest',
             'key' => 'keytest',
@@ -41,7 +41,7 @@ CotizacionMoneda::create([
      Prestador::create([
             'nombre' => 'Rodrigo Fernandez Arroyo',
             'razon_social' => 'Alto de Las Pampas',
-            'domicilio' => 'J.B JUSTO 590',
+            'domicilio' => 'J.B JUSTO 59 - San Nicolas - Buenos Aires',
             'cuit' => '20368934276',
             'cert' => 'certprdrodri',
             'key' => 'keyprd',
