@@ -101,6 +101,7 @@ class ReservaController extends Controller
                 $cliente->dni = $request->dni_cliente;
                 $cliente->cuit = $request->cuit_cliente;
                 $cliente->razon_social = $request->razon_social_cliente;
+                $cliente->direccion = $request->direccion_cliente;
 
                 $cliente->save();
                 $reserva->id_cliente = $cliente->id;
@@ -241,6 +242,7 @@ class ReservaController extends Controller
                 $cliente->dni = $request->dni_cliente;
                 $cliente->cuit = $request->cuit_cliente;
                 $cliente->razon_social = $request->razon_social_cliente;
+                $cliente->direccion = $request->direccion_cliente;
 
                 $cliente->save();
                 $reserva->id_cliente = $cliente->id;
@@ -585,7 +587,7 @@ class ReservaController extends Controller
                 $comprobante->Reserva->Cliente->nombre = 'Consumidor Final';
             }
             if ($comprobante->Reserva->Cliente->direccion == '') {
-                $comprobante->Reserva->Cliente->direccion = 'J.B JUSTO 590';
+                $comprobante->Reserva->Cliente->direccion = '.';
             }
             if ($comprobante->Reserva->Cliente->dni == '') {
                 $comprobante->Reserva->Cliente->dni = '00000000';
@@ -627,7 +629,7 @@ class ReservaController extends Controller
                     "issuer_gross_income" => "CUIT " . substr($prestador->cuit, 0, 2) . "-" . substr($prestador->cuit, 2, 8) . "-" . substr($prestador->cuit, 10, 1), //"CUIT 27-38292342-7",
                     "issuer_activity_start_date" => $fecha_inicio_actividad->format('d/m/Y'), //"01/02/2026",
                     "receiver_name" => $fact_nombre,
-                    "receiver_address" => isset($comprobante->Reserva->Cliente->direccion) ? $comprobante->Reserva->Cliente->direccion : 'J.B JUSTO 590',
+                    "receiver_address" => isset($comprobante->Reserva->Cliente->direccion) ? $comprobante->Reserva->Cliente->direccion : '.',
                     "receiver_document_type" => 99,
                     "receiver_document_number" => $fact_numero,
                     "receiver_iva_condition" => "Consumidor Final",
