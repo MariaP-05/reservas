@@ -31,7 +31,7 @@ class ReservaController extends Controller
     {
         $reservas = Reserva::all();
 
-         /*   $prestador = Prestador::first();
+        /*   $prestador = Prestador::first();
           $afip = new Afip([
                 'production' => true,
                 'CUIT' => $prestador->cuit,
@@ -567,7 +567,7 @@ class ReservaController extends Controller
     public function export_comprobante($id, $prestador)
     {
         $afip = new Afip([
-            'production' => 'false', //true para produccion, false para testing
+            'production' => 'true', //true para produccion, false para testing
             'CUIT' => $prestador->cuit,
             'cert' => file_get_contents(storage_path('app/public/afip/' . $prestador->cert)),
             'key' => file_get_contents(storage_path('app/public/afip/' . $prestador->key)),
@@ -591,6 +591,23 @@ class ReservaController extends Controller
             }
         }
         $fecha_inicio_actividad = new Carbon($prestador->fecha_inicio_actividad);
+        if (isset($comprobante->Reserva->Cliente)) {
+            if ($comprobante->Reserva->Cliente->razon_social != null && $comprobante->Reserva->Cliente->razon_social != '') {
+                $fact_nombre = $comprobante->Reserva->Cliente->razon_social;
+            } else {
+                $fact_nombre = $comprobante->Reserva->Cliente->nombre;
+            }
+            if ($comprobante->Reserva->Cliente->cuit != null && $comprobante->Reserva->Cliente->cuit != '') {
+                $fact_numero = $comprobante->Reserva->Cliente->cuit;
+            } else {
+                $fact_numero = $comprobante->Reserva->Cliente->dni;
+            }
+        } else {
+            $fact_numero = '00000000';
+            $fact_nombre = 'Consumidor Final';
+        }
+
+
         $data = [
             "file_name" => $comprobante->id . " - " . $comprobante->id_reserva . ".pdf",
             //   "send_to" => "cliente@empresa.com",
@@ -608,10 +625,10 @@ class ReservaController extends Controller
                     "issuer_iva_condition" => $prestador->iva_denominacion,
                     "issuer_gross_income" => "CUIT " . substr($prestador->cuit, 0, 2) . "-" . substr($prestador->cuit, 2, 8) . "-" . substr($prestador->cuit, 10, 1), //"CUIT 27-38292342-7",
                     "issuer_activity_start_date" => $fecha_inicio_actividad->format('d/m/Y'), //"01/02/2026",
-                    "receiver_name" => isset($comprobante->Reserva->Cliente->nombre) ? $comprobante->Reserva->Cliente->nombre : 'Consumidor Final',
+                    "receiver_name" => $fact_nombre,
                     "receiver_address" => isset($comprobante->Reserva->Cliente->direccion) ? $comprobante->Reserva->Cliente->direccion : 'J.B JUSTO 590',
                     "receiver_document_type" => 99,
-                    "receiver_document_number" => isset($comprobante->Reserva->Cliente->dni) ? $comprobante->Reserva->Cliente->dni : '00000000',
+                    "receiver_document_number" => $fact_numero,
                     "receiver_iva_condition" => "Consumidor Final",
                     "sale_condition" => "Contado",
                     "currency_id" => "ARS",
@@ -620,7 +637,7 @@ class ReservaController extends Controller
                     "items" => [
                         [
                             "code" => "001",
-                            "description" => "Servicio de Hoteleria",
+                            "description" => "Alquiler Temporario",
                             "quantity" => 1,
                             "unit_price" => number_format($comprobante->valor, 2, '.', ''),
                             "subtotal" => number_format($comprobante->valor, 2, '.', '')
@@ -733,7 +750,7 @@ class ReservaController extends Controller
 
             $prestador = Prestador::first();
             $afip = new Afip([
-                'production' => 'false', //true para produccion, false para testing
+                'production' => 'true', //true para produccion, false para testing
                 'CUIT' => $prestador->cuit,
                 'cert' => file_get_contents(storage_path('app/public/afip/' . $prestador->cert)),
                 'key' => file_get_contents(storage_path('app/public/afip/' . $prestador->key)),
@@ -747,8 +764,8 @@ class ReservaController extends Controller
             $fecha_desde = new Carbon($reserva->fecha_desde);
             $fecha_hasta = new Carbon($reserva->fecha_hasta);
 
-$valor_reserva= $reserva->valor;
-$valor_seña = $reserva->senia;
+            $valor_reserva = $reserva->valor;
+            $valor_seña = $reserva->senia;
 
             if ($reserva->moneda == 'Dolares') {
                 if (count($reserva->Comprobante) > 0) {
@@ -761,8 +778,8 @@ $valor_seña = $reserva->senia;
                 } else {
                     $hoy = new Carbon();
                     $cotizacion = CotizacionMoneda::where('fecha', '<=', $hoy->format('Y-m-d'))->orderby('fecha', 'desc')->first();
-                }                 
-                 
+                }
+
                 $valor_reserva = $reserva->valor * $cotizacion->usd;
                 $valor_seña = $reserva->senia * $cotizacion->usd;
             }
@@ -784,11 +801,11 @@ $valor_seña = $reserva->senia;
                     $nombre = 'Comprobante Seña Reserva ' . $reserva->id;
                 } else {
                     $nombre = 'Comprobante Total Reserva ' . $reserva->id;
-                       $reserva->id_estado_reserva = 6;
+                    $reserva->id_estado_reserva = 6;
                 }
             }
 
-             
+
             // Info del comprobante
             $data = array(
                 'CantReg'     => 1,  // Cantidad de comprobantes a registrar
