@@ -18,7 +18,8 @@ class PrestadoresSeeder extends Seeder
     public function run()
     {
 
-         Prestador::create([
+        
+       /*  Prestador::create([
             'nombre' => 'Guadalupe Fernandez Arroyo',
             'razon_social' => 'Alto de Las Pampas',
             'domicilio' => 'J.B JUSTO 590 - San Nicolas - Buenos Aires',
@@ -30,25 +31,25 @@ class PrestadoresSeeder extends Seeder
             'iva_denominacion' => 'Responsable Monotributo',
             'fecha_inicio_actividad' => '2021-10-14',
         ]);
-
-        CotizacionMoneda::create([
+CotizacionMoneda::create([
             'fecha' => '2026-01-01',
             'usd' => 1300,
-        ]);
+        ]);*/
          
           
 
-      /*Prestador::create([
+     Prestador::create([
             'nombre' => 'Rodrigo Fernandez Arroyo',
             'razon_social' => 'Alto de Las Pampas',
             'domicilio' => 'J.B JUSTO 590',
-            'cuit' => '27382923427',
-            'cert' => 'certtest_2',
-            'key' => 'keytest_2',
+            'cuit' => '20368934276',
+            'cert' => 'certprdrodri',
+            'key' => 'keyprd',
             'token' => 'WwUZ9RsPtwVWLj402lIy8GggVTkah4khTmfWbGjnLGEYjxSxiTOqREbR4ocTRWCi',
             'iva' => 6,
             'iva_denominacion' => 'Responsable Monotributo',
-            'fecha_inicio_actividad' => '2021-10-14',
-        ]);*/
+            'fecha_inicio_actividad' => '2023-11-01',
+            //fsk_prod_b2Tbl2JpDH6yfIrAYfzuusC0MH8Jk33I14HpwSoH
+        ]); 
     }
 }
