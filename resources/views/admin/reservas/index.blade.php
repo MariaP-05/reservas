@@ -63,8 +63,8 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                     <td>{{ 'U$S' . number_format($reserva->valor, 0, ',', '.') }}</td>
                                 @endif
                                 <td>
-                                    <div class="row col-md-12">
-                                        <div class="col-md-3 form-group">
+                                    <div class="row col-12">
+                                        <div class="col-3 form-group">
                                             <form method="post"
                                                 action="{{ route('admin.reservas.destroy', $reserva->id) }}">
                                                 @method('delete')
@@ -75,7 +75,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 </button>
                                             </form>
                                         </div>
-                                        <div class="col-md-3 form-group">
+                                        <div class="col-3 form-group">
                                             <form method="get" action="{{ route('admin.reservas.edit', $reserva->id) }}">
 
                                                 <button type="submit" class="btn btn-outline-primary"
@@ -87,7 +87,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
 
 
 
-                                        <div class="col-md-3 form-group">
+                                        <div class="col-3 form-group">
                                             @php
                                                 $reserva->deno_cabania = isset($reserva->Cabania)
                                                     ? $reserva->Cabania->denominacion
@@ -120,7 +120,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 <i class="fa fa-eye"></i>
                                             </button>
                                         </div>
-                                          <div class="col-md-3 form-group">
+                                          <div class="col-3 form-group">
                                             <form method="get"
                                                 action="{{ route('admin.reservas.export', [$reserva->id, 'pdf']) }}">
 
@@ -131,9 +131,9 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                             </form>
                                         </div>
                                          </div>
-                                         <div class="row col-md-12">
+                                         <div class="row col-12">
                                            
-                                        <div class="col-md-4 form-group">
+                                        <div class="col-4 form-group">
                                              <form method="get"
                                                 action="{{ route('admin.movimientos.impactar_seña', $reserva->id) }}">
 
@@ -144,7 +144,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 </button>
                                             </form>
                                             </div>
-                                            <div class="col-md-4 form-group">
+                                            <div class="col-4 form-group">
                                             <form method="get"
                                                 action="{{ route('admin.movimientos.impactar_pago', $reserva->id) }}">
 
@@ -155,7 +155,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 </button>
                                             </form>
                                         </div>
-                                         <div class="col-md-4 form-group">
+                                         <div class="col-4 form-group">
                                             <form method="get"
                                                 action="{{ route('admin.reservas.CambiarEstado', [$reserva->id, '6']) }}">
 
@@ -166,6 +166,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 </button>
                                             </form>
                                         </div>
+                                         <div class="col-4 form-group">
                                          <button type="button" class="btn btn-outline-warning" 
                                              {{ $reserva->canFacturar() ? '' : 'disabled' }} title="Crear Factura"
                                                 onMouseOver="this.style.color='#FFF'"
@@ -173,15 +174,16 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 data-target="#FacturarModal" data-whatever="{{ $reserva }}">
                                                 <i class="fa fa-barcode"></i>
                                             </button>
-                                        
+                                         </div>
                                         @if(count($reserva->Comprobante) > 0)
+                                          <div class="col-4 form-group">
                                          <a href="{{ route('admin.reservas.archivos', $reserva->id) }}"
                                                 class="btn btn-outline-success" title="Archivos Cliente"
                                                  role="button"
                                                 target="_blank" style="width:44px;	height:39px; top:40px;	right:20px;">
                                                 <i class="fa fa-folder-open"><?php echo \App\Models\Reserva::countFiles($reserva->id); ?> </i>
                                             </a>
-                                         
+                                          </div>
                                         @endif
                                     </div>
                                 </td>
