@@ -166,16 +166,14 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                                                 </button>
                                             </form>
                                         </div>
-                                        <div class="col-md-4 form-group">
-                                             <form method="get" action="{{ route('admin.reservas.create_factura', $reserva->id) }}">
-
-                                                <button type="submit" class="btn btn-outline-primary"
-                                                 {{ $reserva->canFacturar() ? '' : 'disabled' }}
-                                                    title="Crear Factura">
-                                                    <i class="fa fa-barcode"></i>
-                                                </button>
-                                            </form>
-                                        </div>
+                                         <button type="button" class="btn btn-outline-warning" 
+                                             {{ $reserva->canFacturar() ? '' : 'disabled' }} title="Crear Factura"
+                                                onMouseOver="this.style.color='#FFF'"
+                                                onMouseOut="this.style.color= '#fa7101'" data-toggle="modal"
+                                                data-target="#FacturarModal" data-whatever="{{ $reserva }}">
+                                                <i class="fa fa-barcode"></i>
+                                            </button>
+                                        
                                         @if(count($reserva->Comprobante) > 0)
                                          <a href="{{ route('admin.reservas.archivos', $reserva->id) }}"
                                                 class="btn btn-outline-success" title="Archivos Cliente"
@@ -193,6 +191,7 @@ font-size:30px;	box-shadow: 2px 2px 3px #999; z-index:100;"
                 </table>
             </div>
             @include('admin.reservas.partials.ver')
+              @include('admin.reservas.partials.facturar')
         </div>
     @stop
 

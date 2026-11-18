@@ -52,7 +52,7 @@ Route::get('admin/reservas/fullcalendarAjax', [App\Http\Controllers\Admin\Reserv
 Route::get('admin/reservas/CambiarEstado/{id}/{estado}', [App\Http\Controllers\Admin\ReservaController::class, 'CambiarEstado'] )->name('admin.reservas.CambiarEstado')->middleware('auth');
 
 Route::get('admin/reservas/fullcalendar', [App\Http\Controllers\Admin\ReservaController::class, 'fullcalendar'] )->name('admin.reservas.fullcalendar')->middleware('auth');
-Route::get('admin/reservas/create_factura/{id}', [App\Http\Controllers\Admin\ReservaController::class, 'create_factura'] )->name('admin.reservas.create_factura')->middleware('auth');
+Route::get('admin/reservas/create_factura/{id}/{id_prestador}', [App\Http\Controllers\Admin\ReservaController::class, 'create_factura'] )->name('admin.reservas.create_factura')->middleware('auth');
 
 Route::resource('admin/reservas', App\Http\Controllers\Admin\ReservaController::class)->names('admin.reservas')->middleware('auth');
 Route::get('admin/clientes/archivos/{id}', [App\Http\Controllers\Admin\ClienteController::class, 'archivos'] )->name('admin.clientes.archivos')->middleware('auth');

@@ -30,21 +30,7 @@ class ReservaController extends Controller
     public function index(Request $request)
     {
         $reservas = Reserva::all();
-
-     /*      $prestador = Prestador::find(2);
-         $afip = new Afip([
-                'production' => true,
-                'CUIT' => $prestador->cuit,
-                'cert' => file_get_contents(storage_path('app/public/afip/certprdrodri' )),
-                'key' => file_get_contents(storage_path('app/public/afip/keyprd' )),
-                'access_token' => $prestador->token
-            ]);
-
-             $last_voucher = $afip->ElectronicBilling->GetLastVoucher(3, 11);
-             dd($last_voucher); */
-        //   $this->export_comprobante(23);
-        /*  $this->storeFile(  'https://afip-sdk-pdf-storage.s3.amazonaws.com/01a1da75-8939-72db-a06b-9495a0342a1f.pdf',
-      111 , 'Comprobante Seña Reserva 111');*/
+ 
         return view('admin.reservas.index', compact('reservas'));
     }
 
@@ -746,12 +732,12 @@ class ReservaController extends Controller
         }
     }
 
-    public function create_factura($id)
+    public function create_factura($id,$id_prestador)
     {
         try {
             $reserva = Reserva::findOrFail($id);
 
-            $prestador = Prestador::first();
+            $prestador = Prestador::find($id_prestador);
             $afip = new Afip([
                 'production' => true, //true para produccion, false para testing
                 'CUIT' => $prestador->cuit,
@@ -761,7 +747,7 @@ class ReservaController extends Controller
             ]);
 
             $last_voucher = $afip->ElectronicBilling->GetLastVoucher(3, 11);
-
+ 
             $numero_comprobante = $last_voucher + 1;
 
             $fecha_desde = new Carbon($reserva->fecha_desde);
