@@ -410,7 +410,7 @@ return [
 
                 [
                     'type' => 'js',
-                    'asset' => true,
+                    'asset' => false,
                     'location' => '//code.jquery.com/jquery-3.7.1.js',
                 ],
               [
