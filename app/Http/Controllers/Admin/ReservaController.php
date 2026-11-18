@@ -735,8 +735,7 @@ class ReservaController extends Controller
     public function create_factura($id,$id_prestador)
     {
         try {
-            $reserva = Reserva::findOrFail($id);
-dd($id);
+            $reserva = Reserva::findOrFail($id); 
             $prestador = Prestador::find($id_prestador);
             $afip = new Afip([
                 'production' => true, //true para produccion, false para testing
