@@ -736,7 +736,7 @@ class ReservaController extends Controller
     {
         try {
             $reserva = Reserva::findOrFail($id);
-
+dd($id);
             $prestador = Prestador::find($id_prestador);
             $afip = new Afip([
                 'production' => true, //true para produccion, false para testing

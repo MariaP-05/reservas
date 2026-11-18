@@ -34,7 +34,7 @@
                     <div class="row">
                         <div class="col-6 form-group">
                             <form method="get"
-                                action="{{ route('admin.reservas.create_factura', ['id' => $reserva->id, 'id_prestador' => 1]) }}">
+                                data-action-template="{{ route('admin.reservas.create_factura', ['id' => '__RESERVA_ID__', 'id_prestador' => 1]) }}">
 
                                 <button type="submit" class="btn btn-outline-primary"
                                     title="Crear Factura de Guadalupe">
@@ -45,7 +45,7 @@
 
                         <div class="col-6 form-group">
                             <form method="get"
-                                action="{{ route('admin.reservas.create_factura', ['id' => $reserva->id, 'id_prestador' => 2]) }}">
+                                data-action-template="{{ route('admin.reservas.create_factura', ['id' => '__RESERVA_ID__', 'id_prestador' => 2]) }}">
 
                                 <button type="submit" class="btn btn-outline-success" title="Crear Factura de Rodrigo">
                                     <i class="fa fa-barcode"> Rodrigo</i>

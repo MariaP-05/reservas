@@ -40,6 +40,11 @@
     modal.find('.moneda').val(recipient.moneda)
     modal.find('.valor').val(recipient.valor)
     modal.find('.senia').val(recipient.senia)
+
+    modal.find('form[data-action-template]').each(function () {
+      var template = $(this).data('action-template')
+      $(this).attr('action', template.replace('__RESERVA_ID__', encodeURIComponent(recipient.id)))
+    })
   });
   $(document).ready(function() {
     $('#reservas').DataTable({
