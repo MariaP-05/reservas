@@ -25,6 +25,6 @@ class DatabaseSeeder extends Seeder
       // $this->call(Estado_reservasSeeder::class);
 
     //  $this->call(Estado_comprobantesSeeder::class);
-      $this->call(PrestadoresSeeder::class);
+     // $this->call(PrestadoresSeeder::class);
     }
 }

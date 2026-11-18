@@ -45,7 +45,7 @@ CotizacionMoneda::create([
             'cuit' => '20368934276',
             'cert' => 'certprdrodri',
             'key' => 'keyprd',
-            'token' => 'WwUZ9RsPtwVWLj402lIy8GggVTkah4khTmfWbGjnLGEYjxSxiTOqREbR4ocTRWCi',
+            'token' => '6kUKqYou9bFU1DHsXWxAIqlgkQK4pWOjXOo0pX07T70wHw69SopjW0kNq2t8pYsx',
             'iva' => 6,
             'iva_denominacion' => 'Responsable Monotributo',
             'fecha_inicio_actividad' => '2023-11-01',
